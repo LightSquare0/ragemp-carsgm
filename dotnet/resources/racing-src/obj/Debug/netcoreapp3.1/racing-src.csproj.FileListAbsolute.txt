@@ -1,0 +1,10 @@
+E:\ragemp-carsgm\dotnet\resources\racing-resource\netcoreapp3.1\racing-src.deps.json
+E:\ragemp-carsgm\dotnet\resources\racing-resource\netcoreapp3.1\racing-src.dll
+E:\ragemp-carsgm\dotnet\resources\racing-resource\netcoreapp3.1\racing-src.pdb
+E:\ragemp-carsgm\dotnet\resources\racing-src\obj\Debug\netcoreapp3.1\racing-src.csprojAssemblyReference.cache
+E:\ragemp-carsgm\dotnet\resources\racing-src\obj\Debug\netcoreapp3.1\racing-src.AssemblyInfoInputs.cache
+E:\ragemp-carsgm\dotnet\resources\racing-src\obj\Debug\netcoreapp3.1\racing-src.AssemblyInfo.cs
+E:\ragemp-carsgm\dotnet\resources\racing-src\obj\Debug\netcoreapp3.1\racing-src.csproj.CoreCompileInputs.cache
+E:\ragemp-carsgm\dotnet\resources\racing-src\obj\Debug\netcoreapp3.1\racing-src.csproj.CopyComplete
+E:\ragemp-carsgm\dotnet\resources\racing-src\obj\Debug\netcoreapp3.1\racing-src.dll
+E:\ragemp-carsgm\dotnet\resources\racing-src\obj\Debug\netcoreapp3.1\racing-src.pdb

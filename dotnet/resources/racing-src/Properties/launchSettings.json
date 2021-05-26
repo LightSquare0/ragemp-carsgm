@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "racing-src": {
+      "commandName": "Executable",
+      "executablePath": "E:\\ragemp-carsgm\\ragemp-server.exe",
+      "workingDirectory": "E:\\ragemp-carsgm"
+    }
+  }
+}

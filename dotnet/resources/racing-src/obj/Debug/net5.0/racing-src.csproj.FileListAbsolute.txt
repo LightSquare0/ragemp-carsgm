@@ -1,0 +1,17 @@
+E:\ragemp-carsgm\dotnet\resources\racing-src\resources\racing-resource\net5.0\racing-src.deps.json
+E:\ragemp-carsgm\dotnet\resources\racing-src\resources\racing-resource\net5.0\racing-src.dll
+E:\ragemp-carsgm\dotnet\resources\racing-src\resources\racing-resource\net5.0\ref\racing-src.dll
+E:\ragemp-carsgm\dotnet\resources\racing-src\resources\racing-resource\net5.0\racing-src.pdb
+E:\ragemp-carsgm\dotnet\resources\racing-resource\net5.0\racing-src.deps.json
+E:\ragemp-carsgm\dotnet\resources\racing-resource\net5.0\racing-src.dll
+E:\ragemp-carsgm\dotnet\resources\racing-resource\net5.0\ref\racing-src.dll
+E:\ragemp-carsgm\dotnet\resources\racing-resource\net5.0\racing-src.pdb
+E:\ragemp-carsgm\dotnet\resources\racing-src\obj\Debug\net5.0\racing-src.GeneratedMSBuildEditorConfig.editorconfig
+E:\ragemp-carsgm\dotnet\resources\racing-src\obj\Debug\net5.0\racing-src.AssemblyInfoInputs.cache
+E:\ragemp-carsgm\dotnet\resources\racing-src\obj\Debug\net5.0\racing-src.AssemblyInfo.cs
+E:\ragemp-carsgm\dotnet\resources\racing-src\obj\Debug\net5.0\racing-src.csproj.CoreCompileInputs.cache
+E:\ragemp-carsgm\dotnet\resources\racing-src\obj\Debug\net5.0\racing-src.csproj.CopyComplete
+E:\ragemp-carsgm\dotnet\resources\racing-src\obj\Debug\net5.0\racing-src.dll
+E:\ragemp-carsgm\dotnet\resources\racing-src\obj\Debug\net5.0\ref\racing-src.dll
+E:\ragemp-carsgm\dotnet\resources\racing-src\obj\Debug\net5.0\racing-src.pdb
+E:\ragemp-carsgm\dotnet\resources\racing-src\obj\Debug\net5.0\racing-src.csprojAssemblyReference.cache

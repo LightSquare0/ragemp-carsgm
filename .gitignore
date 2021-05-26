@@ -1,0 +1,7 @@
+node_modules/
+linux_x64.tar.gz
+dotnet/runtime
+dotnet/resources/racing-resource/net5.0
+bin/
+ragemp-server.exe
+BugTrap-x64.dll
