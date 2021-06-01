@@ -11,41 +11,26 @@ export const Container = styled.div`
 export const ControlsContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 20px;
-  min-width: 300px;
-`;
+  padding: 1.25rem;
+ `;
 
 export const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 30px;
-  
+  margin-bottom: 1.875rem;
 `;
 
-export const NewsContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 300px;
-`;
-
-export const Photo = styled.img`
-  height: 450px;
-  object-fit: cover;
-  border-radius: 15px 0px 0px 15px;
-  mask-image: linear-gradient(to top, rgba(255, 255, 255, 0.3) 10%, black, black, black);
-  mask-type: alpha;
-`;
 
 export const OptionsContainer = styled.div`
-  margin-top: 20px;
+  margin-top: 1.25rem;
   display: flex;
   justify-content: space-between;
 `;
 
 export const Option = styled.div`
   color: gray;
-  font-size: 14px;
+  font-size: 0.875rem;
   cursor: pointer;
   &:hover {
     text-decoration: underline;
@@ -54,7 +39,7 @@ export const Option = styled.div`
 
 export const Hr = styled.div`
   border: 0;
-  height: 1px;
+  height: 0.063rem;
   background: #bababa;
   opacity: 0.7;
 `;

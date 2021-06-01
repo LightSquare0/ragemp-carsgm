@@ -3,13 +3,13 @@ import styled from "styled-components";
 export const InputBox = styled.input`
   width: 100%;
   height: 100%;
-  padding-top: 16px;
-  padding-bottom: 16px;
-  padding-left: 8px;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+    padding-left: 0.5rem;
   font-family: inherit;
-  font-size: 17px;
+    font-size: 1.0625rem;
   outline: none;
-  border-radius: 11px;
+  border-radius: 0.6875rem;
   border: none;
   color: black;
   &::placeholder {
@@ -20,11 +20,11 @@ export const InputBox = styled.input`
 export const InputContainer = styled.div`
   display: flex;
   align-items: center;
-  width: 230px;
-  height: 35px;
-  margin: 15px;
-  padding-left: 8px;
-  border-radius: 11px;
+  width: 14.375rem;
+  height: 2.188rem;
+  margin: 0.938rem;
+  padding-left: 0.5rem;
+  border-radius: 0.688rem;
   background-color: white;
-  box-shadow: 0px 0px 5px 0px rgb(204 204 204 / 80%);
+  box-shadow: 0rem 0rem 0.313rem 0rem rgb(204 204 204 / 80%);
 `;

@@ -4,10 +4,10 @@ export const CardWrapper = styled.div`
   display: flex;
   flex-direction: column;
   background-color: rgba(255, 255, 255, 0.95);
-  padding: 20px;
-  margin: 20px;
-  border-radius: 15px;
-  box-shadow: 0px 0px 9px 0px rgba(36, 36, 36, 1);
+  padding: 1.25rem;
+  margin: 1.25rem;
+  border-radius: 0.938rem;
+  box-shadow: 0rem 0rem 0.563rem 0rem rgba(36, 36, 36, 1);
   transition: all 2s linear;
 `;
 

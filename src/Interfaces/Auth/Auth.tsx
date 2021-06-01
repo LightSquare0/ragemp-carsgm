@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Card from "../../General Components/Card/Card";
 import Checkbox from "../../General Components/Checkbox/Checkbox";
 import Input from "../../General Components/Input/Input";
@@ -8,31 +8,35 @@ import {
   ControlsContainer,
   FormContainer,
   Hr,
-  NewsContainer,
   Option,
   OptionsContainer,
-  Photo,
   ServerLogo,
 } from "./AuthStyles";
 import athrons_logo from "../../Static/athrons_logo.svg";
-import artwork from "../../Static/artwork_stunts_cropped.jpg";
 import { Redirect } from "react-router-dom";
 
 const Auth: React.FC = () => {
-  const [authType, SetAuthType] = useState("login");
+  const [authType, SetAuthType] = useState<string>("login");
 
-  const [username, SetUsername] = useState("");
-  const [password, SetPassword] = useState("");
-  const [email, SetEmail] = useState("");
-  const [rememberMe, SetRememberMe] = useState(false);
-  const [loginResult, SetLoginResult] = useState(-1);
+  const [username, SetUsername] = useState<string>("");
+  const [password, SetPassword] = useState<string>("");
+  const [email, SetEmail] = useState<string>("");
+  const [rememberMe, SetRememberMe] = useState<boolean>(false);
+  const [loginResult, SetLoginResult] = useState<number>(-1);
 
-  const HandleChange = (event: any, field: any) => {
-    if (field === "username") {
+  const HandleChange = (event: any, field: string) => {
+    switch (field) {
+      case "username":
       SetUsername(event.target.value);
-    } else if (field === "password") {
+        break;
+      case "password":
       SetPassword(event.target.value);
-    } else if (field === "email") SetEmail(event.target.value);
+      break;
+      case "email":
+        SetEmail(event.target.value)
+      default:
+        break;
+    }
   };
 
   const HandleRemember = (event: any) => {
@@ -46,14 +50,14 @@ const Auth: React.FC = () => {
 
   const HandleLogin = () => {
     //@ts-ignore
-    mp.trigger("sendInformationToServer", username, password);
+    // mp.trigger("sendInformationToServer", username, password);
   };
 
 //@ts-ignore
-  mp.events.add("react:LoginResult", (result: any) => {
-    SetLoginResult(result);
-    console.log(`set result to ${result}`);
-  });
+  // mp.events.add("react:LoginResult", (result: any) => {
+  //   SetLoginResult(result);
+  //   console.log(`set result to ${result}`);
+  // });
 
   if (loginResult == 1) {
     return <Redirect to="/" push />;
@@ -66,9 +70,6 @@ const Auth: React.FC = () => {
   return (
     <Container>
       <Card>
-        <NewsContainer>
-          <Photo src={artwork}></Photo>
-        </NewsContainer>
         <ControlsContainer>
           <FormContainer>
             <ServerLogo src={athrons_logo}></ServerLogo>

@@ -1,11 +1,13 @@
 const webpack = require("webpack");
 const path = require("path");
 
-// const mode =
-//   process.env.NODE_ENV === "production" ? "production" : "development";
+const mode =
+  process.env.NODE_ENV === "production" ? "production" : "development";
+
+  console.log(`Webpack will start in ${mode} mode. Please wait... `);
 
 module.exports = {
-  mode: "production",
+  mode: mode,
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.ProvidePlugin({

@@ -21,31 +21,31 @@ export const CheckboxContainer = styled.div`
   display: inline-flex;
   vertical-align: middle;
   align-items: center;
-  margin: 15px;
+  margin: 0.938rem;
 `;
 
 export const CheckboxStyled = styled.div<CheckboxProps>`
   display: inline-block;
-  width: 16px;
-  height: 16px;
+  width: 1rem;
+  height: 1rem;
   background: ${(props) => (props.checked ? "#8c0424" : "white")};
   box-shadow: ${(props) =>
     props.checked
-      ? "0px 0px 6px 1px rgba(90, 90, 90, 1)"
-      : "0px 0px 5px 0px rgba(90, 90, 90, 1)"};
-  border-radius: 3px;
+      ? "0rem 0rem 0.375rem 1rem rgba(90, 90, 90, 1)"
+      : "0rem 0rem 0.313rem 0rem rgba(90, 90, 90, 1)"};
+  border-radius: 0.188rem;
   transition: all 150ms;
 `;
 
 export const Icon = styled.svg<CheckboxProps>`
   fill: none;
   stroke: ${(props) => (props.checked ? "white" : "transparent")};
-  stroke-width: 2px;
+  stroke-width: 0.125rem;
 `;
 
 export const Text = styled.span`
-  margin-left: 5px;
-  margin-right: 5px;
-  font-size: 14px;
+  margin-left: 0.313rem;
+  margin-right: 0.313rem;
+  font-size: 0.875rem;
   color: #48494B;
 `;
