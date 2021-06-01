@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled, { CSSProperties, keyframes } from "styled-components";
 
 export const translateIn = keyframes`
  from {
@@ -7,12 +7,17 @@ export const translateIn = keyframes`
   }
 `;
 
-export const Button = styled.div`
+interface ButtonProps {
+  discord?: boolean
+  onChange?: (event: any) => void
+  style?: CSSProperties
+}
+
+export const Button = styled.div<ButtonProps>`
   display: inline-block;
   padding: 9px;
   padding-left: 30px;
   padding-right: 30px;
-  // width: ${(props) => (props.w100 ? "100%" : "")};
   font-size: 18px;
   line-height: 1.2;
   letter-spacing: 0.1em;

@@ -1,8 +1,6 @@
 import GlobalStyles from "./Globals/GlobalStyles/GlobalStyles";
 import {
   Route,
-  Switch,
-  BrowserRouter,
   HashRouter,
   Link,
 } from "react-router-dom";

@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+interface CheckboxProps {
+  checked: boolean
+}
+
 export const HiddenCheckbox = styled.input.attrs({ type: "checkbox" })`
   border: 0;
   clip: rect(0 0 0 0);
@@ -20,7 +24,7 @@ export const CheckboxContainer = styled.div`
   margin: 15px;
 `;
 
-export const CheckboxStyled = styled.div`
+export const CheckboxStyled = styled.div<CheckboxProps>`
   display: inline-block;
   width: 16px;
   height: 16px;
@@ -33,7 +37,7 @@ export const CheckboxStyled = styled.div`
   transition: all 150ms;
 `;
 
-export const Icon = styled.svg`
+export const Icon = styled.svg<CheckboxProps>`
   fill: none;
   stroke: ${(props) => (props.checked ? "white" : "transparent")};
   stroke-width: 2px;

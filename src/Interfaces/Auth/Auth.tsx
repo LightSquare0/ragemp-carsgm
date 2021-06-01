@@ -16,10 +16,9 @@ import {
 } from "./AuthStyles";
 import athrons_logo from "../../Static/athrons_logo.svg";
 import artwork from "../../Static/artwork_stunts_cropped.jpg";
-import { Redirect } from 'react-router-dom'
+import { Redirect } from "react-router-dom";
 
-
-const Auth = () => {
+const Auth: React.FC = () => {
   const [authType, SetAuthType] = useState("login");
 
   const [username, SetUsername] = useState("");
@@ -28,8 +27,7 @@ const Auth = () => {
   const [rememberMe, SetRememberMe] = useState(false);
   const [loginResult, SetLoginResult] = useState(-1);
 
-
-  const HandleChange = (event, field) => {
+  const HandleChange = (event: any, field: any) => {
     if (field === "username") {
       SetUsername(event.target.value);
     } else if (field === "password") {
@@ -37,7 +35,7 @@ const Auth = () => {
     } else if (field === "email") SetEmail(event.target.value);
   };
 
-  const HandleRemember = (event) => {
+  const HandleRemember = (event: any) => {
     SetRememberMe(event.target.checked);
   };
 
@@ -47,19 +45,20 @@ const Auth = () => {
   };
 
   const HandleLogin = () => {
-   mp.trigger("sendInformationToServer", username, password);
+    //@ts-ignore
+    mp.trigger("sendInformationToServer", username, password);
   };
 
-  mp.events.add("react:LoginResult", (result) => {
+//@ts-ignore
+  mp.events.add("react:LoginResult", (result: any) => {
     SetLoginResult(result);
     console.log(`set result to ${result}`);
   });
 
-  if (loginResult == 1)
-  {
-    return <Redirect to="/" push/> 
-  } else if (loginResult == 0){
-    return <h1>mai baga o fisa</h1>
+  if (loginResult == 1) {
+    return <Redirect to="/" push />;
+  } else if (loginResult == 0) {
+    return <h1>mai baga o fisa</h1>;
   }
 
   console.log(username);

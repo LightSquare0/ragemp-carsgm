@@ -6,7 +6,13 @@ import {
   Text,
 } from "./CheckboxStyles";
 
-const Checkbox = ({ checked, text, ...props }) => {
+interface Props {
+  checked: boolean,
+  text: string,
+  onChange: (event: any) => void
+}
+
+const Checkbox: React.FC<Props> = ({ checked, text, ...props }) => {
   return (
     <label>
       <CheckboxContainer>

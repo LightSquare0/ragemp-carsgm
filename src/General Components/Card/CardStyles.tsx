@@ -11,7 +11,12 @@ export const CardWrapper = styled.div`
   transition: all 2s linear;
 `;
 
-export const CardContent = styled.div`
+interface CardProps {
+  row?: string,
+  column?: string
+}
+
+export const CardContent = styled.div<CardProps>`
   display: flex;
   ${(props) =>
     props.row

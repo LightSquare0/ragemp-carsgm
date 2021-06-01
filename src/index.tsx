@@ -1,6 +1,6 @@
-import React from "react";
-import ReactDOM from "react-dom";
+import * as ReactDOM from "react-dom";
 import Renderer from "./Renderer";
+import * as _ from 'lodash';
 
 ReactDOM.render(
   <Renderer/>,

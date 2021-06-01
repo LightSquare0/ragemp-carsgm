@@ -1,11 +1,11 @@
 const webpack = require("webpack");
 const path = require("path");
 
-const mode =
-  process.env.NODE_ENV === "production" ? "production" : "development";
+// const mode =
+//   process.env.NODE_ENV === "production" ? "production" : "development";
 
 module.exports = {
-  mode: mode,
+  mode: "production",
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.ProvidePlugin({
@@ -13,20 +13,23 @@ module.exports = {
     }),
   ],
 
-  entry: "./src/index.js",
+  entry: "./src/index.tsx",
+  devtool: 'inline-source-map',
   output: {
     filename: "main.js",
     path: path.resolve(__dirname, "client_packages"),
   },
 
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js'],
+  },
+
   module: {
     rules: [
       {
-        test: /\.(js)$/,
+        test: /\.tsx?$/,
         exclude: /node_modules/,
-        use: {
-          loader: "babel-loader",
-        },
+        use: 'ts-loader',
       },
 
       // Second Rule
@@ -64,8 +67,6 @@ module.exports = {
       }
     ],
   },
-
-  devtool: "source-map",
 
   devServer: {
     contentBase: "./client_packages",
