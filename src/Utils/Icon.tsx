@@ -1,5 +1,5 @@
 import IcomoonReact from "icomoon-react";
-import lineawesome from "../../client_packages/lineawesome.json";
+import lineawesome from "../../client_packages/webview/lineawesome.json";
 
 interface Props {
   color?: string,

@@ -14,7 +14,7 @@ const Renderer = () => {
       <Hud />
       <HashRouter>
         <Route exact path="/">
-          <Link to="/auth">Log in</Link>
+          {/* <Link to="/auth">Log in</Link> */}
         </Route>
         <Route path="/auth">
           <Auth />

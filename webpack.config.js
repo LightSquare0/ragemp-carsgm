@@ -19,7 +19,7 @@ module.exports = {
   devtool: 'inline-source-map',
   output: {
     filename: "main.js",
-    path: path.resolve(__dirname, "client_packages"),
+    path: path.resolve(__dirname, "./client_packages/webview"),
   },
 
   resolve: {
@@ -71,7 +71,7 @@ module.exports = {
   },
 
   devServer: {
-    contentBase: "./client_packages",
+    contentBase: "./client_packages/webview",
     historyApiFallback: true
   },
 };

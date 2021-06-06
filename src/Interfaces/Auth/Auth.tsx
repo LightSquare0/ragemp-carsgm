@@ -15,28 +15,30 @@ import {
 import athrons_logo from "../../Static/athrons_logo.svg";
 import { Redirect } from "react-router-dom";
 
+interface UserObject {
+  username: string;
+  password: string;
+  email: string;
+}
+
 const Auth: React.FC = () => {
   const [authType, SetAuthType] = useState<string>("login");
-
-  const [username, SetUsername] = useState<string>("");
-  const [password, SetPassword] = useState<string>("");
-  const [email, SetEmail] = useState<string>("");
+  const [userdata, SetUserdata] = useState<UserObject>({
+    username: "",
+    password: "",
+    email: "",
+  });
   const [rememberMe, SetRememberMe] = useState<boolean>(false);
   const [loginResult, SetLoginResult] = useState<number>(-1);
 
-  const HandleChange = (event: any, field: string) => {
-    switch (field) {
-      case "username":
-      SetUsername(event.target.value);
-        break;
-      case "password":
-      SetPassword(event.target.value);
-      break;
-      case "email":
-        SetEmail(event.target.value)
-      default:
-        break;
-    }
+  const HandleChange = (event: any) => {
+    const value = event.target.value;
+    SetUserdata({
+      ...userdata,
+      [event.target.name]: value,
+    });
+    console.log(value);
+    console.log(event.target.name);
   };
 
   const HandleRemember = (event: any) => {
@@ -48,16 +50,28 @@ const Auth: React.FC = () => {
     else SetAuthType("login");
   };
 
-  const HandleLogin = () => {
-    //@ts-ignore
-    // mp.trigger("sendInformationToServer", username, password);
+  const HandleAuth = () => {
+    const { username, password, email } = userdata;
+
+    if (authType == "login") {
+      //@ts-ignore
+      mp.trigger("sendLoginToServer", username, password);
+    } else {
+      //@ts-ignore
+      mp.trigger("sendRegisterToServer", username, password, email);
+    }
   };
 
-//@ts-ignore
-  // mp.events.add("react:LoginResult", (result: any) => {
-  //   SetLoginResult(result);
-  //   console.log(`set result to ${result}`);
-  // });
+  //@ts-ignore
+  mp.events.add("react:LoginResult", (result: any) => {
+    SetLoginResult(result);
+    console.log(`set result to ${result}`);
+  });
+  //@ts-ignore
+  mp.events.add("react:RegisterResult", (result: any) => {
+    SetLoginResult(result);
+    console.log(`set result to ${result}`);
+  });
 
   if (loginResult == 1) {
     return <Redirect to="/" push />;
@@ -65,8 +79,8 @@ const Auth: React.FC = () => {
     return <h1>mai baga o fisa</h1>;
   }
 
-  console.log(username);
-  console.log(password);
+  console.log(userdata);
+
   return (
     <Container>
       <Card>
@@ -78,16 +92,18 @@ const Auth: React.FC = () => {
                 <Input
                   icon="user"
                   placeholder="Username"
+                  name="username"
                   type="text"
-                  value={username}
-                  onChange={(e) => HandleChange(e, "username")}
+                  value={userdata.username}
+                  onChange={HandleChange}
                 ></Input>
                 <Input
                   icon="key-solid"
                   placeholder="Password"
+                  name="password"
                   type="password"
-                  value={password}
-                  onChange={(e) => HandleChange(e, "password")}
+                  value={userdata.password}
+                  onChange={HandleChange}
                 ></Input>
 
                 <Checkbox
@@ -98,7 +114,7 @@ const Auth: React.FC = () => {
 
                 <Button
                   style={{ marginLeft: "auto", marginRight: "auto" }}
-                  onClick={HandleLogin}
+                  onClick={HandleAuth}
                 >
                   Login
                 </Button>
@@ -111,25 +127,29 @@ const Auth: React.FC = () => {
                   icon="user"
                   placeholder="Username"
                   type="text"
-                  value={username}
-                  onChange={(e) => HandleChange(e, "username")}
+                  name="username"
+                  value={userdata.username}
+                  onChange={HandleChange}
                 ></Input>
                 <Input
                   icon="at-solid"
                   placeholder="Email"
+                  name="email"
                   type="text"
-                  value={email}
-                  onChange={(e) => HandleChange(e, "email")}
+                  value={userdata.email}
+                  onChange={HandleChange}
                 ></Input>
                 <Input
                   icon="key-solid"
                   placeholder="Password"
+                  name="password"
                   type="password"
-                  value={password}
-                  onChange={(e) => HandleChange(e, "password")}
+                  value={userdata.password}
+                  onChange={HandleChange}
                 ></Input>
 
-                <Button style={{ marginLeft: "auto", marginRight: "auto" }}>
+                <Button style={{ marginLeft: "auto", marginRight: "auto" }}
+                onClick={HandleAuth}>
                   Register
                 </Button>
               </>

@@ -41,8 +41,7 @@ namespace racing_src.Players
             }
         }
 
-        //[RemoteEvent("serverside:OnPlayerRegister")]
-        [Command("register")]
+        [RemoteEvent("serverside:OnPlayerRegister")]
         public async Task RegisterPlayer (Player player, string username, string password, string email)
         {
             using (IDbConnection db = new MySqlConnection(Tools.GetConnectionString()))
@@ -67,10 +66,12 @@ namespace racing_src.Players
                 if (exists)
                 {
                     player.SendChatMessage($"{username} already exists.");
+                    player.TriggerEvent("clientside:RegisterResult", 0);
                 }
                 else
                 {
                     await db.ExecuteAsync(insertUserSQL, accountParams);
+                    player.TriggerEvent("clientside:RegisterResult", 1);
                     player.SendChatMessage($"Succesfully registered user with the following credentials: {username}, {password}, {email}.");
                 }
             }

@@ -31,7 +31,7 @@ export const CheckboxStyled = styled.div<CheckboxProps>`
   background: ${(props) => (props.checked ? "#8c0424" : "white")};
   box-shadow: ${(props) =>
     props.checked
-      ? "0rem 0rem 0.375rem 1rem rgba(90, 90, 90, 1)"
+      ? "0rem 0rem 0.375rem 0.05rem rgba(90, 90, 90, 1)"
       : "0rem 0rem 0.313rem 0rem rgba(90, 90, 90, 1)"};
   border-radius: 0.188rem;
   transition: all 150ms;

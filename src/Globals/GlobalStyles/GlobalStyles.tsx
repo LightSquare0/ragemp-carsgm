@@ -9,6 +9,28 @@ const GlobalStyles = createGlobalStyle`
     src: url(${MaisonNeueMedium}) format('truetype');
 }
 
+
+
+
+ * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+   }
+
+html, body{
+    height: 100%;
+    min-height: 100%;
+    width: 100%;
+    font-family: 'MaisonNeueMedium';
+    //background-image: url(${game});
+    overflow: hidden;
+}
+
+#app{
+    height: 100%;
+}
+
 @media only screen and (max-width: 3840px) {
     :root {
         font-size: 24px;
@@ -56,21 +78,6 @@ const GlobalStyles = createGlobalStyle`
   :root {
       font-size: 6.7px;
   }
-}
-
-
- * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-   }
-
-body{
-    height: 100%;
-    width: 100%;
-    font-family: 'MaisonNeueMedium';
-    //background-image: url(${game});
-    overflow: hidden;
 }
 `;
 
