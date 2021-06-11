@@ -1,6 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Gauge from "./Gauge";
 
+const getSpeed = () => {
+  
+}
+
+
 const Speedometer = () => {
   const [speed, setSpeed] = useState<number>(0);
   const [rpm, setRpm] = useState<number>(0);
