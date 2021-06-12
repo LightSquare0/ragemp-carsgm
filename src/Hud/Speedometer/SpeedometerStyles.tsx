@@ -10,6 +10,7 @@ export const Speedo = styled.div<SpeedoProps>`
   ${({visible}) => (visible ? "right: 0;" : "right: -100%;")}
   padding: 2rem;
   transition: ease 0.5s;
+  user-select: none;
 `;
 
 export const SpeedoContainer = styled.div`

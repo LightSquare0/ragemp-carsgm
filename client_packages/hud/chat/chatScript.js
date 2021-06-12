@@ -1,8 +1,26 @@
 let chat = {
+  active: false,
   size: 0,
   inputText: "",
   inputHistory: [],
   inputHistoryIdx: 0,
+};
+
+const chatInput = document.getElementById("chat-input");
+
+const toggleChatInput = (state) => {
+  if (state == true) {
+    mp.invoke("focus", state);
+    chatInput.style.display = "flex";
+    document.getElementById("input-box-chat").focus();
+    chat.active = true;
+  } else if (state == false) {
+    chatInput.style.display = "none";
+    mp.invoke("focus", state);
+    chat.active = false;
+  }
+  console.log(chat.active);
+  console.log(chatInput.style.display);
 };
 
 const addChatMessage = (message) => {
@@ -80,19 +98,27 @@ chat.inputHistoryIdx = chat.inputHistory.length;
 const registerInput = (e) => {
   chat.inputText = e.target.value;
   if (e.key == "Enter") {
-    if (chat.inputText.length === 0) return;
+    //     if (chat.inputText.length === 0) return;
     if (chat.inputText[0] == "/") {
       chat.inputText = chat.inputText.substr(1);
       if (chat.inputText.length > 0) {
         mp.invoke("command", chat.inputText);
+
+        chat.inputHistory.push("/" + chat.inputText);
       }
     } else {
       mp.invoke("chatMessage", chat.inputText);
+      chat.inputHistory.push(chat.inputText);
     }
-    chat.inputHistory.push(chat.inputText);
+    toggleChatInput(false);
     console.log(chat.inputHistory);
     inputElement.value = "";
-    chat.inputHistoryIdx++;
+    chat.inputHistoryIdx = chat.inputHistory.length;
+  }
+
+  if (e.key == "t" && chat.active == false) {
+    toggleChatInput(true);
+    e.preventDefault();
   }
 
   if (e.key == "ArrowUp") {

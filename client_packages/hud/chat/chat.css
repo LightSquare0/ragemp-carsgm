@@ -53,7 +53,6 @@ body {
   background: rgba(40, 40, 40, 0.7);
   padding: 0.7rem;
   border-radius: 9rem;
-  display: flex;
 }
 
 .send-icon {
