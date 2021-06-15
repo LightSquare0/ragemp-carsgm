@@ -12,6 +12,13 @@ namespace racing_src.Players
 {
     public class Auth : Script
     {
+        [ServerEvent(Event.PlayerConnected)]
+        public void DisplayLogin(Player player)
+        {
+            player.Position = new Vector3(-640.68726, 36.51645, 61.35225);
+            player.Transparency = 0;
+        }
+
         [RemoteEvent("serverside:OnPlayerLogin")]
         public async Task OnPlayerLogin(Player player, string username, string password)
         {
@@ -29,6 +36,9 @@ namespace racing_src.Players
                 {
                     player.TriggerEvent("clientside:LoginResult", 1);
                     player.SendChatMessage($"user exists: {username}, {password}");
+                    player.Position = new Vector3(227.21216, 1172.314, 225.45993);
+                    player.Heading = -79;
+                    player.Transparency = 255;
                     await AccountModel.LoadPlayerData(player, username);
                 }
                 else
@@ -66,6 +76,9 @@ namespace racing_src.Players
                 if (exists)
                 {
                     player.SendChatMessage($"{username} already exists.");
+                    player.Position = new Vector3(227.21216, 1172.314, 225.45993);
+                    player.Heading = -79;
+                    player.Transparency = 255;
                     player.TriggerEvent("clientside:RegisterResult", 0);
                 }
                 else

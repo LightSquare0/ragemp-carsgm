@@ -1,4 +1,5 @@
 let chat = {
+  allowInput: false,
   active: false,
   size: 0,
   inputText: "",
@@ -80,15 +81,13 @@ var chatAPI = {
 
   activate: (toggle) => {
     if (toggle == false && chat.input != null) enableChatInput(false);
-
-    chat.active = toggle;
   },
 
   show: (toggle) => {
-    if (toggle) $("#chat").show();
-    else $("#chat").hide();
+    if (toggle) document.getElementById("chat-box").style.display = "inline";
+    else document.getElementById("chat-box").style.display = "none";
 
-    chat.active = toggle;
+    chat.allowInput = toggle;
   },
 };
 
@@ -96,6 +95,7 @@ const inputElement = document.getElementById("input-box-chat");
 
 chat.inputHistoryIdx = chat.inputHistory.length;
 const registerInput = (e) => {
+  if (chat.allowInput == false) return;
   chat.inputText = e.target.value;
   if (e.key == "Enter") {
     //     if (chat.inputText.length === 0) return;

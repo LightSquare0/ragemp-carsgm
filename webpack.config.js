@@ -1,5 +1,5 @@
-const webpack = require("webpack");
 const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 const mode =
   process.env.NODE_ENV === "production" ? "production" : "development";
@@ -8,12 +8,6 @@ const mode =
 
 module.exports = {
   mode: mode,
-  plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.ProvidePlugin({
-      React: "react",
-    }),
-  ],
 
   entry: "./src/index.tsx",
   devtool: 'inline-source-map',
@@ -21,6 +15,11 @@ module.exports = {
     filename: "main.js",
     path: path.resolve(__dirname, "./client_packages/webview"),
   },
+  plugins: [new HtmlWebpackPlugin({
+    template: "src/index.html",
+    hash: true,
+    filename: "index.html"
+  })],
 
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
@@ -72,6 +71,7 @@ module.exports = {
 
   devServer: {
     contentBase: "./client_packages/webview",
-    historyApiFallback: true
+    historyApiFallback: true,
+    hot: true
   },
 };

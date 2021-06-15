@@ -13,13 +13,16 @@ import {
   ServerLogo,
 } from "./AuthStyles";
 import athrons_logo from "../../Static/athrons_logo.svg";
-import { Redirect } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
+import React from "react";
 
 interface UserObject {
   username: string;
   password: string;
   email: string;
 }
+//@ts-ignore
+mp.invoke("focus", true);
 
 const Auth: React.FC = () => {
   const [authType, SetAuthType] = useState<string>("login");
@@ -63,23 +66,23 @@ const Auth: React.FC = () => {
   };
 
   //@ts-ignore
-  mp.events.add("react:LoginResult", (result: any) => {
+  mp.events.add("react:LoginResult", (result: number) => {
     SetLoginResult(result);
     console.log(`set result to ${result}`);
   });
   //@ts-ignore
-  mp.events.add("react:RegisterResult", (result: any) => {
+  mp.events.add("react:RegisterResult", (result: number) => {
     SetLoginResult(result);
     console.log(`set result to ${result}`);
   });
 
   if (loginResult == 1) {
+    //@ts-ignore
+    mp.invoke("focus", false);
     return <Redirect to="/" push />;
   } else if (loginResult == 0) {
     return <h1>mai baga o fisa</h1>;
   }
-
-  console.log(userdata);
 
   return (
     <Container>
@@ -148,8 +151,10 @@ const Auth: React.FC = () => {
                   onChange={HandleChange}
                 ></Input>
 
-                <Button style={{ marginLeft: "auto", marginRight: "auto" }}
-                onClick={HandleAuth}>
+                <Button
+                  style={{ marginLeft: "auto", marginRight: "auto" }}
+                  onClick={HandleAuth}
+                >
                   Register
                 </Button>
               </>

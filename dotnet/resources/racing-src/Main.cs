@@ -9,7 +9,7 @@ namespace racing_src
         public void OnResourceStart()
         {
             Console.WriteLine("Server started");
-            NAPI.Server.SetDefaultSpawnLocation(new Vector3(227.21216, 1172.314, 225.45993), -79);
+            NAPI.Server.SetAutoSpawnOnConnect(false);
         }
 
     }
