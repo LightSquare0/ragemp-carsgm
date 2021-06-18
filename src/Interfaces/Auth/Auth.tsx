@@ -14,7 +14,9 @@ import {
 } from "./AuthStyles";
 import athrons_logo from "../../Static/athrons_logo.svg";
 import { Redirect, useHistory } from "react-router-dom";
-import React from "react";
+import { useContext } from "react";
+import { NotificationsContext } from "../../General Components/Notifications/NotificationsContext";
+import { withRouter } from 'react-router-dom';
 
 interface UserObject {
   username: string;
@@ -24,7 +26,7 @@ interface UserObject {
 //@ts-ignore
 mp.invoke("focus", true);
 
-const Auth: React.FC = () => {
+const Auth: React.FC = (props) => {
   const [authType, SetAuthType] = useState<string>("login");
   const [userdata, SetUserdata] = useState<UserObject>({
     username: "",
@@ -33,6 +35,8 @@ const Auth: React.FC = () => {
   });
   const [rememberMe, SetRememberMe] = useState<boolean>(false);
   const [loginResult, SetLoginResult] = useState<number>(-1);
+
+  const { Notify } = useContext(NotificationsContext);
 
   const HandleChange = (event: any) => {
     const value = event.target.value;
@@ -58,17 +62,27 @@ const Auth: React.FC = () => {
 
     if (authType == "login") {
       //@ts-ignore
-      mp.trigger("sendLoginToServer", username, password);
+      mp.trigger("sendLoginToServer", username, password, rememberMe);
     } else {
       //@ts-ignore
       mp.trigger("sendRegisterToServer", username, password, email);
     }
+    
   };
 
   //@ts-ignore
   mp.events.add("react:LoginResult", (result: number) => {
     SetLoginResult(result);
     console.log(`set result to ${result}`);
+    if (result == 1) {
+      //@ts-ignore
+      mp.invoke("focus", false);
+      //@ts-ignore
+      props.history.push("/");
+    } else if (result == 0) {
+      Notify("Eroare de compilare", "Mai baga o fisa", "error");
+      console.log("samppppppp");
+    }
   });
   //@ts-ignore
   mp.events.add("react:RegisterResult", (result: number) => {
@@ -76,13 +90,12 @@ const Auth: React.FC = () => {
     console.log(`set result to ${result}`);
   });
 
-  if (loginResult == 1) {
-    //@ts-ignore
-    mp.invoke("focus", false);
-    return <Redirect to="/" push />;
-  } else if (loginResult == 0) {
-    return <h1>mai baga o fisa</h1>;
-  }
+
+  //@ts-ignore
+  mp.events.add("react:triggerRememberMe", (authUsername, authPassword) => {
+    SetUserdata({ username: authUsername, password: authPassword, email: "" });
+    SetRememberMe(true);
+  });
 
   return (
     <Container>
@@ -173,4 +186,4 @@ const Auth: React.FC = () => {
   );
 };
 
-export default Auth;
+export default withRouter(Auth);

@@ -15,10 +15,18 @@ mp.game.cam.renderScriptCams(true, false, 0, true, false);
 mp.events.add("browserDomReady", (browser) => {
   if (browser.url === "http://localhost:8080") {
     browser.call("react:DisplayLogin");
+    if (mp.storage.data.authData) {
+      authUsername = mp.storage.data.authData.username;
+      authPassword = mp.storage.data.authData.password;
+      browser.call("react:triggerRememberMe", authUsername, authPassword);
+    }
   }
 });
 
-mp.events.add("sendLoginToServer", (username, password) => {
+mp.events.add("sendLoginToServer", (username, password, rememberMe) => {
+  if (rememberMe) {
+    mp.storage.data.authData = { username: username, password: password };
+  }
   mp.events.callRemote("serverside:OnPlayerLogin", username, password);
 });
 
