@@ -76,15 +76,15 @@ namespace racing_src.Players
                 if (exists)
                 {
                     player.SendChatMessage($"{username} already exists.");
-                    player.Position = new Vector3(227.21216, 1172.314, 225.45993);
-                    player.Heading = -79;
-                    player.Transparency = 255;
                     player.TriggerEvent("clientside:RegisterResult", 0);
                 }
                 else
                 {
                     await db.ExecuteAsync(insertUserSQL, accountParams);
                     player.TriggerEvent("clientside:RegisterResult", 1);
+                    player.Position = new Vector3(227.21216, 1172.314, 225.45993);
+                    player.Heading = -79;
+                    player.Transparency = 255;
                     player.SendChatMessage($"Succesfully registered user with the following credentials: {username}, {password}, {email}.");
                 }
             }

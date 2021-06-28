@@ -46,6 +46,7 @@ namespace racing_src
                     player.SetSharedData("email", data.Email);
                     player.SetSharedData("admin", data.Admin);
                 }
+                player.SetSharedData("creatormode", false);
 
                 player.SendChatMessage($"Welcome back, {player.Name}!");
 

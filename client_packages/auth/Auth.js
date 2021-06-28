@@ -13,7 +13,7 @@ sceneryCamera.setActive(true);
 mp.game.cam.renderScriptCams(true, false, 0, true, false);
 
 mp.events.add("browserDomReady", (browser) => {
-  if (browser.url === "http://localhost:8080") {
+  if (browser.url === "package://webview/index.html" || "http://localhost:8080" || "http://naivoe.go.ro:8080") {
     browser.call("react:DisplayLogin");
     if (mp.storage.data.authData) {
       authUsername = mp.storage.data.authData.username;

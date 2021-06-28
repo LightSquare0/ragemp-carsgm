@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack serve",
+    "start": "webpack serve --host 0.0.0.0",
     "build": "cross-env NODE_ENV=production webpack",
     "rstart": "cross-env NODE_ENV=development webpack --watch"
   },

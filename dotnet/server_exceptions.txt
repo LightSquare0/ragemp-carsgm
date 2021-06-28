@@ -511,3 +511,59 @@ MySql.Data.MySqlClient.MySqlException (0x80004005): You have an error in your SQ
 ==================[08-May-21 12:04:00 AM]==================
 MySql.Data.MySqlClient.MySqlException (0x80004005): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'FROM accounts WHERE username = 'samp'' at line 1
    at MySqlPacket MySql.Data.MySqlClient.MySqlStream.R
+==================[28-Jun-21 1:13:23 AM]==================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Column 'checkpoints' cannot be null
+   at MySqlPacket MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+=========================================================
+
+==================[28-Jun-21 1:13:23 AM]==================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Column 'checkpoints' cannot be null
+   at MySqlPacket MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   at int MySql.Data.MySqlClient.NativeDriver.GetResult(ref int affectedRow, ref long insertedId)
+=========================================================
+
+==================[28-Jun-21 1:13:23 AM]==================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Column 'checkpoints' cannot be null
+   at MySqlPacket MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   at int MySql.Data.MySqlClient.NativeDriver.GetResult(ref int affectedRow, ref long insertedId)
+   at int MySql.Data.MySqlClient.Driver.GetResult(int statementId, ref int affectedRows, ref long insertedId)
+   at ResultSet MySql.Data.MySqlClient.Driver.NextResult(int statementId, bool force)
+   at bool MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+=========================================================
+
+==================[28-Jun-21 1:13:23 AM]==================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Column 'checkpoints' cannot be null
+   at MySqlPacket MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   at int MySql.Data.MySqlClient.NativeDriver.GetResult(ref int affectedRow, ref long insertedId)
+   at int MySql.Data.MySqlClient.Driver.GetResult(int statementId, ref int affectedRows, ref long insertedId)
+   at ResultSet MySql.Data.MySqlClient.Driver.NextResult(int statementId, bool force)
+   at bool MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   at MySqlDataReader MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+=========================================================
+
+==================[28-Jun-21 1:13:23 AM]==================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Column 'checkpoints' cannot be null
+   at MySqlPacket MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   at int MySql.Data.MySqlClient.NativeDriver.GetResult(ref int affectedRow, ref long insertedId)
+   at int MySql.Data.MySqlClient.Driver.GetResult(int statementId, ref int affectedRows, ref long insertedId)
+   at ResultSet MySql.Data.MySqlClient.Driver.NextResult(int statementId, bool force)
+   at bool MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   at MySqlDataReader MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at MySqlDataReader MySql.Data.MySqlClient.MySqlCommand.ExecuteReader()
+   at int MySql.Data.MySqlClient.MySqlCommand.ExecuteNonQuery()
+   at Task<int> System.Data.Common.DbCommand.ExecuteNonQueryAsync(CancellationToken cancellationToken)
+   at void System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+=========================================================
+
+==================[28-Jun-21 1:13:24 AM]==================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Column 'checkpoints' cannot be null
+   at MySqlPacket MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   at int MySql.Data.MySqlClient.NativeDriver.GetResult(ref int affectedRow, ref long insertedId)
+   at int MySql.Data.MySqlClient.Driver.GetResult(int statementId, ref int affectedRows, ref long insertedId)
+   at ResultSet MySql.Data.MySqlClient.Driver.NextResult(int statementId, bool force)
+   at bool MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   at MySqlDataReader MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at MySqlDataReader MySql.Data.MySqlClient.MySqlCommand.ExecuteReader()
+   at int MySql.Data.MySqlClient.MySqlCommand.ExecuteNonQuery()
+   at Task<int> System.Data.Common.DbCommand.ExecuteNonQueryAsync(CancellationToken cancellationToken)
+   at async Task<int> Dapper.SqlMapper.ExecuteImplAsync(IDbConnection cnn, CommandDefiniti
