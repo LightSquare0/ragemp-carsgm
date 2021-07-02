@@ -13,14 +13,23 @@ namespace racing_src.Admin
     {
         public static bool IsAdmin(Player player)
         {
-
-           bool toReturn = (player.GetSharedData<int>("admin") > 0);
-            return toReturn;
+            if(player.GetSharedData<int>("admin") <= 0)
+            {
+                player.SendChatMessage("You are not an admin");
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         [Command("sveh")]
         public void SpawnAdminVehicle(Player player, string vehicle)
-        { 
+        {
+            if (!IsAdmin(player))
+                return;
+
             Vehicle veh = NAPI.Vehicle.CreateVehicle(NAPI.Util.GetHashKey(vehicle), player.Position, player.Heading, 200, 200, "Admin");
             player.SetIntoVehicle(veh, 0);
         
@@ -28,6 +37,9 @@ namespace racing_src.Admin
         [Command("coords")]
         public void GetCoords(Player player)
         {
+            if (!IsAdmin(player))
+                return;
+
             player.SendChatMessage($"Current coords: {player.Position} | Heading: {player.Heading} | Dimension: {player.Dimension}.");
             Console.WriteLine($"{player.Position} {player.Heading}");
         }
@@ -35,6 +47,9 @@ namespace racing_src.Admin
         [Command("gotocoords")]
         public void GotoCoords(Player player, float posx, float posy, float posz)
         {
+            if (!IsAdmin(player))
+                return;
+
             player.Position = new Vector3(posx, posy, posz);
             player.SendChatMessage($"Teleported to the following coords: {posx}, {posy}, {posz}");
         }

@@ -35,7 +35,7 @@ namespace racing_src.Players
                 if (exists)
                 {
                     player.TriggerEvent("clientside:LoginResult", 1);
-                    player.SendChatMessage($"user exists: {username}, {password}");
+                    //player.SendChatMessage($"user exists: {username}, {password}");
                     player.Position = new Vector3(227.21216, 1172.314, 225.45993);
                     player.Heading = -79;
                     player.Transparency = 255;
@@ -43,7 +43,7 @@ namespace racing_src.Players
                 }
                 else
                 {
-                    player.SendChatMessage($"user doesn't exist: {username}, {password}");
+                    //player.SendChatMessage($"user doesn't exist: {username}, {password}");
                     player.TriggerEvent("clientside:LoginResult", 0);
                 }
 
@@ -75,7 +75,7 @@ namespace racing_src.Players
                 var exists = await db.ExecuteScalarAsync<bool>(selectUserSQL, userParams);
                 if (exists)
                 {
-                    player.SendChatMessage($"{username} already exists.");
+                    //player.SendChatMessage($"{username} already exists.");
                     player.TriggerEvent("clientside:RegisterResult", 0);
                 }
                 else

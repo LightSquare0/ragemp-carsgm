@@ -567,3 +567,145 @@ MySql.Data.MySqlClient.MySqlException (0x80004005): Column 'checkpoints' cannot 
    at int MySql.Data.MySqlClient.MySqlCommand.ExecuteNonQuery()
    at Task<int> System.Data.Common.DbCommand.ExecuteNonQueryAsync(CancellationToken cancellationToken)
    at async Task<int> Dapper.SqlMapper.ExecuteImplAsync(IDbConnection cnn, CommandDefiniti
+==================[29-Jun-21 2:17:40 AM]==================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'racing.race' doesn't exist
+   at MySqlPacket MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+=========================================================
+
+==================[29-Jun-21 2:17:40 AM]==================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'racing.race' doesn't exist
+   at MySqlPacket MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   at int MySql.Data.MySqlClient.NativeDriver.GetResult(ref int affectedRow, ref long insertedId)
+=========================================================
+
+==================[29-Jun-21 2:17:40 AM]==================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'racing.race' doesn't exist
+   at MySqlPacket MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   at int MySql.Data.MySqlClient.NativeDriver.GetResult(ref int affectedRow, ref long insertedId)
+   at int MySql.Data.MySqlClient.Driver.GetResult(int statementId, ref int affectedRows, ref long insertedId)
+   at ResultSet MySql.Data.MySqlClient.Driver.NextResult(int statementId, bool force)
+   at bool MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+=========================================================
+
+==================[29-Jun-21 2:17:40 AM]==================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'racing.race' doesn't exist
+   at MySqlPacket MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   at int MySql.Data.MySqlClient.NativeDriver.GetResult(ref int affectedRow, ref long insertedId)
+   at int MySql.Data.MySqlClient.Driver.GetResult(int statementId, ref int affectedRows, ref long insertedId)
+   at ResultSet MySql.Data.MySqlClient.Driver.NextResult(int statementId, bool force)
+   at bool MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   at MySqlDataReader MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+=========================================================
+
+==================[29-Jun-21 2:17:40 AM]==================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'racing.race' doesn't exist
+   at MySqlPacket MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   at int MySql.Data.MySqlClient.NativeDriver.GetResult(ref int affectedRow, ref long insertedId)
+   at int MySql.Data.MySqlClient.Driver.GetResult(int statementId, ref int affectedRows, ref long insertedId)
+   at ResultSet MySql.Data.MySqlClient.Driver.NextResult(int statementId, bool force)
+   at bool MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   at MySqlDataReader MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at DbDataReader MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at Task<DbDataReader> System.Data.Common.DbCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at void System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+=========================================================
+
+==================[29-Jun-21 2:17:40 AM]==================
+System.AggregateException: One or more errors occurred. (Table 'racing.race' doesn't exist)
+ ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Table 'racing.race' doesn't exist
+   at MySqlPacket MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   at int MySql.Data.MySqlClient.NativeDriver.GetResult(ref int affectedRow, ref long insertedId)
+   at int MySql.Data.MySqlClient.Driver.GetResult(int statementId, ref int affectedRows, ref long insertedId)
+   at ResultSet MySql.Data.MySqlClient.Driver.NextResult(int statementId, bool force)
+   at bool MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   at MySqlDataReader MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at DbDataReader MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at Task<DbDataReader> System.Data.Common.DbCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+ 
+==================[29-Jun-21 2:18:10 AM]==================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'racename' in 'where clause'
+   at MySqlPacket MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+=========================================================
+
+==================[29-Jun-21 2:18:10 AM]==================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'racename' in 'where clause'
+   at MySqlPacket MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   at int MySql.Data.MySqlClient.NativeDriver.GetResult(ref int affectedRow, ref long insertedId)
+=========================================================
+
+==================[29-Jun-21 2:18:10 AM]==================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'racename' in 'where clause'
+   at MySqlPacket MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   at int MySql.Data.MySqlClient.NativeDriver.GetResult(ref int affectedRow, ref long insertedId)
+   at int MySql.Data.MySqlClient.Driver.GetResult(int statementId, ref int affectedRows, ref long insertedId)
+   at ResultSet MySql.Data.MySqlClient.Driver.NextResult(int statementId, bool force)
+   at bool MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+=========================================================
+
+==================[29-Jun-21 2:18:10 AM]==================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'racename' in 'where clause'
+   at MySqlPacket MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   at int MySql.Data.MySqlClient.NativeDriver.GetResult(ref int affectedRow, ref long insertedId)
+   at int MySql.Data.MySqlClient.Driver.GetResult(int statementId, ref int affectedRows, ref long insertedId)
+   at ResultSet MySql.Data.MySqlClient.Driver.NextResult(int statementId, bool force)
+   at bool MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   at MySqlDataReader MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+=========================================================
+
+==================[29-Jun-21 2:18:10 AM]==================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'racename' in 'where clause'
+   at MySqlPacket MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   at int MySql.Data.MySqlClient.NativeDriver.GetResult(ref int affectedRow, ref long insertedId)
+   at int MySql.Data.MySqlClient.Driver.GetResult(int statementId, ref int affectedRows, ref long insertedId)
+   at ResultSet MySql.Data.MySqlClient.Driver.NextResult(int statementId, bool force)
+   at bool MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   at MySqlDataReader MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at DbDataReader MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at Task<DbDataReader> System.Data.Common.DbCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at void System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+=========================================================
+
+==================[29-Jun-21 2:18:10 AM]==================
+System.AggregateException: One or more errors occurred. (Unknown column 'racename' in 'where clause')
+ ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'racename' in 'where clause'
+   at MySqlPacket MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   at int MySql.Data.MySqlClient.NativeDriver.GetResult(ref int affectedRow, ref long insertedId)
+   at int MySql.Data.MySqlClient.Driver.GetResult(int statementId, ref int affectedRows, ref long insertedId)
+   at ResultSet MySql.Data.MySqlClient.Driver.NextResult(int statementId, bool force)
+   at bool MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   at MySqlDataReader MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at DbDataReader MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at Task<DbDataReader> System.Data.Common.DbCommand.ExecuteDbDataReaderA
+==================[30-Jun-21 20:34:01]==================
+System.InvalidCastException: Invalid cast from 'System.String' to 'System.Collections.Generic.List`1[[System.String, System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+   at object Convert.DefaultToType(IConvertible value, Type targetType, IFormatProvider provider)
+=========================================================
+
+==================[30-Jun-21 20:34:02]==================
+System.BadImageFormatException: Read out of bounds.
+   at void System.Reflection.Throw.OutOfBounds()
+=========================================================
+
+==================[30-Jun-21 20:34:02]==================
+System.Data.DataException: Error parsing column 4 (checkpoints=[{"x":256.5773010253906,"y":1172.5611572265625,"z":224.71038818359375},{"x":282.22491455078125,"y":1112.7230224609375,"z":218.30076599121094},{"x":304.4127197265625,"y":913.4789428710938,"z":203.4015655517578},{"x":271.8367004394531,"y":591.2042846679688,"z":150.9120635986328},{"x":268.59405517578125,"y":547.5811767578125,"z":141.7102813720703},{"x":161.4977569580078,"y":493.16632080078125,"z":143.30517578125},{"x":-20.508487701416016,"y":485.53741455078125,"z":145.09188842773438},{"x":-239.5076446533203,"y":501.4873352050781,"z":126.0028076171875},{"x":-347.9849548339844,"y":486.6531677246094,"z":113.08824157714844},{"x":-491.7656555175781,"y":568.9818725585938,"z":119.99784851074219},{"x":-562.8268432617188,"y":517.5806884765625,"z":105.59452056884766},{"x":-682.6405029296875,"y":489.93682861328125,"z":109.63335418701172},{"x":-852.3131713867188,"y":432.90386962890625,"z":86.72624969482422},{"x":-799.5166625976562,"y":288.29522705078125,"z":85.64920806884766}] - String)
+ ---> System.InvalidCastException: Invalid cast from 'System.String' to 'System.Collections.Generic.List`1[[System.String, System.Private.CoreLib, Version=5.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+   at object Convert.DefaultToType(IConvertible value, Type targetType, IFormatProvider provider)
+   at object string.System.IConvertible.ToType(Type type, IFormatProvider provider)
+   at object Convert.ChangeType(object value, Type conversionType, IFormatProvider provider)
+   at RaceCreator Deserializee818aed3-6dae-4ad6-be8b-a7c9a7178a00(IDataReader)
+   --- End of inner exception stack trace ---
+   at void Dapper.SqlMapper.ThrowDataException(Exception ex, int index, IDataReader reader, object value) in /_/Dapper/SqlMapper.cs:line 3665
+=========================================================
+
+==================[30-Jun-21 20:34:02]==================
+System.BadImageFormatException: Read out of bounds.
+   at void System.Reflection.Throw.OutOfBounds()
+=========================================================
+
+==================[30-Jun-21 20:34:02]==================
+System.BadImageFormatException: Read out of bounds.
+   at void System.Reflection.Throw.OutOfBounds()
+=========================================================
+
+==================[30-Jun-21 20:34:02]==================
+System.Data.DataException: Error parsing column 4 (checkpoints=[{"x":256.5773010253906,"y":1172.5611572265625,"z":224.71038818359375},{"x":282.22491455078125,"y":1112.7230224609375,"z":218.30076599121094},{"x":304.4127197265625,"y":913.4789428710938,"z":203.4015655517578},{"x":271.8367004394531,"y":591.2042846679688,"z":150.9120635986328},{"x":268.59405517578125,"y":547.5811767578125,"z":141.7102813720703},{"x":161.4977569580078,"y":493.16632080078125,"z":143.30517578125},{"x":-20.508487701416016,"y":485.53741455078125,"z":145.09188842773438},{"x":-239.5076446533203,"y":501.4873352050781,"z":126.0028076171875},{"x":-347.9849548339844,"y":486.6531677246094,"z":113.08824157714844},{"x":-491.7656555175781,"y":568.9818725585938,"z":119.99784851074219},{"x":-562.8268432617188,"y":517.5806884765625,"z":105.59452056884766},{"x":-682.6405029296875,"y":489.93682861328125,"z":109.63335418701172},{"x":-852.3131713867188,"y":432.90386962890625,"z":86.72624969482422},{"x":-799.5166625976562,"y":288.295

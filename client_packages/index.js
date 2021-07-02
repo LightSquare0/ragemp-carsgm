@@ -1,7 +1,7 @@
 
 
 var browser;
-browser = mp.browsers.new("package://webview/index.html");
+browser = mp.browsers.new("http://localhost:8080");
 
 require("./client.js");
 require("./auth/Auth.js");
