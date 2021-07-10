@@ -27,7 +27,7 @@ mp.events.add("clientside:SaveRace", (racename, category, creator) => {
 
 mp.events.add("clientside:LoadRace", (track) => {
   _track = JSON.parse(track);
-  mp.gui.chat.push(JSON.stringify(_track) + "\n");
+  mp.gui.chat.push(_track + " loaded track cik");
   setTimeout(() => {
     createNewCheckpoint();
   }, 200);
@@ -66,7 +66,9 @@ const createNewCheckpoint = () => {
       dimension: 0,
     });
 
-    let policeBlip = mp.blips.new(60, new mp.Vector3(_track[currentPoint].x, _track[currentPoint].y, _track[currentPoint].z),
+    mp.gui.chat.push("a ajuns la cp");
+
+    let blip = mp.blips.new(60, new mp.Vector3(_track[currentPoint].x, _track[currentPoint].y, _track[currentPoint].z),
     {
         name: 'Los Santos Police Station',
         color: 3,

@@ -30,7 +30,7 @@ namespace racing_src
 
         public static async Task LoadPlayerData(Player player, string username)
         {
-            using (IDbConnection db = new MySqlConnection(Tools.GetConnectionString()))
+            using (IDbConnection db = new MySqlConnection(Database.GetConnectionString()))
             {
                 string selectUserDataSQL = "SELECT * FROM accounts WHERE username = @username";
 

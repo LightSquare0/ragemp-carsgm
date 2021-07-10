@@ -4,7 +4,6 @@ import { NotificationsContext } from "./NotificationsContext";
 import {
   NotificationColumn,
   NotificationContent,
-  NotificationIcon,
   NotificationsContainer,
   NotificationText,
   NotificationTitle,

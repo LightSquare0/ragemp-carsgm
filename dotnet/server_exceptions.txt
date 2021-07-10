@@ -709,3 +709,147 @@ System.BadImageFormatException: Read out of bounds.
 
 ==================[30-Jun-21 20:34:02]==================
 System.Data.DataException: Error parsing column 4 (checkpoints=[{"x":256.5773010253906,"y":1172.5611572265625,"z":224.71038818359375},{"x":282.22491455078125,"y":1112.7230224609375,"z":218.30076599121094},{"x":304.4127197265625,"y":913.4789428710938,"z":203.4015655517578},{"x":271.8367004394531,"y":591.2042846679688,"z":150.9120635986328},{"x":268.59405517578125,"y":547.5811767578125,"z":141.7102813720703},{"x":161.4977569580078,"y":493.16632080078125,"z":143.30517578125},{"x":-20.508487701416016,"y":485.53741455078125,"z":145.09188842773438},{"x":-239.5076446533203,"y":501.4873352050781,"z":126.0028076171875},{"x":-347.9849548339844,"y":486.6531677246094,"z":113.08824157714844},{"x":-491.7656555175781,"y":568.9818725585938,"z":119.99784851074219},{"x":-562.8268432617188,"y":517.5806884765625,"z":105.59452056884766},{"x":-682.6405029296875,"y":489.93682861328125,"z":109.63335418701172},{"x":-852.3131713867188,"y":432.90386962890625,"z":86.72624969482422},{"x":-799.5166625976562,"y":288.295
+==================[08-Jul-21 15:55:35]==================
+System.InvalidCastException: Invalid cast from 'System.String' to 'System.Collections.Generic.List`1[[racing_src.Race.RaceCreator+Checkpoint, racing-src, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+   at object Convert.DefaultToType(IConvertible value, Type targetType, IFormatProvider provider)
+=========================================================
+
+==================[08-Jul-21 15:55:35]==================
+System.BadImageFormatException: Read out of bounds.
+   at void System.Reflection.Throw.OutOfBounds()
+=========================================================
+
+==================[08-Jul-21 15:55:35]==================
+System.Data.DataException: Error parsing column 0 (checkpoints=[{"x":256.1485595703125,"y":1203.4815673828125,"z":227.62599182128906},{"x":249.95623779296875,"y":1266.9185791015625,"z":233.0907745361328},{"x":236.86790466308594,"y":1352.894287109375,"z":238.5221710205078},{"x":185.07620239257812,"y":1447.495849609375,"z":239.55917358398438}] - String)
+ ---> System.InvalidCastException: Invalid cast from 'System.String' to 'System.Collections.Generic.List`1[[racing_src.Race.RaceCreator+Checkpoint, racing-src, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+   at object Convert.DefaultToType(IConvertible value, Type targetType, IFormatProvider provider)
+   at object string.System.IConvertible.ToType(Type type, IFormatProvider provider)
+   at object Convert.ChangeType(object value, Type conversionType, IFormatProvider provider)
+   at Track Deserialize047a512f-0381-4b27-adae-6406e095281e(IDataReader)
+   --- End of inner exception stack trace ---
+   at void Dapper.SqlMapper.ThrowDataException(Exception ex, int index, IDataReader reader, object value) in /_/Dapper/SqlMapper.cs:line 3665
+=========================================================
+
+==================[08-Jul-21 15:55:35]==================
+System.BadImageFormatException: Read out of bounds.
+   at void System.Reflection.Throw.OutOfBounds()
+=========================================================
+
+==================[08-Jul-21 15:55:35]==================
+System.BadImageFormatException: Read out of bounds.
+   at void System.Reflection.Throw.OutOfBounds()
+=========================================================
+
+==================[08-Jul-21 15:55:35]==================
+System.Data.DataException: Error parsing column 0 (checkpoints=[{"x":256.1485595703125,"y":1203.4815673828125,"z":227.62599182128906},{"x":249.95623779296875,"y":1266.9185791015625,"z":233.0907745361328},{"x":236.86790466308594,"y":1352.894287109375,"z":238.5221710205078},{"x":185.07620239257812,"y":1447.495849609375,"z":239.55917358398438}] - String)
+ ---> System.InvalidCastException: Invalid cast from 'System.String' to 'System.Collections.Generic.List`1[[racing_src.Race.RaceCreator+Checkpoint, racing-src, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+   at object Convert.DefaultToType(IConvertible value, Type targetType, IFormatProvider provider)
+   at object string.System.IConvertible.ToType(Type type, IFormatProvider provider)
+   at object Convert.ChangeType(object value, Type conversionType, IFormatProvider provider)
+   at Track Deserialize047a512f-0381-4b27-adae-6406e095281e(IDataReader)
+   --- End of inner exception stack trace ---
+   at void Dapper.SqlMapper.ThrowDataException(Exception ex, int index, IDataReader reader, object value) in /_/Dapper/SqlMapper.cs:line 3665
+   at Track Deserialize047a512f-0381-4b27-adae-6406e095281e(IDataReader)
+   at T Dapper.SqlMapper.ReadRow<T>(CacheInfo info, Identity identity, ref CommandDefinition command, Type effectiveType, IDataReader reader)
+   at async Task<T> Dapper.SqlMapper.QueryRowAsync<T>(IDbConnection cnn, Row row, Type effectiveType, CommandDefinition command)
+   at void System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+=========================================================
+
+==================[08-Jul-21 15:55:35]==================
+System.BadImageFormatException: Read out of bou
+==================[08-Jul-21 20:41:46]==================
+MySql.Data.MySqlClient.MySqlException (0x80004005): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '.name, races.category, races.creator FROM races WHERE name = 'EclipseTour'' at line 1
+   at MySqlPacket MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+=========================================================
+
+==================[08-Jul-21 20:41:46]==================
+MySql.Data.MySqlClient.MySqlException (0x80004005): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '.name, races.category, races.creator FROM races WHERE name = 'EclipseTour'' at line 1
+   at MySqlPacket MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   at int MySql.Data.MySqlClient.NativeDriver.GetResult(ref int affectedRow, ref long insertedId)
+=========================================================
+
+==================[08-Jul-21 20:41:46]==================
+MySql.Data.MySqlClient.MySqlException (0x80004005): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '.name, races.category, races.creator FROM races WHERE name = 'EclipseTour'' at line 1
+   at MySqlPacket MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   at int MySql.Data.MySqlClient.NativeDriver.GetResult(ref int affectedRow, ref long insertedId)
+   at int MySql.Data.MySqlClient.Driver.GetResult(int statementId, ref int affectedRows, ref long insertedId)
+   at ResultSet MySql.Data.MySqlClient.Driver.NextResult(int statementId, bool force)
+   at bool MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+=========================================================
+
+==================[08-Jul-21 20:41:46]==================
+MySql.Data.MySqlClient.MySqlException (0x80004005): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '.name, races.category, races.creator FROM races WHERE name = 'EclipseTour'' at line 1
+   at MySqlPacket MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   at int MySql.Data.MySqlClient.NativeDriver.GetResult(ref int affectedRow, ref long insertedId)
+   at int MySql.Data.MySqlClient.Driver.GetResult(int statementId, ref int affectedRows, ref long insertedId)
+   at ResultSet MySql.Data.MySqlClient.Driver.NextResult(int statementId, bool force)
+   at bool MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   at MySqlDataReader MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+=========================================================
+
+==================[08-Jul-21 20:41:46]==================
+MySql.Data.MySqlClient.MySqlException (0x80004005): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '.name, races.category, races.creator FROM races WHERE name = 'EclipseTour'' at line 1
+   at MySqlPacket MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   at int MySql.Data.MySqlClient.NativeDriver.GetResult(ref int affectedRow, ref long insertedId)
+   at int MySql.Data.MySqlClient.Driver.GetResult(int statementId, ref int affectedRows, ref long insertedId)
+   at ResultSet MySql.Data.MySqlClient.Driver.NextResult(int statementId, bool force)
+   at bool MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   at MySqlDataReader MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at DbDataReader MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at Task<DbDataReader> System.Data.Common.DbCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at void System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+=========================================================
+
+==================[08-Jul-21 20:41:46]==================
+MySql.Data.MySqlClient.MyS
+==================[10-Jul-21 20:36:49]==================
+Microsoft.CSharp.RuntimeBinder.RuntimeBinderException: Cannot implicitly convert type 'object' to 'string'. An explicit conversion exists (are you missing a cast?)
+   at Expr Microsoft.CSharp.RuntimeBinder.Semantics.ExpressionBinder.mustConvertCore(Expr expr, CType dest, CONVERTTYPE flags)
+=========================================================
+
+==================[10-Jul-21 20:36:49]==================
+Microsoft.CSharp.RuntimeBinder.RuntimeBinderException: Cannot implicitly convert type 'object' to 'string'. An explicit conversion exists (are you missing a cast?)
+   at string CallSite.Target(Closure, CallSite, object)
+=========================================================
+
+==================[10-Jul-21 20:36:50]==================
+Microsoft.CSharp.RuntimeBinder.RuntimeBinderException: Cannot implicitly convert type 'object' to 'string'. An explicit conversion exists (are you missing a cast?)
+   at string CallSite.Target(Closure, CallSite, object)
+   at TRet System.Dynamic.UpdateDelegates.UpdateAndExecute1<T0, TRet>(CallSite site, T0 arg0)
+   at async Task<string> racing_src.Race.RaceCreator.LoadRaceAsync(Player player, string racename) in E:/ragemp-carsgm/dotnet/resources/racing-src/Race/RaceCreator.cs:line 53
+   at void System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+=========================================================
+
+==================[10-Jul-21 20:36:56]==================
+Microsoft.CSharp.RuntimeBinder.RuntimeBinderException: Cannot implicitly convert type 'object' to 'string'. An explicit conversion exists (are you missing a cast?)
+   at string CallSite.Target(Closure, CallSite, object)
+=========================================================
+
+==================[10-Jul-21 20:36:56]==================
+Microsoft.CSharp.RuntimeBinder.RuntimeBinderException: Cannot implicitly convert type 'object' to 'string'. An explicit conversion exists (are you missing a cast?)
+   at string CallSite.Target(Closure, CallSite, object)
+   at async Task<string> racing_src.Race.RaceCreator.LoadRaceAsync(Player player, string racename) in E:/ragemp-carsgm/dotnet/resources/racing-src/Race/RaceCreator.cs:line 53
+   at void System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+=========================================================
+
+==================[10-Jul-21 20:37:15]==================
+Microsoft.CSharp.RuntimeBinder.RuntimeBinderException: Cannot implicitly convert type 'object' to 'string'. An explicit conversion exists (are you missing a cast?)
+   at string CallSite.Target(Closure, CallSite, object)
+=========================================================
+
+==================[10-Jul-21 20:37:15]==================
+Microsoft.CSharp.RuntimeBinder.RuntimeBinderException: Cannot implicitly convert type 'object' to 'string'. An explicit conversion exists (are you missing a cast?)
+   at string CallSite.Target(Closure, CallSite, object)
+   at async Task<string> racing_src.Race.RaceCreator.LoadRaceAsync(Player player, string racename) in E:/ragemp-carsgm/dotnet/resources/racing-src/Race/RaceCreator.cs:line 53
+   at void System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+=========================================================
+
+==================[10-Jul-21 20:37:56]==================
+Microsoft.CSharp.RuntimeBinder.RuntimeBinderException: Cannot implicitly convert type 'object' to 'string'. An explicit conversion exists (are you missing a cast?)
+   at string CallSite.Target(Closure, CallSite, object)
+=========================================================
+
+==================[10-Jul-21 20:37:56]==================
+Microsoft.CSharp.RuntimeBinder.RuntimeBinderException: Cannot implicitly convert type 'object' to 'string'. An explicit conversion exists (are you missing a cast?)
+   at string CallSite.Target(Closure, CallSite, object)
+   at async Task<string> racing_src.Race.RaceCreator.LoadRaceAsync(Player player, string racename) in E:/ragemp-carsgm/dotnet/resources/racing-src/Race/RaceCreator.cs:

@@ -8,10 +8,11 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static racing_src.Race.RaceCreator;
 
 namespace racing_src
 {
-    public class Tools : Script
+    public class Database : Script
     {
         public static string GetConnectionString() 
         {

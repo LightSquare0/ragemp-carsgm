@@ -45,6 +45,11 @@ const Renderer: React.FC = () => {
     return () => clearInterval(interval);
   });
 
+  //@ts-ignore
+  mp.events.add("react:DisplayNotification", (type, title, text) => {
+    Notify(title, text, type);
+  })
+
   return (
     <>
       <NotificationsContext.Provider value={{notifications, Notify}}>

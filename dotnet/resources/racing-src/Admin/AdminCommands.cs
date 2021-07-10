@@ -53,5 +53,14 @@ namespace racing_src.Admin
             player.Position = new Vector3(posx, posy, posz);
             player.SendChatMessage($"Teleported to the following coords: {posx}, {posy}, {posz}");
         }
+
+        [Command("kill")]
+        public void KillAdmin(Player player)
+        {
+            if (!IsAdmin(player))
+                return;
+
+            player.Health = 0;
+        }
     }
 }

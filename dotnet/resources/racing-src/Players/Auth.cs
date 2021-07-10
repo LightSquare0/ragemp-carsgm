@@ -22,7 +22,12 @@ namespace racing_src.Players
         [RemoteEvent("serverside:OnPlayerLogin")]
         public async Task OnPlayerLogin(Player player, string username, string password)
         {
-            using (IDbConnection db = new MySqlConnection(Tools.GetConnectionString()))
+            if (NAPI.Pools.GetAllPlayers().FindAll(x => x.Name == username).Count > 0)
+            {
+                player.Notify(Notifications.Type.Error, $"Already logged in!", $"A player with the name {username} is already logged in.");
+                return;
+            } 
+            using (IDbConnection db = new MySqlConnection(Database.GetConnectionString()))
             {
                 string getUserSQL = "SELECT * FROM accounts WHERE username = @username AND password = @password";
                 var loginParams = new
@@ -35,15 +40,18 @@ namespace racing_src.Players
                 if (exists)
                 {
                     player.TriggerEvent("clientside:LoginResult", 1);
+                    
                     //player.SendChatMessage($"user exists: {username}, {password}");
                     player.Position = new Vector3(227.21216, 1172.314, 225.45993);
                     player.Heading = -79;
                     player.Transparency = 255;
                     await AccountModel.LoadPlayerData(player, username);
+                    player.Notify(Notifications.Type.Success, $"Welcome {player.Name}", "Successfully logged in.");
                 }
                 else
                 {
                     //player.SendChatMessage($"user doesn't exist: {username}, {password}");
+                    player.Notify(Notifications.Type.Error, "Wrong credentials!", "Please check your spelling and try again.");
                     player.TriggerEvent("clientside:LoginResult", 0);
                 }
 
@@ -54,7 +62,7 @@ namespace racing_src.Players
         [RemoteEvent("serverside:OnPlayerRegister")]
         public async Task RegisterPlayer (Player player, string username, string password, string email)
         {
-            using (IDbConnection db = new MySqlConnection(Tools.GetConnectionString()))
+            using (IDbConnection db = new MySqlConnection(Database.GetConnectionString()))
             {
                 string selectUserSQL = "SELECT * FROM accounts WHERE username = @username OR email = @email";
                 string insertUserSQL = "INSERT INTO accounts (username, password, email) VALUES (@username, @password, @email)";
@@ -76,6 +84,7 @@ namespace racing_src.Players
                 if (exists)
                 {
                     //player.SendChatMessage($"{username} already exists.");
+                    player.Notify(Notifications.Type.Error, "An user with that name already exists", "Please pick another one and try again.");
                     player.TriggerEvent("clientside:RegisterResult", 0);
                 }
                 else
@@ -86,6 +95,8 @@ namespace racing_src.Players
                     player.Heading = -79;
                     player.Transparency = 255;
                     player.SendChatMessage($"Succesfully registered user with the following credentials: {username}, {password}, {email}.");
+                    player.Notify(Notifications.Type.Error, $"Welcome {username}", "Registered successfully.");
+
                 }
             }
         }

@@ -1,12 +1,8 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import React from "react";
+import { useState } from "react";
 import Gauge from "./Gauge";
 
-const getSpeed = () => {
-  
-}
-
-
-const Speedometer = () => {
+const Speedometer: React.FC = () => {
   const [speed, setSpeed] = useState<number>(0);
   const [rpm, setRpm] = useState<number>(0);
   const [visible, setVisible] = useState<boolean>(false);

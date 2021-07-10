@@ -28,7 +28,7 @@ const addChatMessage = (message) => {
   let messageElement = document.createElement("div");
   messageElement.classList.add("message");
   document.getElementById("messages").append(messageElement);
-  messageElement.append(message);
+  messageElement.append(message.toString());
   let messages = document.getElementById("messages");
   messages.scrollTo(0, messages.scrollHeight);
 };

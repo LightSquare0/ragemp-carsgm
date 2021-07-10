@@ -8,7 +8,7 @@ let sceneryCamera = mp.cameras.new(
   40
 );
 
-sceneryCamera.pointAtCoord(-700.28845, -8.905725, 50.32167); // Changes the rotation of the camera to point towards a location
+sceneryCamera.pointAtCoord(-700.28845, -8.905725, 50.32167); 
 sceneryCamera.setActive(true);
 mp.game.cam.renderScriptCams(true, false, 0, true, false);
 

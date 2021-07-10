@@ -14,25 +14,10 @@ using static racing_src.Race.RaceCreator;
 namespace racing_src.Race
 {
 
-     
+
 
     class RaceCreator : Script
     {
-        public class Checkpoint
-        {
-            public float X { get; set; }
-            public float Y { get; set; }
-            public float Z { get; set; }
-        }
-
-        public class Race
-        {
-            public int Id { get; set; }
-            public string Name { get; set; }
-            public string Category { get; set; }
-            public string Creator { get; set; }
-            public string Checkpoints { get; set; }
-        }
 
         public class TypeHandler<T> : SqlMapper.TypeHandler<T>
         {
@@ -59,13 +44,13 @@ namespace racing_src.Race
             return true;
         }
 
-        public static async Task<Race> LoadRaceAsync(Player player, string racename)
+        public static async Task<string> LoadRaceAsync(Player player, string racename)
         {
-            using (IDbConnection db = new MySqlConnection(Tools.GetConnectionString()))
+            using (IDbConnection db = new MySqlConnection(Database.GetConnectionString()))
             {
 
-                string selectRaceSQL = "SELECT * FROM races WHERE name = @racename";
-                return await db.QueryFirstOrDefaultAsync<Race>(selectRaceSQL, new { racename });
+                string selectRaceSQL = "SELECT checkpoints FROM races WHERE name = @racename";
+                return await db.QueryFirstOrDefaultAsync<string>(selectRaceSQL, new { racename });
 
             }
         }
@@ -102,7 +87,7 @@ namespace racing_src.Race
         [RemoteEvent("serverside:OnSaveRace")]
         public static async Task OnSaveRace(Player player, string racename, string category, string creator, string currentCheckpoints)
         {
-            using (IDbConnection db = new MySqlConnection(Tools.GetConnectionString()))
+            using (IDbConnection db = new MySqlConnection(Database.GetConnectionString()))
             {
                 var raceParams = new
                 {
@@ -130,14 +115,14 @@ namespace racing_src.Race
         [Command("loadrace", SensitiveInfo = true)]
         public static async Task LoadTrackAsync(Player player, string racename)
         {
-           
+
             var race = await LoadRaceAsync(player, racename);
-            
+
             if (race != null)
             {
-                player.TriggerEvent("clientside:LoadRace", race.Checkpoints);
+                player.TriggerEvent("clientside:LoadRace", race);
             }
-           
+
         }
 
     }
