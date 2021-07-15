@@ -33,10 +33,11 @@ namespace racing_src
                 try
                 {
                     db.Open();
-                    Console.WriteLine($"MySql connected to {db.Database}");
+                    ConsoleInfo.WriteSuccess($"MySql connected to {db.Database}");
                 }
                 catch (MySqlException exception)
                 {
+                    ConsoleInfo.WriteError("Could not connect to MySQL database.");
                     Console.WriteLine(exception);
                 }
             }

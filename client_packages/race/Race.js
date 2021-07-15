@@ -38,6 +38,8 @@ mp.events.add("clientside:LoadRace", (track) => {
 const createNewCheckpoint = () => {
   if (currentCheckPoint != undefined){
     currentCheckPoint.destroy();
+    currentBlip.destroy();
+    currentBlip = undefined;
     currentCheckPoint = undefined;
   }
 
@@ -55,6 +57,12 @@ const createNewCheckpoint = () => {
       visible: true,
       dimension: 0,
     });
+    
+    currentBlip = mp.blips.new(38, new mp.Vector3(_track[currentPoint].x, _track[currentPoint].y, _track[currentPoint].z),
+      {
+        color: 3,
+        shortRange: true,
+      });
     return;
   }
 
@@ -68,9 +76,8 @@ const createNewCheckpoint = () => {
 
     mp.gui.chat.push("a ajuns la cp");
 
-    let blip = mp.blips.new(60, new mp.Vector3(_track[currentPoint].x, _track[currentPoint].y, _track[currentPoint].z),
+    currentBlip = mp.blips.new(1, new mp.Vector3(_track[currentPoint].x, _track[currentPoint].y, _track[currentPoint].z),
     {
-        name: 'Los Santos Police Station',
         color: 3,
         shortRange: true,
 });

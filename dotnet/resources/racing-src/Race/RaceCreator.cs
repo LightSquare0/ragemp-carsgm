@@ -9,7 +9,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static racing_src.Race.RaceCreator;
+using static racing_src.Race.RaceManager;
 
 namespace racing_src.Race
 {
@@ -18,17 +18,23 @@ namespace racing_src.Race
 
     class RaceCreator : Script
     {
-
-        public class TypeHandler<T> : SqlMapper.TypeHandler<T>
+        public class Checkpoint
         {
-            public override T Parse(object value)
-            {
-                return JsonConvert.DeserializeObject<T>(value.ToString());
-            }
+            public double X { get; set; }
+            public double Y { get; set; }
+            public double Z { get; set; }
+        }
 
-            public override void SetValue(IDbDataParameter parameter, T value)
+        public class JsonTypeHandler : SqlMapper.ITypeHandler
+        {
+            public void SetValue(IDbDataParameter parameter, object value)
             {
                 parameter.Value = JsonConvert.SerializeObject(value);
+            }
+
+            public object Parse(Type destinationType, object value)
+            {
+                return JsonConvert.DeserializeObject(value as string, destinationType);
             }
         }
 
@@ -44,15 +50,10 @@ namespace racing_src.Race
             return true;
         }
 
-        public static async Task<string> LoadRaceAsync(Player player, string racename)
+        public static Tuple<List<Vector3>, List<Spawnpoint>> LoadTrackInfoAsync(Player player, string racename)
         {
-            using (IDbConnection db = new MySqlConnection(Database.GetConnectionString()))
-            {
-
-                string selectRaceSQL = "SELECT checkpoints FROM races WHERE name = @racename";
-                return await db.QueryFirstOrDefaultAsync<string>(selectRaceSQL, new { racename });
-
-            }
+            var template = RaceManager.RaceTemplates.Find(x => x.TrackName == racename);
+            return Tuple.Create(template.Checkpoints, template.Spawnpoints);
         }
 
         [Command("creatormode")]
@@ -113,16 +114,44 @@ namespace racing_src.Race
         }
 
         [Command("loadrace", SensitiveInfo = true)]
-        public static async Task LoadTrackAsync(Player player, string racename)
+        public static void LoadTrackAsync(Player player, string racename)
         {
 
-            var race = await LoadRaceAsync(player, racename);
+            var race = LoadTrackInfoAsync(player, racename);
 
             if (race != null)
             {
-                player.TriggerEvent("clientside:LoadRace", race);
+                player.TriggerEvent("clientside:LoadRace", race.Item1);
             }
 
+        }
+
+        [Command("addsp")]
+        public static async Task AddSpawnPoint(Player player, int id)
+        {
+            using (IDbConnection db = new MySqlConnection(Database.GetConnectionString()))
+            {
+                string getSpawnpointsSQL = "SELECT spawnpoints FROM races WHERE id = @id LIMIT 1";
+                string updateSpawnPointsSQL = "UPDATE races SET spawnpoints = @spawnpoints WHERE id = @id";
+                var spawnpoints = NAPI.Util.FromJson<List<Vector3>>(db.QueryFirst<string>(getSpawnpointsSQL, new { id }));
+                var samp = new Vector3(player.Position.X , player.Position.Y, player.Position.Z);
+                NAPI.Checkpoint.CreateCheckpoint(CheckpointType.Cyclinder, new Vector3(player.Position.X, player.Position.Y, player.Position.Z - 1), new Vector3(0, 1, 0), 2.5f, new Color(255, 0, 0), 0);
+                spawnpoints.Add(samp);
+                foreach (var c in spawnpoints)
+                {
+                    Console.WriteLine($"{c.X} {c.Y} {c.Z}");
+                }
+                var toInsert = NAPI.Util.ToJson(spawnpoints);
+                await db.ExecuteAsync(updateSpawnPointsSQL, new { spawnpoints = toInsert, id = id });
+                player.SendChatMessage("inserted");
+            }
+        }
+
+        [Command("clearconsole")]
+        public void ClearConsole(Player player)
+        {
+            Console.Clear();
+            player.SendChatMessage("Server console cleared");
         }
 
     }

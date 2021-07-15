@@ -853,3 +853,488 @@ Microsoft.CSharp.RuntimeBinder.RuntimeBinderException: Cannot implicitly convert
 Microsoft.CSharp.RuntimeBinder.RuntimeBinderException: Cannot implicitly convert type 'object' to 'string'. An explicit conversion exists (are you missing a cast?)
    at string CallSite.Target(Closure, CallSite, object)
    at async Task<string> racing_src.Race.RaceCreator.LoadRaceAsync(Player player, string racename) in E:/ragemp-carsgm/dotnet/resources/racing-src/Race/RaceCreator.cs:
+==================[13-Jul-21 17:11:22]==================
+System.Net.Sockets.SocketException (10061): No connection could be made because the target machine actively refused it.
+   at void System.Net.Sockets.Socket+AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+=========================================================
+
+==================[13-Jul-21 17:11:22]==================
+System.Net.Sockets.SocketException (10061): No connection could be made because the target machine actively refused it.
+   at void System.Net.Sockets.Socket+AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at void System.Net.Sockets.Socket+AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(short token)
+   at void System.Threading.Tasks.ValueTask+ValueTaskSourceAsTask.s_completionAction(object state)
+   at void System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+=========================================================
+
+==================[13-Jul-21 17:11:22]==================
+System.AggregateException: One or more errors occurred. (No connection could be made because the target machine actively refused it.)
+ ---> System.Net.Sockets.SocketException (10061): No connection could be made because the target machine actively refused it.
+   at void System.Net.Sockets.Socket+AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at void System.Net.Sockets.Socket+AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(short token)
+   at void System.Threading.Tasks.ValueTask+ValueTaskSourceAsTask.s_completionAction(object state)
+   at async Task System.Net.Sockets.TcpClient.CompleteConnectAsync(Task task)
+   --- End of inner exception stack trace ---
+   at bool System.Threading.Tasks.Task.Wait(int millisecondsTimeout, CancellationToken cancellationToken)
+=========================================================
+
+==================[13-Jul-21 17:11:22]==================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unable to connect to any of the specified MySQL hosts.
+ ---> System.AggregateException: One or more errors occurred. (No connection could be made because the target machine actively refused it.)
+ ---> System.Net.Sockets.SocketException (10061): No connection could be made because the target machine actively refused it.
+   at void System.Net.Sockets.Socket+AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at void System.Net.Sockets.Socket+AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(short token)
+   at void System.Threading.Tasks.ValueTask+ValueTaskSourceAsTask.s_completionAction(object state)
+   at async Task System.Net.Sockets.TcpClient.CompleteConnectAsync(Task task)
+   --- End of inner exception stack trace ---
+   at bool System.Threading.Tasks.Task.Wait(int millisecondsTimeout, CancellationToken cancellationToken)
+   at bool System.Threading.Tasks.Task.Wait(int millisecondsTimeout)
+   at Stream MySql.Data.Common.StreamCreator.GetTcpStream(MySqlConnectionStringBuilder settings, ref MyNetworkStream networkStream)
+   at Stream MySql.Data.Common.StreamCreator.GetStream(MySqlConnectionStringBuilder settings, ref MyNetworkStream networkStream)
+   at void MySql.Data.MySqlClient.NativeDriver.Open()
+   at void MySql.Data.MySqlClient.NativeDriver.Open()
+=========================================================
+
+==================[13-Jul-21 17:11:22]==================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unable to connect to any of the specified MySQL hosts.
+ ---> System.AggregateException: One or more errors occurred. (No connection could be made because the target machine actively refused it.)
+ ---> System.Net.Sockets.SocketException (10061): No connection could be made because the target machine actively refused it.
+   at void System.Net.Sockets.Socket+AwaitableS
+==================[13-Jul-21 17:13:29]==================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Access denied for user 'root'@'localhost' (using password: NO)
+   at MySqlPacket MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+=========================================================
+
+==================[13-Jul-21 17:13:29]==================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Authentication to host '127.0.0.1' for user 'root' using method 'mysql_native_password' failed with message: Access denied for user 'root'@'localhost' (using password: NO)
+ ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Access denied for user 'root'@'localhost' (using password: NO)
+   at MySqlPacket MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   at MySqlPacket MySql.Data.MySqlClient.NativeDriver.ReadPacket()
+   at MySqlPacket MySql.Data.MySqlClient.Authentication.MySqlAuthenticationPlugin.ReadPacket()
+   at void MySql.Data.MySqlClient.Authentication.MySqlAuthenticationPlugin.AuthenticationFailed(Exception ex)
+=========================================================
+
+==================[13-Jul-21 17:13:29]==================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Authentication to host '127.0.0.1' for user 'root' using method 'mysql_native_password' failed with message: Access denied for user 'root'@'localhost' (using password: NO)
+ ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Access denied for user 'root'@'localhost' (using password: NO)
+   at MySqlPacket MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   at MySqlPacket MySql.Data.MySqlClient.NativeDriver.ReadPacket()
+   at MySqlPacket MySql.Data.MySqlClient.Authentication.MySqlAuthenticationPlugin.ReadPacket()
+   at void MySql.Data.MySqlClient.Authentication.MySqlAuthenticationPlugin.AuthenticationFailed(Exception ex)
+   at MySqlPacket MySql.Data.MySqlClient.Authentication.MySqlAuthenticationPlugin.ReadPacket()
+   at void MySql.Data.MySqlClient.Authentication.MySqlAuthenticationPlugin.Authenticate(bool reset)
+   at void MySql.Data.MySqlClient.NativeDriver.Authenticate(string authMethod, bool reset)
+   at void MySql.Data.MySqlClient.NativeDriver.Open()
+   at void MySql.Data.MySqlClient.Driver.Open()
+   at Driver MySql.Data.MySqlClient.Driver.Create(MySqlConnectionStringBuilder settings)
+=========================================================
+
+==================[13-Jul-21 17:13:29]==================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Authentication to host '127.0.0.1' for user 'root' using method 'mysql_native_password' failed with message: Access denied for user 'root'@'localhost' (using password: NO)
+ ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Access denied for user 'root'@'localhost' (using password: NO)
+   at MySqlPacket MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   at MySqlPacket MySql.Data.MySqlClient.NativeDriver.ReadPacket()
+   at MySqlPacket MySql.Data.MySqlClient.Authentication.MySqlAuthenticationPlugin.ReadPacket()
+   at void MySql.Data.MySqlClient.Authentication.MySqlAuthenticationPlugin.AuthenticationFailed(Exception ex)
+   at MySqlPacket MySql.Data.MySqlClient.Authentication.MySqlAuthenticationPlugin.ReadPacket()
+   at void MySql.Data.MySqlClient.Authentication.MySqlAuthenticationPlugin.Authenticate(bool reset)
+   at void MySql.Data.MySqlClient.NativeDriver.Authenticate(string authMethod, bool reset)
+   at void MySql.Data.MySqlClient.NativeDriver.Open()
+   at void MySql.Data.MySqlClient.Driver.Open()
+   at Driver MySql.Data.MySqlClient.Driver.Create(MySqlConnectionStringBuilder settings)
+   at Driver MySql.Data.MySqlClient.MySqlPool.CreateNewPooledConnection()
+   at Driver MySql.Data.MySqlClient.MySqlPool.GetPooledConnection()
+   at Driver MySql.Data.MySqlClient.MySqlPool.TryToGetDriver()
+=========================================================
+
+==================[13-Jul-21 17:13:29]==================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Authentication to host '127.0.0.1' for user 'root' using method 'mysql_native_passwo
+==================[13-Jul-21 22:34:23]==================
+System.InvalidOperationException: A parameterless default constructor or one matching signature (System.Int32 SQLid, System.String TrackName, System.String Category, System.String Creator) is required for racing_src.Race.RaceManager+Race materialization
+   at void Dapper.SqlMapper.GenerateDeserializerFromMap(Type type, IDataReader reader, int startBound, int length, bool returnNullIfFirstMissing, ILGenerator il) in /_/Dapper/SqlMapper.cs:line 3256
+=========================================================
+
+==================[13-Jul-21 22:34:23]==================
+System.InvalidOperationException: A parameterless default constructor or one matching signature (System.Int32 SQLid, System.String TrackName, System.String Category, System.String Creator) is required for racing_src.Race.RaceManager+Race materialization
+   at void Dapper.SqlMapper.GenerateDeserializerFromMap(Type type, IDataReader reader, int startBound, int length, bool returnNullIfFirstMissing, ILGenerator il) in /_/Dapper/SqlMapper.cs:line 3256
+   at Func<IDataReader, object> Dapper.SqlMapper.GetTypeDeserializerImpl(Type type, IDataReader reader, int startBound, int length, bool returnNullIfFirstMissing) in /_/Dapper/SqlMapper.cs:line 3090
+   at Func<IDataReader, object> Dapper.SqlMapper+TypeDeserializerCache.GetReader(IDataReader reader, int startBound, int length, bool returnNullIfFirstMissing) in /_/Dapper/SqlMapper.TypeDeserializerCache.cs:line 151
+   at Func<IDataReader, object> Dapper.SqlMapper+TypeDeserializerCache.GetReader(Type type, IDataReader reader, int startBound, int length, bool returnNullIfFirstMissing) in /_/Dapper/SqlMapper.TypeDeserializerCache.cs:line 50
+   at Func<IDataReader, object> Dapper.SqlMapper.GetTypeDeserializer(Type type, IDataReader reader, int startBound, int length, bool returnNullIfFirstMissing) in /_/Dapper/SqlMapper.cs:line 3044
+   at Func<IDataReader, object> Dapper.SqlMapper.GetDeserializer(Type type, IDataReader reader, int startBound, int length, bool returnNullIfFirstMissing) in /_/Dapper/SqlMapper.cs:line 1805
+   at async Task<IEnumerable<T>> Dapper.SqlMapper.QueryAsync<T>(IDbConnection cnn, Type effectiveType, CommandDefinition command) in /_/Dapper/SqlMapper.Async.cs:line 426
+   at void System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+=========================================================
+
+==================[13-Jul-21 22:36:01]==================
+System.InvalidOperationException: A parameterless default constructor or one matching signature (System.Int32 SQLid, System.String TrackName, System.String Category, System.String Creator) is required for racing_src.Race.RaceManager+Race materialization
+   at void Dapper.SqlMapper.GenerateDeserializerFromMap(Type type, IDataReader reader, int startBound, int length, bool returnNullIfFirstMissing, ILGenerator il) in /_/Dapper/SqlMapper.cs:line 3256
+=========================================================
+
+==================[13-Jul-21 22:36:01]==================
+System.InvalidOperationException: A parameterless default constructor or one matching signature (System.Int32 SQLid, System.String TrackName, System.String Category, System.String Creator) is required for racing_src.Race.RaceManager+Race materialization
+   at void Dapper.SqlMapper.GenerateDeserializerFromMap(Type type, IDataReader reader, int startBound, int length, bool returnNullIfFirstMissing, ILGenerator il) in /_/Dapper/SqlMapper.cs:line 3256
+   at Func<IDataReader, object> Dapper.SqlMapper.GetTypeDeserializerImpl(Type type, IDataReader reader, int startBound, int length, bool returnNullIfFirstMissing) in /_/Dapper/SqlMapper.cs:line 3090
+   at Func<IDataReader, object> Dapper.SqlMapper+TypeDeserializerCache.GetReader(IDataReader reader, int startBound, int length, bool returnNullIfFirstMissing) in /_/Dapper/SqlMapper.TypeDeserializerCache.cs:line 151
+   at Func<IDataReader, object> Dapper.SqlMapper+TypeDeserializerCache.GetReader(Type type, IDataReader reader, int startBound, int length, bool returnNullIfFirstMi
+==================[13-Jul-21 23:08:12]==================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'checkpoints' in 'field list'
+   at MySqlPacket MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+=========================================================
+
+==================[13-Jul-21 23:08:12]==================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'checkpoints' in 'field list'
+   at MySqlPacket MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   at int MySql.Data.MySqlClient.NativeDriver.GetResult(ref int affectedRow, ref long insertedId)
+=========================================================
+
+==================[13-Jul-21 23:08:12]==================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'checkpoints' in 'field list'
+   at MySqlPacket MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   at int MySql.Data.MySqlClient.NativeDriver.GetResult(ref int affectedRow, ref long insertedId)
+   at int MySql.Data.MySqlClient.Driver.GetResult(int statementId, ref int affectedRows, ref long insertedId)
+   at ResultSet MySql.Data.MySqlClient.Driver.NextResult(int statementId, bool force)
+   at bool MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+=========================================================
+
+==================[13-Jul-21 23:08:12]==================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'checkpoints' in 'field list'
+   at MySqlPacket MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   at int MySql.Data.MySqlClient.NativeDriver.GetResult(ref int affectedRow, ref long insertedId)
+   at int MySql.Data.MySqlClient.Driver.GetResult(int statementId, ref int affectedRows, ref long insertedId)
+   at ResultSet MySql.Data.MySqlClient.Driver.NextResult(int statementId, bool force)
+   at bool MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   at MySqlDataReader MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+=========================================================
+
+==================[13-Jul-21 23:08:12]==================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'checkpoints' in 'field list'
+   at MySqlPacket MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   at int MySql.Data.MySqlClient.NativeDriver.GetResult(ref int affectedRow, ref long insertedId)
+   at int MySql.Data.MySqlClient.Driver.GetResult(int statementId, ref int affectedRows, ref long insertedId)
+   at ResultSet MySql.Data.MySqlClient.Driver.NextResult(int statementId, bool force)
+   at bool MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   at MySqlDataReader MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at DbDataReader MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at Task<DbDataReader> System.Data.Common.DbCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at void System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+=========================================================
+
+==================[13-Jul-21 23:08:12]==================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'checkpoints' in 'field list'
+   at MySqlPacket MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   at int MySql.Data.MySqlClient.NativeDriver.GetResult(ref int affectedRow, ref long insertedId)
+   at int MySql.Data.MySqlClient.Driver.GetResult(int statementId, ref int affectedRows, ref long insertedId)
+   at ResultSet MySql.Data.MySqlClient.Driver.NextResult(int statementId, bool force)
+   at bool MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   at MySqlDataReader MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at DbDataReader MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at Task<DbDataReader> System.Data.Common.DbCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at async Task<T> Dapper.SqlMapper.QueryRowA
+==================[14-Jul-21 01:34:32]==================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Parameter '@id' must be defined.
+   at bool MySql.Data.MySqlClient.Statement.SerializeParameter(MySqlParameterCollection parameters, MySqlPacket packet, string parmName, int parameterIndex)
+=========================================================
+
+==================[14-Jul-21 01:34:32]==================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Fatal error encountered during command execution.
+ ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Parameter '@id' must be defined.
+   at bool MySql.Data.MySqlClient.Statement.SerializeParameter(MySqlParameterCollection parameters, MySqlPacket packet, string parmName, int parameterIndex)
+   at void MySql.Data.MySqlClient.Statement.InternalBindParameters(string sql, MySqlParameterCollection parameters, MySqlPacket packet)
+   at void MySql.Data.MySqlClient.Statement.BindParameters()
+   at void MySql.Data.MySqlClient.PreparableStatement.Execute()
+   at MySqlDataReader MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at MySqlDataReader MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+=========================================================
+
+==================[14-Jul-21 01:34:32]==================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Fatal error encountered during command execution.
+ ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Parameter '@id' must be defined.
+   at bool MySql.Data.MySqlClient.Statement.SerializeParameter(MySqlParameterCollection parameters, MySqlPacket packet, string parmName, int parameterIndex)
+   at void MySql.Data.MySqlClient.Statement.InternalBindParameters(string sql, MySqlParameterCollection parameters, MySqlPacket packet)
+   at void MySql.Data.MySqlClient.Statement.BindParameters()
+   at void MySql.Data.MySqlClient.PreparableStatement.Execute()
+   at MySqlDataReader MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at MySqlDataReader MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at MySqlDataReader MySql.Data.MySqlClient.MySqlCommand.ExecuteReader()
+   at int MySql.Data.MySqlClient.MySqlCommand.ExecuteNonQuery()
+   at Task<int> System.Data.Common.DbCommand.ExecuteNonQueryAsync(CancellationToken cancellationToken)
+   at void System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+=========================================================
+
+==================[14-Jul-21 01:34:32]==================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Fatal error encountered during command execution.
+ ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Parameter '@id' must be defined.
+   at bool MySql.Data.MySqlClient.Statement.SerializeParameter(MySqlParameterCollection parameters, MySqlPacket packet, string parmName, int parameterIndex)
+   at void MySql.Data.MySqlClient.Statement.InternalBindParameters(string sql, MySqlParameterCollection parameters, MySqlPacket packet)
+   at void MySql.Data.MySqlClient.Statement.BindParameters()
+   at void MySql.Data.MySqlClient.PreparableStatement.Execute()
+   at MySqlDataReader MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at MySqlDataReader MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at MySqlDataReader MySql.Data.MySqlClient.MySqlCommand.ExecuteReader()
+   at int MySql.Data.MySqlClient.MySqlCommand.ExecuteNonQuery()
+   at Task<int> System.Data.Common.DbCommand.ExecuteNonQueryAsync(CancellationToken cancellationToken)
+   at async Task<int> Dapper.SqlMapper.ExecuteImplAsync(IDbConnection cnn, CommandDefinition command, object param) in /_/Dapper/SqlMapper.Async.cs:line 646
+   at void System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+=========================================================
+
+==================[14-Jul-21 01:34:32]==================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Parameter '@id' must be defined.
+   at bool MySql.Data.MySqlClient.Statement.SerializeParameter(MySqlParameterCollection parameters, MySqlPacket packet, string parmName, int parameterIndex)
+=========================================================
+
+==================[14-Jul-21 01:34:32]==================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Fatal error encountered during command execution.
+ ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Parameter '@id' must be defined.
+   at bool MySql.Data.MySqlClient.Statement.SerializeParameter(MySqlParameterCollection parameters, MySqlPacket packet, string parmName, int parameterIndex)
+   at void MySql.Data.MySqlClient.Statement.InternalBindParameters(string sql, MySqlParameterCollection parameters, MySqlPacket packet)
+   at void MySql.Data.MySqlClient.Statement.BindParameters()
+   at void MySql.Data.MySqlClient.PreparableStatement.Execute()
+   at MySqlDataReader MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at MySqlDataReader MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+=========================================================
+
+==================[14-Jul-21 01:34:32]==================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Fatal error encountered during command execution.
+ ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Parameter '@id' must be defined.
+   at bool MySql.Data.MySqlClient.Statement.SerializeParameter(MySqlParameterCollection parameters, MySqlPacket packet, string parmName, int parameterIndex)
+   at void MySql.Data.MySqlClient.Statement.InternalBindParameters(string sql, MySqlParameterCollection parameters, MySqlPacket packet)
+   at void MySql.Data.MySqlClient.Statement.BindParameters()
+   at void MySql.Data.MySqlClient.PreparableStatement.Execute()
+   at MySqlDataReader MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at MySqlDataReader MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at MySqlDataReader MySql.Data.MySqlClient.MySqlCommand.ExecuteReader()
+   at int MySql.Data.MySqlClient.MySqlCommand.ExecuteNonQuery()
+   at Task<int> System.Data.Common.DbCommand.ExecuteNonQueryAsync(CancellationToken cancellationToken)
+   at void System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+=========================================================
+
+==================[14-Jul-21 01:34:32]==================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Fatal error encountered during command execution.
+ ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Parameter '@id' must be defined.
+   at bool MySql.Data.MySqlClient.Statement.SerializeParameter(MySqlParameterCollection parameters, MySqlPacket packet, string parmName, int parameterIndex)
+   at void MySql.Data.MySqlClient.Statement.InternalBindParameters(string sql, MySqlParameterCollection parameters, MySqlPacket packet)
+   at void MySql.Data.MySqlClient.Statement.BindParameters()
+   at void MySql.Data.MySqlClient.PreparableStatement.Execute()
+   at MySqlDataReader MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at MySqlDataReader MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at MySqlDataReader MySql.Data.MySqlClient.MySqlCommand.ExecuteReader()
+   at int MySql.Data.MySqlClient.MySqlCommand.ExecuteNonQuery()
+   at Task<int> System.Data.Common.DbCommand.ExecuteNonQueryAsync(CancellationToken cancellationToken)
+   at async Task<int> Dapper.SqlMapper.ExecuteImplAsync(IDbConnection cnn, CommandDefinition command, object param) in /_/Dapper/SqlMapper.Async.cs:line 646
+   at void System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+=========================================================
+
+==================[14-Jul-21 01:34:38]==================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Parameter '@id' must be defined.
+   at bool MySql.Data.MySqlClient.Statement.SerializeParameter(MySqlParameterCollection parameters, MySqlPacket packet, stri
+==================[14-Jul-21 21:26:02]==================
+System.InvalidCastException: Invalid cast from 'System.String' to 'System.Collections.Generic.List`1[[GTANetworkAPI.Vector3, Bootstrapper, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null]]'.
+   at object Convert.DefaultToType(IConvertible value, Type targetType, IFormatProvider provider)
+=========================================================
+
+==================[14-Jul-21 21:26:02]==================
+System.BadImageFormatException: Read out of bounds.
+   at void System.Reflection.Throw.OutOfBounds()
+=========================================================
+
+==================[14-Jul-21 21:26:02]==================
+System.Data.DataException: Error parsing column 4 (Checkpoints=[{"x":256.5773010253906,"y":1172.5611572265625,"z":224.71038818359375},{"x":282.22491455078125,"y":1112.7230224609375,"z":218.30076599121094},{"x":304.4127197265625,"y":913.4789428710938,"z":203.4015655517578},{"x":271.8367004394531,"y":591.2042846679688,"z":150.9120635986328},{"x":268.59405517578125,"y":547.5811767578125,"z":141.7102813720703},{"x":161.4977569580078,"y":493.16632080078125,"z":143.30517578125},{"x":-20.508487701416016,"y":485.53741455078125,"z":145.09188842773438},{"x":-239.5076446533203,"y":501.4873352050781,"z":126.0028076171875},{"x":-347.9849548339844,"y":486.6531677246094,"z":113.08824157714844},{"x":-491.7656555175781,"y":568.9818725585938,"z":119.99784851074219},{"x":-562.8268432617188,"y":517.5806884765625,"z":105.59452056884766},{"x":-682.6405029296875,"y":489.93682861328125,"z":109.63335418701172},{"x":-852.3131713867188,"y":432.90386962890625,"z":86.72624969482422},{"x":-799.5166625976562,"y":288.29522705078125,"z":85.64920806884766}] - String)
+ ---> System.InvalidCastException: Invalid cast from 'System.String' to 'System.Collections.Generic.List`1[[GTANetworkAPI.Vector3, Bootstrapper, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null]]'.
+   at object Convert.DefaultToType(IConvertible value, Type targetType, IFormatProvider provider)
+   at object string.System.IConvertible.ToType(Type type, IFormatProvider provider)
+   at object Convert.ChangeType(object value, Type conversionType, IFormatProvider provider)
+   at RaceTemplateDB Deserializeddfa0127-f65d-4b29-90b5-cda2c936009d(IDataReader)
+   --- End of inner exception stack trace ---
+   at void Dapper.SqlMapper.ThrowDataException(Exception ex, int index, IDataReader reader, object value) in /_/Dapper/SqlMapper.cs:line 3665
+=========================================================
+
+==================[14-Jul-21 21:26:02]==================
+System.BadImageFormatException: Read out of bounds.
+   at void System.Reflection.Throw.OutOfBounds()
+=========================================================
+
+==================[14-Jul-21 21:26:02]==================
+System.BadImageFormatException: Read out of bounds.
+   at void System.Reflection.Throw.OutOfBounds()
+=========================================================
+
+==================[14-Jul-21 21:26:02]==================
+System.Data.DataException: Error parsing column 4 (Checkpoints=[{"x":256.5773010253906,"y":1172.5611572265625,"z":224.71038818359375},{"x":282.22491455078125,"y":1112.7230224609375,"z":218.30076599121094},{"x":304.4127197265625,"y":913.4789428710938,"z":203.4015655517578},{"x":271.8367004394531,"y":591.2042846679688,"z":150.9120635986328},{"x":268.59405517578125,"y":547.5811767578125,"z":141.7102813720703},{"x":161.4977569580078,"y":493.16632080078125,"z":143.30517578125},{"x":-20.508487701416016,"y":485.53741455078125,"z":145.09188842773438},{"x":-239.5076446533203,"y":501.4873352050781,"z":126.0028076171875},{"x":-347.9849548339844,"y":486.6531677246094,"z":113.08824157714844},{"x":-491.7656555175781,"y":568.9818725585938,"z":119.99784851074219},{"x":-562.8268432617188,"y":517.5806884765625,"z":105.59452056884766},{"x":-682.6405029296875,"y":489.93682861328125,"z":109.63335418701172},{"x":-852.3131713867188,"y":432.90386962890625,"z":86.72624969482422},{"x":-799.5166625976562,"y":288.29522705078125,"z":85.649208
+==================[14-Jul-21 21:28:05]==================
+System.InvalidCastException: Invalid cast from 'System.String' to 'System.Collections.Generic.List`1[[GTANetworkAPI.Vector3, Bootstrapper, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null]]'.
+   at object Convert.DefaultToType(IConvertible value, Type targetType, IFormatProvider provider)
+=========================================================
+
+==================[14-Jul-21 21:28:05]==================
+System.BadImageFormatException: Read out of bounds.
+   at void System.Reflection.Throw.OutOfBounds()
+=========================================================
+
+==================[14-Jul-21 21:28:05]==================
+System.Data.DataException: Error parsing column 4 (Checkpoints=[{"x":256.5773010253906,"y":1172.5611572265625,"z":224.71038818359375},{"x":282.22491455078125,"y":1112.7230224609375,"z":218.30076599121094},{"x":304.4127197265625,"y":913.4789428710938,"z":203.4015655517578},{"x":271.8367004394531,"y":591.2042846679688,"z":150.9120635986328},{"x":268.59405517578125,"y":547.5811767578125,"z":141.7102813720703},{"x":161.4977569580078,"y":493.16632080078125,"z":143.30517578125},{"x":-20.508487701416016,"y":485.53741455078125,"z":145.09188842773438},{"x":-239.5076446533203,"y":501.4873352050781,"z":126.0028076171875},{"x":-347.9849548339844,"y":486.6531677246094,"z":113.08824157714844},{"x":-491.7656555175781,"y":568.9818725585938,"z":119.99784851074219},{"x":-562.8268432617188,"y":517.5806884765625,"z":105.59452056884766},{"x":-682.6405029296875,"y":489.93682861328125,"z":109.63335418701172},{"x":-852.3131713867188,"y":432.90386962890625,"z":86.72624969482422},{"x":-799.5166625976562,"y":288.29522705078125,"z":85.64920806884766}] - String)
+ ---> System.InvalidCastException: Invalid cast from 'System.String' to 'System.Collections.Generic.List`1[[GTANetworkAPI.Vector3, Bootstrapper, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null]]'.
+   at object Convert.DefaultToType(IConvertible value, Type targetType, IFormatProvider provider)
+   at object string.System.IConvertible.ToType(Type type, IFormatProvider provider)
+   at object Convert.ChangeType(object value, Type conversionType, IFormatProvider provider)
+   at RaceTemplateDB Deserialize54a0fe1b-69ad-4749-b8e3-1e6494707547(IDataReader)
+   --- End of inner exception stack trace ---
+   at void Dapper.SqlMapper.ThrowDataException(Exception ex, int index, IDataReader reader, object value) in /_/Dapper/SqlMapper.cs:line 3665
+=========================================================
+
+==================[14-Jul-21 21:28:05]==================
+System.BadImageFormatException: Read out of bounds.
+   at void System.Reflection.Throw.OutOfBounds()
+=========================================================
+
+==================[14-Jul-21 21:28:05]==================
+System.BadImageFormatException: Read out of bounds.
+   at void System.Reflection.Throw.OutOfBounds()
+=========================================================
+
+==================[14-Jul-21 21:28:05]==================
+System.Data.DataException: Error parsing column 4 (Checkpoints=[{"x":256.5773010253906,"y":1172.5611572265625,"z":224.71038818359375},{"x":282.22491455078125,"y":1112.7230224609375,"z":218.30076599121094},{"x":304.4127197265625,"y":913.4789428710938,"z":203.4015655517578},{"x":271.8367004394531,"y":591.2042846679688,"z":150.9120635986328},{"x":268.59405517578125,"y":547.5811767578125,"z":141.7102813720703},{"x":161.4977569580078,"y":493.16632080078125,"z":143.30517578125},{"x":-20.508487701416016,"y":485.53741455078125,"z":145.09188842773438},{"x":-239.5076446533203,"y":501.4873352050781,"z":126.0028076171875},{"x":-347.9849548339844,"y":486.6531677246094,"z":113.08824157714844},{"x":-491.7656555175781,"y":568.9818725585938,"z":119.99784851074219},{"x":-562.8268432617188,"y":517.5806884765625,"z":105.59452056884766},{"x":-682.6405029296875,"y":489.93682861328125,"z":109.63335418701172},{"x":-852.3131713867188,"y":432.90386962890625,"z":86.72624969482422},{"x":-799.5166625976562,"y":288.29522705078125,"z":85.649208
+==================[14-Jul-21 21:33:15]==================
+System.InvalidCastException: Invalid cast from 'System.String' to 'System.Collections.Generic.List`1[[racing_src.Race.RaceManager+Spawnpoint, racing-src, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+   at object Convert.DefaultToType(IConvertible value, Type targetType, IFormatProvider provider)
+=========================================================
+
+==================[14-Jul-21 21:33:15]==================
+System.BadImageFormatException: Read out of bounds.
+   at void System.Reflection.Throw.OutOfBounds()
+=========================================================
+
+==================[14-Jul-21 21:33:15]==================
+System.Data.DataException: Error parsing column 4 (Spawnpoints=[] - String)
+ ---> System.InvalidCastException: Invalid cast from 'System.String' to 'System.Collections.Generic.List`1[[racing_src.Race.RaceManager+Spawnpoint, racing-src, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+   at object Convert.DefaultToType(IConvertible value, Type targetType, IFormatProvider provider)
+   at object string.System.IConvertible.ToType(Type type, IFormatProvider provider)
+   at object Convert.ChangeType(object value, Type conversionType, IFormatProvider provider)
+   at RaceTemplateDB Deserializec5b55562-53d0-49a2-93cf-37aa70f612d9(IDataReader)
+   --- End of inner exception stack trace ---
+   at void Dapper.SqlMapper.ThrowDataException(Exception ex, int index, IDataReader reader, object value) in /_/Dapper/SqlMapper.cs:line 3665
+=========================================================
+
+==================[14-Jul-21 21:33:15]==================
+System.BadImageFormatException: Read out of bounds.
+   at void System.Reflection.Throw.OutOfBounds()
+=========================================================
+
+==================[14-Jul-21 21:33:15]==================
+System.BadImageFormatException: Read out of bounds.
+   at void System.Reflection.Throw.OutOfBounds()
+=========================================================
+
+==================[14-Jul-21 21:33:15]==================
+System.Data.DataException: Error parsing column 4 (Spawnpoints=[] - String)
+ ---> System.InvalidCastException: Invalid cast from 'System.String' to 'System.Collections.Generic.List`1[[racing_src.Race.RaceManager+Spawnpoint, racing-src, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+   at object Convert.DefaultToType(IConvertible value, Type targetType, IFormatProvider provider)
+   at object string.System.IConvertible.ToType(Type type, IFormatProvider provider)
+   at object Convert.ChangeType(object value, Type conversionType, IFormatProvider provider)
+   at RaceTemplateDB Deserializec5b55562-53d0-49a2-93cf-37aa70f612d9(IDataReader)
+   --- End of inner exception stack trace ---
+   at void Dapper.SqlMapper.ThrowDataException(Exception ex, int index, IDataReader reader, object value) in /_/Dapper/SqlMapper.cs:line 3665
+   at RaceTemplateDB Deserializec5b55562-53d0-49a2-93cf-37aa70f612d9(IDataReader)
+   at async Task<IEnumerable<T>> Dapper.SqlMapper.QueryAsync<T>(IDbConnection cnn, Type effectiveType, CommandDefinition command)
+   at void System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+=========================================================
+
+==================[14-Jul-21 21:33:15]==================
+System.BadImageFormatException: Read out of bounds.
+   at void System.Reflection.Throw.OutOfBounds()
+=========================================================
+
+==================[14-Jul-21 21:33:15]==================
+System.BadImageFormatException: Read out of bounds.
+   at void System.Reflection.Throw.OutOfBounds()
+=========================================================
+
+==================[14-Jul-21 21:33:15]==================
+System.Data.DataException: Error parsing column 4 (Spawnpoints=[] - String)
+ ---> System.InvalidCastException: Invalid cast from 'System.String' to 'System.Collections.Generic.List`1[[racing_src.Race.RaceManager+Spawnpoint, racing-src, Version=1.0.0.0, Culture=neutral, Pub
+==================[14-Jul-21 21:42:05]==================
+System.InvalidCastException: Invalid cast from 'System.String' to 'System.Collections.Generic.List`1[[GTANetworkAPI.Vector3, Bootstrapper, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null]]'.
+   at object Convert.DefaultToType(IConvertible value, Type targetType, IFormatProvider provider)
+=========================================================
+
+==================[14-Jul-21 21:42:05]==================
+System.BadImageFormatException: Read out of bounds.
+   at void System.Reflection.Throw.OutOfBounds()
+=========================================================
+
+==================[14-Jul-21 21:42:05]==================
+System.Data.DataException: Error parsing column 4 (Checkpoints=[{"x":256.5773010253906,"y":1172.5611572265625,"z":224.71038818359375},{"x":282.22491455078125,"y":1112.7230224609375,"z":218.30076599121094},{"x":304.4127197265625,"y":913.4789428710938,"z":203.4015655517578},{"x":271.8367004394531,"y":591.2042846679688,"z":150.9120635986328},{"x":268.59405517578125,"y":547.5811767578125,"z":141.7102813720703},{"x":161.4977569580078,"y":493.16632080078125,"z":143.30517578125},{"x":-20.508487701416016,"y":485.53741455078125,"z":145.09188842773438},{"x":-239.5076446533203,"y":501.4873352050781,"z":126.0028076171875},{"x":-347.9849548339844,"y":486.6531677246094,"z":113.08824157714844},{"x":-491.7656555175781,"y":568.9818725585938,"z":119.99784851074219},{"x":-562.8268432617188,"y":517.5806884765625,"z":105.59452056884766},{"x":-682.6405029296875,"y":489.93682861328125,"z":109.63335418701172},{"x":-852.3131713867188,"y":432.90386962890625,"z":86.72624969482422},{"x":-799.5166625976562,"y":288.29522705078125,"z":85.64920806884766}] - String)
+ ---> System.InvalidCastException: Invalid cast from 'System.String' to 'System.Collections.Generic.List`1[[GTANetworkAPI.Vector3, Bootstrapper, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null]]'.
+   at object Convert.DefaultToType(IConvertible value, Type targetType, IFormatProvider provider)
+   at object string.System.IConvertible.ToType(Type type, IFormatProvider provider)
+   at object Convert.ChangeType(object value, Type conversionType, IFormatProvider provider)
+   at RaceTemplateDB Deserializee51a11de-4d4e-4bed-a9ad-d4087a7c412b(IDataReader)
+   --- End of inner exception stack trace ---
+   at void Dapper.SqlMapper.ThrowDataException(Exception ex, int index, IDataReader reader, object value) in /_/Dapper/SqlMapper.cs:line 3665
+=========================================================
+
+==================[14-Jul-21 21:42:05]==================
+System.BadImageFormatException: Read out of bounds.
+   at void System.Reflection.Throw.OutOfBounds()
+=========================================================
+
+==================[14-Jul-21 21:42:05]==================
+System.BadImageFormatException: Read out of bounds.
+   at void System.Reflection.Throw.OutOfBounds()
+=========================================================
+
+==================[14-Jul-21 21:42:05]==================
+System.Data.DataException: Error parsing column 4 (Checkpoints=[{"x":256.5773010253906,"y":1172.5611572265625,"z":224.71038818359375},{"x":282.22491455078125,"y":1112.7230224609375,"z":218.30076599121094},{"x":304.4127197265625,"y":913.4789428710938,"z":203.4015655517578},{"x":271.8367004394531,"y":591.2042846679688,"z":150.9120635986328},{"x":268.59405517578125,"y":547.5811767578125,"z":141.7102813720703},{"x":161.4977569580078,"y":493.16632080078125,"z":143.30517578125},{"x":-20.508487701416016,"y":485.53741455078125,"z":145.09188842773438},{"x":-239.5076446533203,"y":501.4873352050781,"z":126.0028076171875},{"x":-347.9849548339844,"y":486.6531677246094,"z":113.08824157714844},{"x":-491.7656555175781,"y":568.9818725585938,"z":119.99784851074219},{"x":-562.8268432617188,"y":517.5806884765625,"z":105.59452056884766},{"x":-682.6405029296875,"y":489.93682861328125,"z":109.63335418701172},{"x":-852.3131713867188,"y":432.90386962890625,"z":86.72624969482422},{"x":-799.5166625976562,"y":288.29522705078125,"z":85.649208
+==================[15-Jul-21 02:37:44]==================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'EclipseTour' in 'where clause'
+   at MySqlPacket MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+=========================================================
+
+==================[15-Jul-21 02:37:44]==================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'EclipseTour' in 'where clause'
+   at MySqlPacket MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   at int MySql.Data.MySqlClient.NativeDriver.GetResult(ref int affectedRow, ref long insertedId)
+=========================================================
+
+==================[15-Jul-21 02:37:44]==================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'EclipseTour' in 'where clause'
+   at MySqlPacket MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   at int MySql.Data.MySqlClient.NativeDriver.GetResult(ref int affectedRow, ref long insertedId)
+   at int MySql.Data.MySqlClient.Driver.GetResult(int statementId, ref int affectedRows, ref long insertedId)
+   at ResultSet MySql.Data.MySqlClient.Driver.NextResult(int statementId, bool force)
+   at bool MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+=========================================================
+
+==================[15-Jul-21 02:37:44]==================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'EclipseTour' in 'where clause'
+   at MySqlPacket MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   at int MySql.Data.MySqlClient.NativeDriver.GetResult(ref int affectedRow, ref long insertedId)
+   at int MySql.Data.MySqlClient.Driver.GetResult(int statementId, ref int affectedRows, ref long insertedId)
+   at ResultSet MySql.Data.MySqlClient.Driver.NextResult(int statementId, bool force)
+   at bool MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   at MySqlDataReader MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+=========================================================
+
+==================[15-Jul-21 02:37:44]==================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'EclipseTour' in 'where clause'
+   at MySqlPacket MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   at int MySql.Data.MySqlClient.NativeDriver.GetResult(ref int affectedRow, ref long insertedId)
+   at int MySql.Data.MySqlClient.Driver.GetResult(int statementId, ref int affectedRows, ref long insertedId)
+   at ResultSet MySql.Data.MySqlClient.Driver.NextResult(int statementId, bool force)
+   at bool MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   at MySqlDataReader MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at DbDataReader MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at Task<DbDataReader> System.Data.Common.DbCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at void System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+=========================================================
+
+==================[15-Jul-21 02:37:45]==================
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'EclipseTour' in 'where clause'
+   at MySqlPacket MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   at int MySql.Data.MySqlClient.NativeDriver.GetResult(ref int affectedRow, ref long insertedId)
+   at int MySql.Data.MySqlClient.Driver.GetResult(int statementId, ref int affectedRows, ref long insertedId)
+   at ResultSet MySql.Data.MySqlClient.Driver.NextResult(int statementId, bool force)
+   at bool MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   at MySqlDataReader MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   at DbDataReader MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   at Task<DbDataReader> System.Data.Common.DbCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at async Task<DbDataReader> Dap

@@ -8,7 +8,7 @@ namespace racing_src
         [ServerEvent(Event.ResourceStart)]
         public void OnResourceStart()
         {
-            Console.WriteLine("Server started");
+            ConsoleInfo.WriteSuccess("Server started.");
             NAPI.Server.SetAutoSpawnOnConnect(false);
             NAPI.Server.SetAutoRespawnAfterDeath(false);
         }
