@@ -26,7 +26,7 @@ mp.events.add("clientside:SaveRace", (racename, category, creator) => {
 
 
 mp.events.add("clientside:LoadRace", (track) => {
-  _track = JSON.parse(track);
+  _track = track;
   mp.gui.chat.push(_track + " loaded track cik");
   setTimeout(() => {
     createNewCheckpoint();

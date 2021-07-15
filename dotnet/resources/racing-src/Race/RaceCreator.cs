@@ -52,7 +52,7 @@ namespace racing_src.Race
 
         public static Tuple<List<Vector3>, List<Spawnpoint>> LoadTrackInfoAsync(Player player, string racename)
         {
-            var template = RaceManager.RaceTemplates.Find(x => x.TrackName == racename);
+            var template = RaceTemplates.Find(x => x.TrackName == racename);
             return Tuple.Create(template.Checkpoints, template.Spawnpoints);
         }
 
@@ -131,15 +131,17 @@ namespace racing_src.Race
         {
             using (IDbConnection db = new MySqlConnection(Database.GetConnectionString()))
             {
+                if (!IsInCreatorMode(player))
+                    return;
+
                 string getSpawnpointsSQL = "SELECT spawnpoints FROM races WHERE id = @id LIMIT 1";
                 string updateSpawnPointsSQL = "UPDATE races SET spawnpoints = @spawnpoints WHERE id = @id";
-                var spawnpoints = NAPI.Util.FromJson<List<Vector3>>(db.QueryFirst<string>(getSpawnpointsSQL, new { id }));
-                var samp = new Vector3(player.Position.X , player.Position.Y, player.Position.Z);
+                var spawnpoints = NAPI.Util.FromJson<List<Spawnpoint>>(db.QueryFirst<string>(getSpawnpointsSQL, new { id }));          
                 NAPI.Checkpoint.CreateCheckpoint(CheckpointType.Cyclinder, new Vector3(player.Position.X, player.Position.Y, player.Position.Z - 1), new Vector3(0, 1, 0), 2.5f, new Color(255, 0, 0), 0);
-                spawnpoints.Add(samp);
+                spawnpoints.Add(new Spawnpoint(new Vector3(player.Position.X, player.Position.Y, player.Position.Z), false));
                 foreach (var c in spawnpoints)
                 {
-                    Console.WriteLine($"{c.X} {c.Y} {c.Z}");
+                    Console.WriteLine($"{c.Position.X} {c.Position.Y} {c.Position.Z}");
                 }
                 var toInsert = NAPI.Util.ToJson(spawnpoints);
                 await db.ExecuteAsync(updateSpawnPointsSQL, new { spawnpoints = toInsert, id = id });

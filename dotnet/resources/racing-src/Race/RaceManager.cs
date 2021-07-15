@@ -12,9 +12,6 @@ using System.Threading.Tasks;
 
 namespace racing_src.Race
 {
-
-    
-
     public class RaceManager : Script
     {
 
@@ -24,29 +21,18 @@ namespace racing_src.Race
             public Player Name { get; set; }
         }
 
-        public class RaceDB
-        {
-            public int SQLid { get; set; }
-            public string TrackName { get; set; }
-            public string Category { get; set; }
-            public string Creator { get; set; }
-        }
-
         public class Spawnpoint
         {
             public Vector3 Position { get; set; }
             public bool Occupied { get; set; }
 
-        }
+            /*public Spawnpoint () { }*/
+            public Spawnpoint (Vector3 position, bool occupied)
+            {
+                Position = position;
+                Occupied = occupied;
+            }
 
-        public class RaceTemplateDB
-        {
-            public int SQLid { get; set; }
-            public string TrackName { get; set; }
-            public string Category { get; set; }
-            public string Creator { get; set; }
-            public List<Vector3> Checkpoints { get; set; }
-            public List<Spawnpoint> Spawnpoints { get; set; }
         }
 
         public class RaceTemplate
@@ -57,24 +43,20 @@ namespace racing_src.Race
             public string Creator { get; set; }
             public List<Vector3> Checkpoints { get; set; }
             public List<Spawnpoint> Spawnpoints { get; set; }
-            public RaceTemplate () { }
+            public RaceTemplate() { }
             public RaceTemplate( int sqlid, string trackname, string category, string creator, List<Vector3> checkpoints, List<Spawnpoint> spawnpoints)
             {
-                this.SQLid = sqlid;
-                this.TrackName = trackname;
-                this.Category = category;
-                this.Creator = creator;
-                this.Checkpoints = checkpoints;
-                this.Spawnpoints = spawnpoints;
+                SQLid = sqlid;
+                TrackName = trackname;
+                Category = category;
+                Creator = creator;
+                Checkpoints = checkpoints;
+                Spawnpoints = spawnpoints;
             }
         }
 
-        public class Race
+        public class Race : RaceTemplate
         {
-            public int SQLid { get; set; }
-            public string TrackName { get; set; }
-            public string Category { get; set; }
-            public string Creator { get; set; }
             public Player Hoster { get; set; }
             public int MaxParticipants { get; set; }
             public int MaxDuration { get; set; }
@@ -96,7 +78,7 @@ namespace racing_src.Race
         public List<Race> CurrentRaces = new();
 
 
-        public async Task LoadAllRaceTemplates()
+        public static async Task LoadAllRaceTemplates()
         {
 
             using (IDbConnection db = new MySqlConnection(Database.GetConnectionString()))
@@ -124,24 +106,18 @@ namespace racing_src.Race
         public async Task LoadRaces()
         {
             await LoadAllRaceTemplates();
-            if (RaceTemplates != null)
-            {
-                ConsoleInfo.WriteSuccess($"Loaded {RaceTemplates.Count} race templates from database.");
-            }
+            ConsoleInfo.WriteSuccess($"Loaded {RaceTemplates.Count} race templates from database.");
             
         }
 
         [Command("host")]
-        public async Task HostRace(Player player, string racename, int max_participants, int max_duration)
+        public void HostRace(Player player, string racename, int max_participants, int max_duration)
         {
             using (IDbConnection db = new MySqlConnection(Database.GetConnectionString()))
             {
                 
-               /* string selectRaceSQL = "SELECT id SQLid, name TrackName, category Category, creator Creator FROM races WHERE name = @racename";
-                var newRace = (await db.QueryAsync<RaceDB>(selectRaceSQL, new { racename })).Select(f => new Race(f.SQLid, f.TrackName, f.Category, f.Creator, player, max_participants, max_duration)).FirstOrDefault();*/
                 var template = RaceTemplates.Find(x => x.TrackName == racename);
                 var newRace = new Race(template.SQLid, template.TrackName, template.Category, template.Creator, player, max_participants, max_duration);
-
 
                 CurrentRaces.Add(newRace);
 
@@ -155,6 +131,7 @@ namespace racing_src.Race
         {
             var hostedrace = CurrentRaces.Find(x => x.Hoster == player);
             CurrentRaces.Remove(hostedrace);
+            player.SendChatMessage("You are no longer hosting a race.");
         }
 
 
