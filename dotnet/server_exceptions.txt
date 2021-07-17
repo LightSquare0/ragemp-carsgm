@@ -1338,3 +1338,51 @@ MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'EclipseTour'
    at DbDataReader MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
    at Task<DbDataReader> System.Data.Common.DbCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
    at async Task<DbDataReader> Dap
+==================[15-Jul-21 09:04:36]==================
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at ref byte System.Runtime.CompilerServices.CastHelpers.Unbox(Void* toTypeHnd, object obj)
+=========================================================
+
+==================[15-Jul-21 09:04:53]==================
+System.Reflection.TargetInvocationException: Exception has been thrown by the target of an invocation.
+ ---> System.NullReferenceException: Object reference not set to an instance of an object.
+   at T GTANetworkAPI.Entity.GetSharedData<T>(string key)
+   at bool racing_src.Admin.AdminCommands.IsAdmin(Player player) in E:/ragemp-carsgm/dotnet/resources/racing-src/Admin/AdminCommands.cs:line 16
+   at void racing_src.Admin.AdminCommands.SendMessageToAdmins(string message)+(Player player) => { } in E:/ragemp-carsgm/dotnet/resources/racing-src/Admin/AdminCommands.cs:line 29
+   at List<T> System.Collections.Generic.List<T>.FindAll(Predicate<T> match)
+   at void racing_src.Admin.AdminCommands.SendMessageToAdmins(string message) in E:/ragemp-carsgm/dotnet/resources/racing-src/Admin/AdminCommands.cs:line 29
+   at void racing_src.Admin.AdminCommands.RemoveVehicleArea(Player player, int area) in E:/ragemp-carsgm/dotnet/resources/racing-src/Admin/AdminCommands.cs:line 100
+   --- End of inner exception stack trace ---
+   at object RuntimeMethodHandle.InvokeMethod(object target, object[] arguments, Signature sig, bool constructor, bool wrapExceptions)
+   at object System.Reflection.RuntimeMethodInfo.Invoke(object obj, BindingFlags invokeAttr, Binder binder, object[] parameters, CultureInfo culture)
+=========================================================
+
+==================[15-Jul-21 09:04:53]==================
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at ref byte System.Runtime.CompilerServices.CastHelpers.Unbox(Void* toTypeHnd, object obj)
+=========================================================
+
+==================[15-Jul-21 09:04:55]==================
+System.Reflection.TargetInvocationException: Exception has been thrown by the target of an invocation.
+ ---> System.NullReferenceException: Object reference not set to an instance of an object.
+   at T GTANetworkAPI.Entity.GetSharedData<T>(string key)
+   at bool racing_src.Admin.AdminCommands.IsAdmin(Player player) in E:/ragemp-carsgm/dotnet/resources/racing-src/Admin/AdminCommands.cs:line 16
+   at void racing_src.Admin.AdminCommands.SendMessageToAdmins(string message)+(Player player) => { } in E:/ragemp-carsgm/dotnet/resources/racing-src/Admin/AdminCommands.cs:line 29
+   at List<T> System.Collections.Generic.List<T>.FindAll(Predicate<T> match)
+   at void racing_src.Admin.AdminCommands.SendMessageToAdmins(string message) in E:/ragemp-carsgm/dotnet/resources/racing-src/Admin/AdminCommands.cs:line 29
+   at void racing_src.Admin.AdminCommands.RemoveVehicleArea(Player player, int area) in E:/ragemp-carsgm/dotnet/resources/racing-src/Admin/AdminCommands.cs:line 100
+   --- End of inner exception stack trace ---
+   at object RuntimeMethodHandle.InvokeMethod(object target, object[] arguments, Signature sig, bool constructor, bool wrapExceptions)
+   at object System.Reflection.RuntimeMethodInfo.Invoke(object obj, BindingFlags invokeAttr, Binder binder, object[] parameters, CultureInfo culture)
+=========================================================
+
+==================[15-Jul-21 09:04:55]==================
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at ref byte System.Runtime.CompilerServices.CastHelpers.Unbox(Void* toTypeHnd, object obj)
+=========================================================
+
+==================[15-Jul-21 09:04:56]==================
+System.Reflection.TargetInvocationException: Exception has been thrown by the target of an invocation.
+ ---> System.NullReferenceException: Object reference not set to an instance of an object.
+   at T GTANetworkAPI.Entity.GetSharedData<T>(string key)
+   at boo

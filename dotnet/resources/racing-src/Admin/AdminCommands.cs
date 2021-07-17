@@ -29,6 +29,12 @@ namespace racing_src.Admin
             NAPI.Pools.GetAllPlayers().FindAll(player => IsAdmin(player)).ForEach(player => { player.SendChatMessage($"AdmCmd: {message}"); });
         }
 
+        [Command("setadmin")]
+        public void SetAdmin(Player player, Player target, int level)
+        {
+            
+        }
+
         [Command("sveh")]
         public void SpawnAdminVehicle(Player player, string vehicle)
         {
@@ -77,6 +83,7 @@ namespace racing_src.Admin
             if (!player.IsInVehicle)
             {
                 player.SendChatMessage("You need to be in a vehicle.");
+                return;
             }
 
             var vehicle = player.Vehicle;
@@ -89,6 +96,9 @@ namespace racing_src.Admin
         [Command("vehiclearearemove", Alias = "va")]
         public void RemoveVehicleArea(Player player, int area)
         {
+            if (!IsAdmin(player))
+                return;
+
             var vehicles = NAPI.Pools.GetAllVehicles().Where(x => player.Position.DistanceTo(x.Position) < area);
             var count = vehicles.Count();
             var id = 0;

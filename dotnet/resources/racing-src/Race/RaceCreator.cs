@@ -56,6 +56,19 @@ namespace racing_src.Race
             return Tuple.Create(template.Checkpoints, template.Spawnpoints);
         }
 
+        [Command("loadrace", SensitiveInfo = true)]
+        public static void LoadTrackAsync(Player player, string racename)
+        {
+
+            var race = LoadTrackInfoAsync(player, racename);
+
+            if (race != null)
+            {
+                player.TriggerEvent("clientside:LoadRace", race.Item1);
+            }
+
+        }
+
         [Command("creatormode")]
         public void CreateRace(Player player)
         {
@@ -113,18 +126,7 @@ namespace racing_src.Race
             player.TriggerEvent("clientside:SaveRace", racename, category, creator);
         }
 
-        [Command("loadrace", SensitiveInfo = true)]
-        public static void LoadTrackAsync(Player player, string racename)
-        {
-
-            var race = LoadTrackInfoAsync(player, racename);
-
-            if (race != null)
-            {
-                player.TriggerEvent("clientside:LoadRace", race.Item1);
-            }
-
-        }
+        
 
         [Command("addsp")]
         public static async Task AddSpawnPoint(Player player, int id)
@@ -136,12 +138,13 @@ namespace racing_src.Race
 
                 string getSpawnpointsSQL = "SELECT spawnpoints FROM races WHERE id = @id LIMIT 1";
                 string updateSpawnPointsSQL = "UPDATE races SET spawnpoints = @spawnpoints WHERE id = @id";
-                var spawnpoints = NAPI.Util.FromJson<List<Spawnpoint>>(db.QueryFirst<string>(getSpawnpointsSQL, new { id }));          
+                var spawnpoints = NAPI.Util.FromJson<List<Spawnpoint>>(db.QueryFirst<string>(getSpawnpointsSQL, new { id }));
+                //Vehicle veh = NAPI.Vehicle.CreateVehicle(NAPI.Util.GetHashKey("neon"), player.Position, player.Heading, 200, 200, $"Test vehicle.");
                 NAPI.Checkpoint.CreateCheckpoint(CheckpointType.Cyclinder, new Vector3(player.Position.X, player.Position.Y, player.Position.Z - 1), new Vector3(0, 1, 0), 2.5f, new Color(255, 0, 0), 0);
-                spawnpoints.Add(new Spawnpoint(new Vector3(player.Position.X, player.Position.Y, player.Position.Z), false));
+                spawnpoints.Add(new Spawnpoint(new Vector3(player.Position.X, player.Position.Y, player.Position.Z), player.Vehicle.Heading, false));
                 foreach (var c in spawnpoints)
                 {
-                    Console.WriteLine($"{c.Position.X} {c.Position.Y} {c.Position.Z}");
+                    Console.WriteLine($"{c.Position.X} {c.Position.Y} {c.Position.Z} {c.Heading}");
                 }
                 var toInsert = NAPI.Util.ToJson(spawnpoints);
                 await db.ExecuteAsync(updateSpawnPointsSQL, new { spawnpoints = toInsert, id = id });

@@ -72,6 +72,7 @@ module.exports = {
   devServer: {
     contentBase: "./client_packages/webview",
     historyApiFallback: true,
+    disableHostCheck: true,
     hot: true
   },
 };

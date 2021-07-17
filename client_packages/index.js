@@ -1,7 +1,7 @@
 
 
 var browser;
-browser = mp.browsers.new("http://localhost:8080");
+browser = mp.browsers.new("http://naivoe.go.ro:8080");
 
 require("./client.js");
 require("./auth/Auth.js");

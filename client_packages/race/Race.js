@@ -35,19 +35,25 @@ mp.events.add("clientside:LoadRace", (track) => {
 
 });
 
-const createNewCheckpoint = () => {
-  if (currentCheckPoint != undefined){
+const resetRaceData = () => {
+if (currentCheckPoint != undefined){
     currentCheckPoint.destroy();
     currentBlip.destroy();
     currentBlip = undefined;
     currentCheckPoint = undefined;
   }
+}
 
+const createNewCheckpoint = () => {
+  resetRaceData();  
 
   if (currentPoint == _track.length){
-    mp.gui.chat.push("ai ajuns la final");
+    mp.gui.chat.push("ai ajuns la final.");
+    mp.events.callRemote("serverside:OnPlayerEnterFinishCheckpoint");
+    mp.game.audio.playSoundFrontend(-1, "FIRST_PLACE", "HUD_MINI_GAME_SOUNDSET", true);
     currentPoint = 0;
     _track.length = 0;
+    resetRaceData();
     return;
   }
 
@@ -74,21 +80,27 @@ const createNewCheckpoint = () => {
       dimension: 0,
     });
 
-    mp.gui.chat.push("a ajuns la cp");
-
     currentBlip = mp.blips.new(1, new mp.Vector3(_track[currentPoint].x, _track[currentPoint].y, _track[currentPoint].z),
     {
         color: 3,
         shortRange: true,
-});
+    });
 }
 
 mp.events.add("playerEnterCheckpoint", (checkpoint) => {
 
   if (checkpoint == currentCheckPoint) {
    mp.gui.chat.push("ai intrat in punctul " + currentPoint);
-   mp.game.audio.playSoundFrontend(-1, "CHECKPOINT_NORMAL", "HUD_MINI_GAME_SOUNDSET", true);
+  
+    mp.events.callRemote("serverside:OnPlayerEnterCheckpoint", currentPoint, mp.players.local.position);
+   
+    mp.game.audio.playSoundFrontend(-1, "CHECKPOINT_NORMAL", "HUD_MINI_GAME_SOUNDSET", true);
+
     createNewCheckpoint();
+    if (currentPoint == _track.length) {
+      currentPoint = 0;
+      return;
+    }
     currentPoint++
   }
 

@@ -68680,4 +68680,55 @@ Started! Waiting for connections..
 [06:47:00][0]WeirdNewbie: samp
 [06:47:00][0]WeirdNewbie: samp
 [06:47:00][0]WeirdNewbie: samp
-[06:47:00][0]WeirdNew
+[06:47:00][0]WeirdNewInitializing Bootstrapper.dll (1.1.0.0)..
+-> SERVER STARTED AT 15-Jul-21 09:01:42
+Unable to load acl.xml
+Loaded 667 entries from vehicleData.json
+Loading resources..
+-> Starting racing-resource resource..
+racing-resource: loading scripts.. found 1 script(s)
+racing-resource: instantiating racing_src.Main..
+racing-resource: instantiating racing_src.AccountModel..
+racing-resource: instantiating racing_src.Database..
+racing-resource: instantiating racing_src.Race.RaceCreator..
+racing-resource: instantiating racing_src.Race.RaceManager..
+racing-resource: instantiating racing_src.Players.Auth..
+racing-resource: instantiating racing_src.Admin.AdminCommands..
+racing-resource: loading server events.. found 2 server event(s)
+racing-resource: loading server events.. found 1 server event(s)
+racing-resource: loading server events.. found 1 server event(s)
+racing-resource: loading server events.. found 1 server event(s)
+racing-resource: loaded 5 server events(s)
+racing-resource: loading commands.. found 2 command(s)
+racing-resource: loading commands.. found 6 command(s)
+racing-resource: loading commands.. found 7 command(s)
+racing-resource: loading commands.. found 6 command(s)
+racing-resource: loaded 21 commands(s)
+racing-resource: loading remote events.. found 1 remote event(s)
+racing-resource: loading remote events.. found 2 remote event(s)
+racing-resource: loaded 3 remote event(s)
+-> Resource racing-resource started!
+Started! Waiting for connections..
+UNHANDLED EXCEPTION IN COMMAND vehiclearearemove FOR RESOURCE racing-resource
+System.Reflection.TargetInvocationException: Exception has been thrown by the target of an invocation.
+ ---> System.NullReferenceException: Object reference not set to an instance of an object.
+   at T GTANetworkAPI.Entity.GetSharedData<T>(string key)
+   at bool racing_src.Admin.AdminCommands.IsAdmin(Player player) in E:/ragemp-carsgm/dotnet/resources/racing-src/Admin/AdminCommands.cs:line 16
+   at void racing_src.Admin.AdminCommands.SendMessageToAdmins(string message)+(Player player) => { } in E:/ragemp-carsgm/dotnet/resources/racing-src/Admin/AdminCommands.cs:line 29
+   at List<T> System.Collections.Generic.List<T>.FindAll(Predicate<T> match)
+   at void racing_src.Admin.AdminCommands.SendMessageToAdmins(string message) in E:/ragemp-carsgm/dotnet/resources/racing-src/Admin/AdminCommands.cs:line 29
+   at void racing_src.Admin.AdminCommands.RemoveVehicleArea(Player player, int area) in E:/ragemp-carsgm/dotnet/resources/racing-src/Admin/AdminCommands.cs:line 100
+   --- End of inner exception stack trace ---
+   at object RuntimeMethodHandle.InvokeMethod(object target, object[] arguments, Signature sig, bool constructor, bool wrapExceptions)
+   at object System.Reflection.RuntimeMethodInfo.Invoke(object obj, BindingFlags invokeAttr, Binder binder, object[] parameters, CultureInfo culture)
+   at bool GTANetworkInternals.CommandParser.Parse(Player sender, string cmdRaw, string ourcmd, string[] args)
+UNHANDLED EXCEPTION IN COMMAND vehiclearearemove FOR RESOURCE racing-resource
+System.Reflection.TargetInvocationException: Exception has been thrown by the target of an invocation.
+ ---> System.NullReferenceException: Object reference not set to an instance of an object.
+   at T GTANetworkAPI.Entity.GetSharedData<T>(string key)
+   at bool racing_src.Admin.AdminCommands.IsAdmin(Player player) in E:/ragemp-carsgm/dotnet/resources/racing-src/Admin/AdminCommands.cs:line 16
+   at void racing_src.Admin.AdminCommands.SendMessageToAdmins(string message)+(Player player) => { } in E:/ragemp-carsgm/dotnet/resources/racing-src/Admin/AdminCommands.cs:line 29
+   at List<T> System.Collections.Generic.List<T>.FindAll(Predicate<T> match)
+   at void racing_src.Admin.AdminCommands.SendMessageToAdmins(string message) in E:/ragemp-carsgm/dotnet/resources/racing-src/Admin/AdminCommands.cs:line 29
+   at void racing_src.Admin.AdminCommands.RemoveVehicleArea(Player player, int area) in E:/ragemp-carsgm/dotnet/resources/racing-src/Admin/AdminCommands.cs:line 100
+   --- End of inner exception s
