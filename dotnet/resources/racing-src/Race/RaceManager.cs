@@ -50,7 +50,6 @@ namespace racing_src.Race
                 startedRaces.ForEach(race =>
                 {
 
-
                     race.Racers.Sort(delegate (Racer a, Racer b)
                     {
                         if (a.CurrentCheckpoint == b.CurrentCheckpoint)
@@ -59,7 +58,7 @@ namespace racing_src.Race
                             {
                                 b.Participant.SendChatMessage("L-ai devansat pe " + a.Participant.Name);
                                 a.Participant.SendChatMessage("Ai fost devansat de " + b.Participant.Name);
-
+                                
                                 int old = b.RacePosition;
                                 b.RacePosition = a.RacePosition;
                                 a.RacePosition = old;
@@ -68,7 +67,7 @@ namespace racing_src.Race
                         }
                         else
                         {
-                            if (a.Checkpoints < b.Checkpoints)
+                            if (a.Checkpoints > b.Checkpoints)
                             {
                                 b.Participant.SendChatMessage("L-ai devansat pe " + a.Participant.Name);
                                 a.Participant.SendChatMessage("Ai fost devansat de " + b.Participant.Name);
@@ -82,9 +81,9 @@ namespace racing_src.Race
                         }
                         return 0;
                     });
-
+                    race.Racers.ForEach(x => Console.WriteLine(x.Participant.Name));
                 });
-
+                
             });
         }
     
@@ -138,6 +137,7 @@ namespace racing_src.Race
 
                 var template = RaceTemplates.Find(x => x.TrackName == racename);
                 var newRace = new Race(template.SQLid, template.TrackName, template.Category, template.Creator, player, max_participants, max_duration);
+                newRace.Checkpoints = template.Checkpoints;
                 CurrentRaces.Add(newRace);
 
                 player.SendChatMessage($"Hosted new race with the TrackName:  {newRace.TrackName}, Hoster:  {newRace.Hoster.Name}, Duration:  {newRace.MaxDuration}s, MaxParticipants:  {newRace.MaxParticipants}.");
@@ -176,9 +176,10 @@ namespace racing_src.Race
                 player.SendChatMessage("The lobby you are trying to join is full.");
                 return;
             }
-
+            player.SetData("currentCheckpoint", 0);
             CurrentRaces[raceId].AddRacer(0, player);
             player.SetSharedData("raceId", raceId);
+            
 
             var trackData = RaceCreator.LoadTrackInfoAsync(player, CurrentRaces[raceId].TrackName);
             CurrentRaces[raceId]._Spawnpoints = trackData.Item2;

@@ -60,9 +60,8 @@ namespace racing_src.Race
         public bool HasFinished { get; set; }
         public Racer(int position, Player participant)
         {
-            CurrentCheckpoint = 0;
-            RacePosition = position;
             Participant = participant;
+            RacePosition = position;
             HasFinished = false;
         }
     }
@@ -122,6 +121,7 @@ namespace racing_src.Race
             HasEnded = false;
             MaxParticipants = max_participants;
             MaxDuration = max_duration;
+            Checkpoints = new List<Vector3>();
         }
 
         public void AddRacer(int position, Player player)

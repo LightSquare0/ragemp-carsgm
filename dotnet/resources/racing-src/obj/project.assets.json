@@ -945,19 +945,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\topor\\.nuget\\packages\\": {}
+    "C:\\Users\\teods\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\topor\\Source\\Repos\\ragemp-carsgm\\dotnet\\resources\\racing-src\\racing-src.csproj",
+      "projectUniqueName": "E:\\ragemp-carsgm\\dotnet\\resources\\racing-src\\racing-src.csproj",
       "projectName": "racing-src",
-      "projectPath": "C:\\Users\\topor\\Source\\Repos\\ragemp-carsgm\\dotnet\\resources\\racing-src\\racing-src.csproj",
-      "packagesPath": "C:\\Users\\topor\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\topor\\Source\\Repos\\ragemp-carsgm\\dotnet\\resources\\racing-src\\obj\\",
+      "projectPath": "E:\\ragemp-carsgm\\dotnet\\resources\\racing-src\\racing-src.csproj",
+      "packagesPath": "C:\\Users\\teods\\.nuget\\packages\\",
+      "outputPath": "E:\\ragemp-carsgm\\dotnet\\resources\\racing-src\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\topor\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\teods\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -965,8 +965,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "https://api.nuget.org/v3/index.json": {},
-        "https://dotnetfeed.blob.core.windows.net/dotnet-core/index.json": {}
+        "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net5.0": {
@@ -1016,7 +1015,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.200\\RuntimeIdentifierGraph.json"
       }
     }
   }
