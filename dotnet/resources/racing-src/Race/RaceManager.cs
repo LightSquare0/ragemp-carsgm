@@ -179,7 +179,8 @@ namespace racing_src.Race
 
             CurrentRaces[raceId].AddRacer(0, player);
             player.SetSharedData("raceId", raceId);
-
+            player.SetData<int>("Checkpoints", 0);
+            player.SetData("currentCheckpoint", 0); 
             var trackData = RaceCreator.LoadTrackInfoAsync(player, CurrentRaces[raceId].TrackName);
             CurrentRaces[raceId]._Spawnpoints = trackData.Item2;
             var spawnpoint = CurrentRaces[raceId]._Spawnpoints.Find(spawnpoint => spawnpoint.Occupied == false);
