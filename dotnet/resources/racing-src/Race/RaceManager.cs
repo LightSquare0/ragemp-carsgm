@@ -1,13 +1,11 @@
 ﻿using Dapper;
 using GTANetworkAPI;
-using MySql.Data.MySqlClient;
+
+using MySqlConnector;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Common;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 
@@ -16,110 +14,7 @@ namespace racing_src.Race
     public class RaceManager : Script
     {
 
-        public class Racer
-        {
-            public int RacePosition { get; set; }
-            public Vector3 WorldPosition { get; set; }
-            public Player Participant { get; set; }
-            public int CurrentCheckpoint { get; set; }
-            public bool HasFinished { get; set; }
-            public Racer(int position, Player participant)
-            {
-                CurrentCheckpoint = 0;
-                RacePosition = position;
-                Participant = participant;
-                HasFinished = false;
-            }
-        }
 
-        public class Spawnpoint
-        {
-            public Vector3 Position { get; set; }
-            public float Heading { get; set; }
-            public bool Occupied { get; set; }
-            public Spawnpoint(Vector3 position, float rotation, bool occupied)
-            {
-                Position = position;
-                Heading = rotation;
-                Occupied = occupied;
-            }
-
-        }
-
-        public class RaceTemplate
-        {
-            public int SQLid { get; set; }
-            public string TrackName { get; set; }
-            public string Category { get; set; }
-            public string Creator { get; set; }
-            public List<Vector3> Checkpoints { get; set; }
-            public List<Spawnpoint> Spawnpoints { get; set; }
-            public RaceTemplate() { }
-            public RaceTemplate(int sqlid, string trackname, string category, string creator, List<Vector3> checkpoints, List<Spawnpoint> spawnpoints)
-            {
-                SQLid = sqlid;
-                TrackName = trackname;
-                Category = category;
-                Creator = creator;
-                Checkpoints = checkpoints;
-                Spawnpoints = spawnpoints;
-            }
-        }
-
-        public class Race : RaceTemplate
-        {
-            public Player Hoster { get; set; }
-            public int MaxParticipants { get; set; }
-            public int MaxDuration { get; set; }
-            public bool HasStarted { get; set; }
-            public bool HasEnded { get; set; }
-            public List<Spawnpoint> _Spawnpoints { get; set; }
-            public List<Racer> Racers { get; set; }
-            public Race(int sqlid, string trackname, string category, string creator, Player hoster, int max_participants, int max_duration)
-            {
-                Racers = new List<Racer>();
-                SQLid = sqlid;
-                TrackName = trackname;
-                Category = category;
-                Creator = creator;
-                Hoster = hoster;
-                HasStarted = false;
-                HasEnded = false;
-                MaxParticipants = max_participants;
-                MaxDuration = max_duration;
-            }
-
-            public void AddRacer(int position, Player player)
-            {
-                Racers.Add(new Racer(position, player));
-            }
-            public void RemoveRacer(Player participant)
-            {
-                var racer = Racers.Find(x => x.Participant.Name == participant.Name);
-                Racers.Remove(racer);
-            }
-
-            public int GetRacerPosition(Player participant)
-            {
-                foreach (var racer in Racers)
-                {
-                    if (racer.Participant.Name == participant.Name)
-                        return racer.RacePosition;
-                }
-                return 0;
-            }
-
-            public void UpdateRacerPosition(Player participant, int position)
-            {
-                foreach (var racer in Racers)
-                {
-                    if (racer.Participant.Name == participant.Name)
-                    {
-                        racer.RacePosition = position;
-                    }
-                }
-            }
-        }
 
         public static List<RaceTemplate> RaceTemplates = new();
 
@@ -147,65 +42,53 @@ namespace racing_src.Race
 
         public void UpdateRacerPositions(object sender, ElapsedEventArgs e)
         {
-
-            var startedRaces = CurrentRaces.FindAll(race => race.HasStarted == true);
-
-
-            foreach (var race in startedRaces)
+            NAPI.Task.Run(() =>
             {
-                var racersGroupedByCheckpoint = race.Racers.GroupBy(racer => racer.CurrentCheckpoint, racer => new { racer.Participant, racer.CurrentCheckpoint, racer.RacePosition }, (key, g) => new { CurrentCheckpoint = key, Participants = g.ToList() });
 
-                foreach (var group in racersGroupedByCheckpoint)
+                var startedRaces = CurrentRaces.FindAll(race => race.HasStarted == true);
+
+                startedRaces.ForEach(race =>
                 {
-                    NAPI.Task.Run(() =>
+
+
+                    race.Racers.Sort(delegate (Racer a, Racer b)
                     {
-                        group.Participants.ForEach(x => Console.WriteLine($"{x.Participant.Name} {x.CurrentCheckpoint} {x.RacePosition}"));
-                        for (int i = 0; i < group.Participants.Count - 1; i++)
+                        if (a.CurrentCheckpoint == b.CurrentCheckpoint)
                         {
-                            for (int j = i + 1; j < group.Participants.Count; j++)
+                            if (a.DistanceToCheckpoint(race.Checkpoints[a.CurrentCheckpoint]) < b.DistanceToCheckpoint(race.Checkpoints[a.CurrentCheckpoint]))
                             {
-                                var race = CurrentRaces.ElementAtOrDefault(group.Participants[i].Participant.GetSharedData<int>("raceId"));
-                                var i_racePosition = race.GetRacerPosition(group.Participants[i].Participant);
-                                var j_racePosition = race.GetRacerPosition(group.Participants[j].Participant);
+                                b.Participant.SendChatMessage("L-ai devansat pe " + a.Participant.Name);
+                                a.Participant.SendChatMessage("Ai fost devansat de " + b.Participant.Name);
 
-                                if (group.Participants.Count <= 2)
-                                {
-                                    
-                                    if (group.Participants[i].Participant.GetData<Vector3>("currentCheckpointCoords") == null)
-                                        return;
-
-                                    Console.WriteLine($"{group.Participants[i].Participant.GetData<Vector3>("currentCheckpointCoords").X} " +
-                                        $"{group.Participants[i].Participant.GetData<Vector3>("currentCheckpointCoords").Y} " +
-                                        $"{group.Participants[i].Participant.GetData<Vector3>("currentCheckpointCoords").Z}");
-
-                                    if (group.Participants[i].Participant.Position.DistanceTo(group.Participants[i].Participant.GetData<Vector3>("currentCheckpointCoords"))
-                                        >
-                                group.Participants[j].Participant.Position.DistanceTo(group.Participants[j].Participant.GetData<Vector3>("currentCheckpointCoords")))
-                                    {
-                                        race.UpdateRacerPosition(group.Participants[i].Participant, /*i_racePosition++*/ 1);
-                                        group.Participants[i].Participant.SendChatMessage("Esti pe locu 1");
-                                        race.UpdateRacerPosition(group.Participants[j].Participant, /*i_racePosition - 1*/ 2);
-                                        group.Participants[j].Participant.SendChatMessage("Esti pe locu 2");
-
-                                    }
-                                    else
-                                    {
-                                        race.UpdateRacerPosition(group.Participants[i].Participant, /*j_racePosition++*/ 2);
-                                        group.Participants[i].Participant.SendChatMessage("Esti pe locu 2");
-                                        race.UpdateRacerPosition(group.Participants[j].Participant, /*j_racePosition - 1*/ 1);
-                                        group.Participants[j].Participant.SendChatMessage("Esti pe locu 1");
-                                    }
-                                }
-                                
-
+                                int old = b.RacePosition;
+                                b.RacePosition = a.RacePosition;
+                                a.RacePosition = old;
+                                return 1;
                             }
                         }
+                        else
+                        {
+                            if (a.Checkpoints < b.Checkpoints)
+                            {
+                                b.Participant.SendChatMessage("L-ai devansat pe " + a.Participant.Name);
+                                a.Participant.SendChatMessage("Ai fost devansat de " + b.Participant.Name);
 
+                                int old = b.RacePosition;
+                                b.RacePosition = a.RacePosition;
+                                a.RacePosition = old;
+                                return 1;
+                            }
+
+                        }
+                        return 0;
                     });
-                    
-                }
-            }
+
+                });
+
+            });
         }
+    
+    
 
         public static async Task LoadAllRaceTemplates()
         {
@@ -282,35 +165,35 @@ namespace racing_src.Race
         public void JoinRace(Player player, int raceId)
         {
 
-            if (CurrentRaces.ElementAtOrDefault(raceId) == null)
+            if (CurrentRaces[raceId] == null)
             {
                 player.SendChatMessage("The race with that id doesn't exist");
                 return;
             }
 
-            if(CurrentRaces.ElementAtOrDefault(raceId).Racers.Count == CurrentRaces.ElementAtOrDefault(raceId).MaxParticipants)
+            if(CurrentRaces[raceId].Racers.Count == CurrentRaces[raceId].MaxParticipants)
             {
                 player.SendChatMessage("The lobby you are trying to join is full.");
                 return;
             }
 
-            CurrentRaces.ElementAtOrDefault(raceId).AddRacer(0, player);
+            CurrentRaces[raceId].AddRacer(0, player);
             player.SetSharedData("raceId", raceId);
 
-            var trackData = RaceCreator.LoadTrackInfoAsync(player, CurrentRaces.ElementAtOrDefault(raceId).TrackName);
-            CurrentRaces.ElementAtOrDefault(raceId)._Spawnpoints = trackData.Item2;
-            var spawnpoint = CurrentRaces.ElementAtOrDefault(raceId)._Spawnpoints.Find(spawnpoint => spawnpoint.Occupied == false);
+            var trackData = RaceCreator.LoadTrackInfoAsync(player, CurrentRaces[raceId].TrackName);
+            CurrentRaces[raceId]._Spawnpoints = trackData.Item2;
+            var spawnpoint = CurrentRaces[raceId]._Spawnpoints.Find(spawnpoint => spawnpoint.Occupied == false);
             spawnpoint.Occupied = true;
 
             var veh = NAPI.Vehicle.CreateVehicle(NAPI.Util.GetHashKey("neon"), spawnpoint.Position, spawnpoint.Heading, 200, 200, $"Race {raceId}");
 
             NAPI.Task.Run(() =>
             {
-                Task.Delay(800);
+                
                 player.SetIntoVehicle(veh, 0);
-            });
+            }, 800);
             
-            player.SendChatMessage($"You joined the race with the id of {raceId} on the position {CurrentRaces.ElementAtOrDefault(raceId).Racers.Count()}, participant {player.Name}, rotation {spawnpoint.Heading}");
+            player.SendChatMessage($"You joined the race with the id of {raceId} on the position {CurrentRaces[raceId].Racers.Count()}, participant {player.Name}, rotation {spawnpoint.Heading}");
             //@TODO remove the hosted race from the list on host crash.
         }
 
@@ -319,12 +202,14 @@ namespace racing_src.Race
         {
             var raceId = player.GetSharedData<int>("raceId");
             
-            foreach (var racer in CurrentRaces.ElementAtOrDefault(raceId).Racers)
+            foreach (var racer in CurrentRaces[raceId].Racers)
             {
-                RaceCreator.LoadTrackAsync(racer.Participant, CurrentRaces.ElementAtOrDefault(raceId).TrackName);
-                racer.Participant.SendChatMessage("Race started!");
+                RaceCreator.LoadTrackAsync(racer.Participant, CurrentRaces[raceId].TrackName);
+                racer.Participant.SendChatMessage("Race started!"); 
+
+
             }
-            CurrentRaces.ElementAtOrDefault(raceId).HasStarted = true;
+            CurrentRaces[raceId].HasStarted = true;
         }
 
         [Command("getvehrot")]
@@ -358,11 +243,11 @@ namespace racing_src.Race
         }
 
         [RemoteEvent("serverside:OnPlayerEnterCheckpoint")]
-        public void PlayerGetCheckpoint(Player player, int currentCheckpoint, Vector3 currentCheckpointCoords)
+        public void PlayerGetCheckpoint(Player player, int checkpointIndex)
         {
-            player.SendChatMessage($"{player.Name} entered checkpoint {currentCheckpoint} with coords {NAPI.Util.ToJson(currentCheckpointCoords)}");
-            player.SetData("currentCheckpointCoords", currentCheckpointCoords);
-            CurrentRaces.ElementAtOrDefault(player.GetSharedData<int>("raceId")).Racers.Find(racer => racer.Participant.Name == player.Name).CurrentCheckpoint = currentCheckpoint;
+            player.SendChatMessage($"{player.Name} entered checkpoint {checkpointIndex}.");
+            player.SetData("currentCheckpoint", checkpointIndex);
+            player.SetData<int>("Checkpoints", player.GetData<int>("Checkpoints") + 1);
         }
 
         [RemoteEvent("serverside:OnPlayerEnterFinishCheckpoint")]
