@@ -1,21 +1,17 @@
-import { useState } from "react";
-import { Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const Home: React.FC = () => {
-  const [willLogin, setWillLogin] = useState(false);
+  const history = useHistory();
 
-  //@ts-ignore
   mp.events.add("react:DisplayLogin", () => {
-    setWillLogin(true);
-    //@ts-ignore
+    history.push("/auth");
   });
 
-  console.log("willLogin" + willLogin);
-  if (!willLogin) {
-    return <></>;
-  } else {
-    return <Redirect to="/auth" push />;
-  }
+  mp.events.add("react:OpenRaceManagerUI", () => {
+    history.push("/racemanager");
+  });
+
+  return <></>;
 };
 
 export default Home;

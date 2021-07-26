@@ -1,17 +1,47 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const RaceHudExpand = keyframes`
+
+0% {
+  height: 0.01rem;
+  color: rgba(255, 255, 255, 0);
+}
+
+70% {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+85% { 
+  color: rgba(255, 255, 255, 0.85);
+}
+
+100% {
+  height: 12.875rem;
+  color: rgba(255, 255, 255, 1);
+}
+
+`;
 
 export const RaceHudContainer = styled.div`
-  display: block;
+  display: flex;
   position: absolute;
-  top: 2rem;
-  left: 2rem;
+  flex-direction: column;
+  top: 2.5rem;
+  left: 2.5rem;
   color: white;
-  text-shadow: 0.1rem 0.1rem rgba(0, 0, 0, 0.7);
+  text-shadow: 0.1rem 0.1rem rgba(0, 0, 0, 0.2);
+  background-color: rgba(175, 175, 175, 0.6);
+  padding: 1.2rem;
+  border-radius: 0.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  animation: ${RaceHudExpand} 0.8s ease;
+  transition: opacity 1s;
 `;
 
 export const StatsContainer = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: center;
   & > div {
     margin-right: 0.9rem;
   }
@@ -48,8 +78,7 @@ export const Laps = styled.div`
 export const CurrentStatsContainer = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: center;
-  align-content: center;
+  justify-content: center;
   & > div {
     margin-right: 0.9rem;
   }
@@ -68,6 +97,7 @@ export const CurrentRelativePosition = styled.div`
   display: flex;
   flex-direction: column;
 `;
+
 export const BestLap = styled.div`
   &:before {
     content: "BEST";

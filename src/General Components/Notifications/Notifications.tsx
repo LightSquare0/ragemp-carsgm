@@ -4,6 +4,7 @@ import { NotificationsContext } from "./NotificationsContext";
 import {
   NotificationColumn,
   NotificationContent,
+  NotificationIcon,
   NotificationsContainer,
   NotificationText,
   NotificationTitle,
@@ -16,25 +17,27 @@ const Notifications: React.FC = () => {
   return (
     <NotificationsContainer>
       {notifications.map((notification: any) => (
-          <NotificationWrapper>
-            <NotificationContent>
-              <NotificationColumn>
+        <NotificationWrapper>
+          <NotificationContent>
+            <NotificationColumn>
+              <NotificationIcon>
                 <Icon
-                  color="red"
+                  color={notification.type == "success" ? "green" : "red"}
                   icon={
                     notification.type == "success"
                       ? "check-circle"
                       : "times-circle"
                   }
-                  size="1.5rem"
+                  size="1.9rem"
                 />
-              </NotificationColumn>
-              <NotificationColumn>
-                <NotificationTitle>{notification.title}</NotificationTitle>
-                <NotificationText>{notification.text}</NotificationText>
-              </NotificationColumn>
-            </NotificationContent>
-          </NotificationWrapper>
+              </NotificationIcon>
+            </NotificationColumn>
+            <NotificationColumn>
+              <NotificationTitle>{notification.title}</NotificationTitle>
+              <NotificationText>{notification.text}</NotificationText>
+            </NotificationColumn>
+          </NotificationContent>
+        </NotificationWrapper>
       ))}
     </NotificationsContainer>
   );

@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import Icon from "../../../Utils/Icon";
 import {
   RaceHudContainer,
@@ -13,8 +14,13 @@ import {
 } from "./RaceHudStyles";
 
 const RaceHud: React.FC = () => {
+  const ref = useRef(null);
+  useEffect(() => {
+
+  console.log(ref.current.offsetHeight);
+  }, [])
   return (
-    <RaceHudContainer>
+    <RaceHudContainer ref = {ref}>
       <StatsContainer>
         <Position>1/17</Position>
         <TimeLeft>05:48:30</TimeLeft>

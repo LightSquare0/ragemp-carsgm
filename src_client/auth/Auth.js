@@ -1,5 +1,8 @@
+import { browser } from "../client";
+
 mp.players.local.freezePosition(true);
-mp.gui.chat.show(false);
+mp.gui.chat.show(true);
+mp.gui.chat.push("merge webpacu");
 mp.game.ui.displayRadar(false);
 let sceneryCamera = mp.cameras.new(
   "default",
@@ -16,8 +19,8 @@ mp.events.add("browserDomReady", (browser) => {
   if (browser.url === "package://webview/index.html" || "http://localhost:8080" || "http://naivoe.go.ro:8080") {
     browser.call("react:DisplayLogin");
     if (mp.storage.data.authData) {
-      authUsername = mp.storage.data.authData.username;
-      authPassword = mp.storage.data.authData.password;
+      var authUsername = mp.storage.data.authData.username;
+      var authPassword = mp.storage.data.authData.password;
       browser.call("react:triggerRememberMe", authUsername, authPassword);
     }
   }

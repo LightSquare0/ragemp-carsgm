@@ -14,6 +14,7 @@ import Home from "./Interfaces/Home/Home";
 import { NotificationsContext } from "./General Components/Notifications/NotificationsContext";
 import { useState, useEffect } from "react";
 import Notifications from "./General Components/Notifications/Notifications";
+import RaceManager from "./Interfaces/RaceManager/RaceManager";
 
 // interface Notification {
 //   title: string;
@@ -41,7 +42,7 @@ const Renderer: React.FC = () => {
       _notifications.splice(0, 1);
       setNotifications(_notifications);
       console.log(notifications);
-    }, 2500);
+    }, 3500);
     return () => clearInterval(interval);
   });
 
@@ -61,6 +62,9 @@ const Renderer: React.FC = () => {
           </Route>
           <Route path="/auth">
             <Auth />
+          </Route>
+          <Route path="/racemanager">
+            <RaceManager/>
           </Route>
         </HashRouter>
         <Notifications/>

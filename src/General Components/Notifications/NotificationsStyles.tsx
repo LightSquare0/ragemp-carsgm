@@ -52,13 +52,12 @@ export const NotificationColumn = styled.div`
 `;
 
 export const NotificationTitle = styled.div`
-  font-size: 18px;
+  font-size: 1.125rem;
 `;
 export const NotificationText = styled.div`
-  font-size: 15px;
+  font-size: 0.9375rem;
 `;
-export const NotificationIcon = styled.img`
-  height: 26px;
-  padding-right: 10px;
+export const NotificationIcon = styled.div`
+  padding-right: 1.2rem;
 `;
 

@@ -1,5 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 import MaisonNeueMedium from "../../Static/MaisonNeue-Medium.ttf";
+import MaisonNeueBook from "../../Static/maison-neue-book.ttf";
 import game from "../../Static/game.png";
 
 const GlobalStyles = createGlobalStyle`
@@ -9,8 +10,10 @@ const GlobalStyles = createGlobalStyle`
     src: url(${MaisonNeueMedium}) format('truetype');
 }
 
-
-
+@font-face {
+    font-family: "MaisonNeueBook";
+    src: url(${MaisonNeueBook}) format('truetype');
+}
 
  * {
     margin: 0;
@@ -22,7 +25,7 @@ html, body{
     height: 100%;
     min-height: 100%;
     width: 100%;
-    font-family: 'MaisonNeueMedium';
+    font-family: 'MaisonNeueBook';
     //background-image: url(${game});
     overflow: hidden;
 }

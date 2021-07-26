@@ -13,7 +13,6 @@ import {
   ServerLogo,
 } from "./AuthStyles";
 import athrons_logo from "../../Static/athrons_logo.svg";
-import { Redirect, useHistory } from "react-router-dom";
 import { useContext } from "react";
 import { NotificationsContext } from "../../General Components/Notifications/NotificationsContext";
 import { withRouter } from 'react-router-dom';
@@ -70,7 +69,6 @@ const Auth: React.FC = (props) => {
     
   };
 
-  //@ts-ignore
   mp.events.add("react:LoginResult", (result: number) => {
     SetLoginResult(result);
     console.log(`set result to ${result}`);
@@ -84,14 +82,12 @@ const Auth: React.FC = (props) => {
       console.log("samppppppp");
     }
   });
-  //@ts-ignore
   mp.events.add("react:RegisterResult", (result: number) => {
     SetLoginResult(result);
     console.log(`set result to ${result}`);
   });
 
 
-  //@ts-ignore
   mp.events.add("react:triggerRememberMe", (authUsername, authPassword) => {
     SetUserdata({ username: authUsername, password: authPassword, email: "" });
     SetRememberMe(true);

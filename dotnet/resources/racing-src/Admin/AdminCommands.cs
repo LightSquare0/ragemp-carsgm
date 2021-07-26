@@ -45,6 +45,22 @@ namespace racing_src.Admin
             player.SetIntoVehicle(veh, 0);
         
         }
+
+        [Command("arepair")]
+        public void Arepair(Player player)
+        {
+            if (!IsAdmin(player))
+                return;
+
+            if (player.Vehicle.IsNull)
+            {
+                player.SendChatMessage("You are not in a vehicle");
+                return;
+            }
+
+            player.Vehicle.Repair();
+        }
+
         [Command("coords")]
         public void GetCoords(Player player)
         {
@@ -52,7 +68,7 @@ namespace racing_src.Admin
                 return;
 
             player.SendChatMessage($"Current coords: {player.Position} | Heading: {player.Heading} | Dimension: {player.Dimension}.");
-            Console.WriteLine($"{player.Position} {player.Heading}");
+            Console.WriteLine($"POS: {player.Position} | Heading: {player.Heading} | Veh heading: {player.Vehicle.Heading}");
         }
 
         [Command("gotocoords")]
@@ -108,6 +124,25 @@ namespace racing_src.Admin
                 vehicle.Delete();
             }
             SendMessageToAdmins($"{player.Name} deleted {count} vehicles in an area of {area}.");
+        }
+
+        [Command("create")]
+        public void create(Player player)
+        {
+            var shape = NAPI.ColShape.CreateSphereColShape(player.Position, 5f);
+            player.SendChatMessage($"colshape position: {shape.Position.X} | player position: {player.Position}");
+
+            var marker = NAPI.Marker.CreateMarker(1, player.Position, new Vector3(), new Vector3(), 5f, new Color(255, 0, 0, 155), true);
+            player.SendChatMessage($"sa creat markeru la pozitia {marker.Position}");
+            if (NAPI.ColShape.IsPointWithinColshape(shape, player.Position))
+                player.SendChatMessage("esti inauntru");
+
+        }
+
+        [ServerEvent(Event.PlayerEnterColshape)]
+        public void OnPlayerEnterColshape(ColShape shape, Player player)
+        {
+            player.SendChatMessage("asdas");
         }
     }
 }

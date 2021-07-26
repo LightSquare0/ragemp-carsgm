@@ -14,8 +14,6 @@ namespace racing_src.Race
     public class RaceManager : Script
     {
 
-
-
         public static List<RaceTemplate> RaceTemplates = new();
 
         public List<Race> CurrentRaces = new();
@@ -49,16 +47,15 @@ namespace racing_src.Race
 
                 startedRaces.ForEach(race =>
                 {
-
                     race.Racers.Sort(delegate (Racer a, Racer b)
                     {
                         if (a.CurrentCheckpoint == b.CurrentCheckpoint)
                         {
-                            if (a.DistanceToCheckpoint(race.Checkpoints[a.CurrentCheckpoint]) < b.DistanceToCheckpoint(race.Checkpoints[a.CurrentCheckpoint]))
+                            if (a.DistanceToCheckpoint(race.Checkpoints[a.CurrentCheckpoint]) > b.DistanceToCheckpoint(race.Checkpoints[a.CurrentCheckpoint]))
                             {
                                 b.Participant.SendChatMessage("L-ai devansat pe " + a.Participant.Name);
                                 a.Participant.SendChatMessage("Ai fost devansat de " + b.Participant.Name);
-                                
+
                                 int old = b.RacePosition;
                                 b.RacePosition = a.RacePosition;
                                 a.RacePosition = old;
@@ -67,7 +64,7 @@ namespace racing_src.Race
                         }
                         else
                         {
-                            if (a.Checkpoints > b.Checkpoints)
+                            if (a.Checkpoints < b.Checkpoints)
                             {
                                 b.Participant.SendChatMessage("L-ai devansat pe " + a.Participant.Name);
                                 a.Participant.SendChatMessage("Ai fost devansat de " + b.Participant.Name);
@@ -83,11 +80,11 @@ namespace racing_src.Race
                     });
                     race.Racers.ForEach(x => Console.WriteLine(x.Participant.Name));
                 });
-                
+
             });
         }
-    
-    
+
+
 
         public static async Task LoadAllRaceTemplates()
         {
@@ -145,6 +142,12 @@ namespace racing_src.Race
             }
         }
 
+        [Command("rmenu")]
+        public void OpenRaceMenu(Player player)
+        {
+            player.TriggerEvent("clientside:OpenRaceManagerUI");
+        }
+
         [Command("cancelhost")]
         public void CancelHost(Player player)
         {
@@ -171,7 +174,7 @@ namespace racing_src.Race
                 return;
             }
 
-            if(CurrentRaces[raceId].Racers.Count == CurrentRaces[raceId].MaxParticipants)
+            if (CurrentRaces[raceId].Racers.Count == CurrentRaces[raceId].MaxParticipants)
             {
                 player.SendChatMessage("The lobby you are trying to join is full.");
                 return;
@@ -179,7 +182,7 @@ namespace racing_src.Race
             player.SetData("currentCheckpoint", 0);
             CurrentRaces[raceId].AddRacer(0, player);
             player.SetSharedData("raceId", raceId);
-            
+
 
             var trackData = RaceCreator.LoadTrackInfoAsync(player, CurrentRaces[raceId].TrackName);
             CurrentRaces[raceId]._Spawnpoints = trackData.Item2;
@@ -190,10 +193,9 @@ namespace racing_src.Race
 
             NAPI.Task.Run(() =>
             {
-                
                 player.SetIntoVehicle(veh, 0);
             }, 800);
-            
+
             player.SendChatMessage($"You joined the race with the id of {raceId} on the position {CurrentRaces[raceId].Racers.Count()}, participant {player.Name}, rotation {spawnpoint.Heading}");
             //@TODO remove the hosted race from the list on host crash.
         }
@@ -202,16 +204,17 @@ namespace racing_src.Race
         public void StartRace(Player player)
         {
             var raceId = player.GetSharedData<int>("raceId");
-            
+
             foreach (var racer in CurrentRaces[raceId].Racers)
             {
                 RaceCreator.LoadTrackAsync(racer.Participant, CurrentRaces[raceId].TrackName);
-                racer.Participant.SendChatMessage("Race started!"); 
+                racer.Participant.SendChatMessage("Race started!");
 
 
             }
             CurrentRaces[raceId].HasStarted = true;
         }
+
 
         [Command("getvehrot")]
         public void GetRot(Player player)
@@ -257,6 +260,12 @@ namespace racing_src.Race
             var playerRace = CurrentRaces.ElementAtOrDefault(player.GetSharedData<int>("raceId"));
 
             playerRace.Racers.Find(racer => racer.Participant.Name == player.Name).HasFinished = true;
+            if (playerRace.Racers.FindAll(racer => racer.HasWon == true).Count == 0)
+            {
+                playerRace.Racers.Find(racer => racer.Participant == player).HasWon = true;
+                playerRace.Racers.ForEach(racer => racer.Participant.Notify(Notifications.Type.Success, $"{player.Name} has won the race!", ""));
+            }
+            
             foreach(var racer in playerRace.Racers)
             {
                 racer.Participant.Notify(Notifications.Type.Success, $"{player.Name} has finished the race!", "");

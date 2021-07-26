@@ -2,12 +2,15 @@ let chat = {
   allowInput: false,
   active: false,
   size: 0,
+  historyLimit: 50, 
   inputText: "",
   inputHistory: [],
   inputHistoryIdx: 0,
 };
 
 const chatInput = document.getElementById("chat-input");
+const chatMessagesContainer = document.getElementById("chat-messages-container");
+const chatMessages = document.getElementById("messages");
 
 const toggleChatInput = (state) => {
   if (state == true) {
@@ -15,6 +18,7 @@ const toggleChatInput = (state) => {
     chatInput.style.display = "flex";
     document.getElementById("input-box-chat").focus();
     chat.active = true;
+    chatMessagesContainer.style.opacity = 1;
   } else if (state == false) {
     chatInput.style.display = "none";
     mp.invoke("focus", state);
@@ -31,7 +35,15 @@ const addChatMessage = (message) => {
   messageElement.append(message.toString());
   let messages = document.getElementById("messages");
   messages.scrollTo(0, messages.scrollHeight);
+  chatMessagesContainer.style.opacity = 1;
 };
+
+setInterval(() => {
+  if (chatMessagesContainer.style.opacity == 0.5) return;
+  if (chat.active) return;
+
+  chatMessagesContainer.style.opacity = 0.5;
+}, 18000);
 
 var chatAPI = {
   push: (text) => {
@@ -66,13 +78,13 @@ var chatAPI = {
     // }
 
     addChatMessage(text);
+    chat.size++;
 
-    // chat.size++;
-
-    // if (chat.size >= chat.history_limit)
-    // {
-    // 	chat.container.children(":last").remove();
-    // }
+    if (chat.size >= chat.historyLimit)
+    {
+    	chatMessagesContainer.removeChild[0];
+      console.log("removed element");
+    }
   },
 
   clear: () => {

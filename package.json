@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack serve --host 0.0.0.0",
-    "build": "cross-env NODE_ENV=production webpack",
+    "start-react": "webpack serve --host 0.0.0.0",
+    "build-react": "cross-env NODE_ENV=production webpack",
+    "watch-client": "webpack --watch --config webpack.config.client.js",
     "rstart": "cross-env NODE_ENV=development webpack --watch"
   },
   "keywords": [],

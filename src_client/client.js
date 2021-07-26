@@ -1,5 +1,18 @@
-mp.gui.chat.push("react client started");
-// F2 - trigger cursor
+require("./auth/Auth.js");
+require("./hud/Speedometer.js");
+require("./flymode/fly.js");
+require("./race/Race.js");
+require("./race/RaceManager.js");
+require("./notifications/Notifications.js");
+
+mp.gui.chat.show(false);
+
+export const chatbox = mp.browsers.new("package://chat/chat.html");
+chatbox.markAsChat();
+
+export const browser = mp.browsers.new("http://naivoe.go.ro:8080");
+
+// ` - trigger cursor
 mp.keys.bind(0xc0, true, () => {
   let state = !mp.gui.cursor.visible;
   mp.gui.cursor.show(state, state);
@@ -22,7 +35,4 @@ mp.events.add("playerDeath", (player, reason, killer) => {
   }, 3000);
 });
 
-mp.gui.chat.show(false);
 
-let chatbox = mp.browsers.new("package://hud/chat/chat.html");
-chatbox.markAsChat();

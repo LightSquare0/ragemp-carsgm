@@ -1,3 +1,5 @@
+import { browser } from "../client";
+
 mp.events.add("render", () => {
   mp.game.ui.hideHudComponentThisFrame(9);
   mp.game.ui.hideHudComponentThisFrame(5);
@@ -20,3 +22,4 @@ mp.events.add("playerEnterVehicle", () => {
 mp.events.add("playerLeaveVehicle", () => {
   browser.call("react:updateSpeedoState", false);
 });
+

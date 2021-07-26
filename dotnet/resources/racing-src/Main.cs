@@ -23,6 +23,8 @@ namespace racing_src
             
         }
 
+        
+
         [Command("pf")]
         public void PF(Player player, string effect, int duration, bool loopable)
         {
@@ -33,6 +35,13 @@ namespace racing_src
         public void SF(Player player, string effect)
         {
             player.TriggerEvent("clientside:StopEffect", effect);
+        }
+
+        [RemoteEvent("receivedDamage")]
+        public void DamageHandler(Player player, Player entity, int damage)
+        {
+            entity.Health -= damage;
+            player.SendChatMessage($"Healthu e: {entity.Health} si damageu: {damage}");
         }
 
     }

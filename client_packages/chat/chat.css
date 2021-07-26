@@ -18,8 +18,9 @@ body {
 
 .chat-box {
   position: absolute;
-  top: 1rem;
+  top: 4rem;
   right: 2rem;
+  transition: opacity 0.5s ease;
 }
 
 .chat-messages-container {

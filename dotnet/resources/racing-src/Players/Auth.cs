@@ -79,7 +79,7 @@ namespace racing_src.Players
                     password = password,
                     email = email
                 };
-
+                
                 var exists = await db.ExecuteScalarAsync<bool>(selectUserSQL, userParams);
                 if (exists)
                 {

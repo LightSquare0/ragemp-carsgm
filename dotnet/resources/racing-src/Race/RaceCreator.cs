@@ -82,7 +82,7 @@ namespace racing_src.Race
             player.SendChatMessage("You are now in creator mode.");
             player.SendChatMessage("Use /pc to place a checkpoint at your current location.");
         }
-
+        
         [Command("placecheckpoint", Alias = "pc")]
         public void PlaceCheckpoint(Player player)
         {
