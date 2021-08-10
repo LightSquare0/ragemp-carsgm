@@ -16,11 +16,12 @@ namespace racing_src
         [ServerEvent(Event.PlayerDeath)]
         public void PlayerDeath(Player player, Player killer, uint reason)
         {
+
             NAPI.Task.Run(() =>
             {
                 NAPI.Player.SpawnPlayer(player, new Vector3(227.21216, 1172.314, 225.45993));
             }, delayTime: 2500);
-            
+
         }
 
         

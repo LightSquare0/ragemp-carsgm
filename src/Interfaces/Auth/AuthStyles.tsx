@@ -1,18 +1,11 @@
 import styled from "styled-components";
 
-export const Container = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100vw;
-  height: 100vh;
-`;
 
 export const ControlsContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: 1.25rem;
- `;
+`;
 
 export const FormContainer = styled.div`
   display: flex;
@@ -20,7 +13,6 @@ export const FormContainer = styled.div`
   align-items: center;
   margin-bottom: 1.875rem;
 `;
-
 
 export const OptionsContainer = styled.div`
   margin-top: 1.25rem;
@@ -44,7 +36,12 @@ export const Hr = styled.div`
   opacity: 0.7;
 `;
 
+export const Title = styled.span`
+  color: gray;
+`;
+
 export const ServerLogo = styled.img`
   max-width: 12rem;
   margin-top: 2rem;
+  margin-bottom: 0.8rem;
 `;

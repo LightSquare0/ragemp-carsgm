@@ -4,18 +4,19 @@ import Checkbox from "../../General Components/Checkbox/Checkbox";
 import Input from "../../General Components/Input/Input";
 import { Button } from "../../Globals/GlobalStyles/ButtonStyles";
 import {
-  Container,
   ControlsContainer,
   FormContainer,
   Hr,
   Option,
   OptionsContainer,
   ServerLogo,
+  Title,
 } from "./AuthStyles";
 import athrons_logo from "../../Static/athrons_logo.svg";
 import { useContext } from "react";
 import { NotificationsContext } from "../../General Components/Notifications/NotificationsContext";
-import { withRouter } from 'react-router-dom';
+import { withRouter } from "react-router-dom";
+import { Container } from "../../Utils/UtilsStyles";
 
 interface UserObject {
   username: string;
@@ -66,7 +67,6 @@ const Auth: React.FC = (props) => {
       //@ts-ignore
       mp.trigger("sendRegisterToServer", username, password, email);
     }
-    
   };
 
   mp.events.add("react:LoginResult", (result: number) => {
@@ -74,7 +74,7 @@ const Auth: React.FC = (props) => {
     console.log(`set result to ${result}`);
     if (result == 1) {
       //@ts-ignore
-      mp.invoke("focus", false);
+      // mp.invoke("focus", false);
       //@ts-ignore
       props.history.push("/");
     } else if (result == 0) {
@@ -86,7 +86,6 @@ const Auth: React.FC = (props) => {
     SetLoginResult(result);
     console.log(`set result to ${result}`);
   });
-
 
   mp.events.add("react:triggerRememberMe", (authUsername, authPassword) => {
     SetUserdata({ username: authUsername, password: authPassword, email: "" });
@@ -101,6 +100,7 @@ const Auth: React.FC = (props) => {
             <ServerLogo src={athrons_logo}></ServerLogo>
             {authType == "login" && (
               <>
+                <Title>Login</Title>
                 <Input
                   icon="user"
                   placeholder="Username"
@@ -135,6 +135,7 @@ const Auth: React.FC = (props) => {
 
             {authType == "register" && (
               <>
+                <Title>Register</Title>
                 <Input
                   icon="user"
                   placeholder="Username"

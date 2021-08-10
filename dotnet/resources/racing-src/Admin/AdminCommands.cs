@@ -68,7 +68,11 @@ namespace racing_src.Admin
                 return;
 
             player.SendChatMessage($"Current coords: {player.Position} | Heading: {player.Heading} | Dimension: {player.Dimension}.");
-            Console.WriteLine($"POS: {player.Position} | Heading: {player.Heading} | Veh heading: {player.Vehicle.Heading}");
+            if (player.IsInVehicle)
+                Console.WriteLine($"POS: {player.Position} | Heading: {player.Heading} | Veh heading: {player.Vehicle.Heading}");
+            else
+                Console.WriteLine($"POS: {player.Position} | Heading: {player.Heading}");
+
         }
 
         [Command("gotocoords")]

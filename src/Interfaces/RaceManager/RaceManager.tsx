@@ -1,11 +1,32 @@
 import Card from "../../General Components/Card/Card";
-import { Container } from "../Auth/AuthStyles";
+import { Container } from "../../Utils/UtilsStyles";
+import { RaceList, SelectedRace } from "./RaceManagerStyles";
 
 const RaceManager: React.FC = () => {
   return (
     <Container>
-      <Card header="Race Manager UI">
-	Select a lobby or host one.
+      <Card row>
+        <RaceList>
+          <tr>
+            <th>Lobby name</th>
+            <th>Clients</th>
+            <th>Status</th>
+          </tr>
+          <tr>
+            <td>
+              Jucam samp aici
+              <br />
+              Eclipse Tour - City
+            </td>
+            <td>
+              15/22
+            </td>
+            <td>
+              Waiting
+            </td>
+          </tr>
+        </RaceList>
+        <SelectedRace></SelectedRace>
       </Card>
     </Container>
   );

@@ -7,12 +7,9 @@ mp.events.add("render", () => {
   mp.game.ui.hideHudComponentThisFrame(10);
   mp.game.ui.hideHudComponentThisFrame(6);
   mp.game.ui.hideHudComponentThisFrame(7);
-  if (mp.players.local.vehicle != null) {
-    let vehicleSpeed = parseInt(mp.players.local.vehicle.getSpeed() * 3.6);
-    let vehicleRpm = parseInt((mp.players.local.vehicle.rpm * 10000) / 1.5);
-    browser.call("react:updateVehicleSpeed", vehicleSpeed);
-    browser.call("react:updateVehicleRpm", vehicleRpm);
-  }
+  mp.game.ui.hideHudComponentThisFrame(3);
+  mp.game.ui.hideHudComponentThisFrame(4);
+ 
 });
 
 mp.events.add("playerEnterVehicle", () => {
@@ -23,3 +20,13 @@ mp.events.add("playerLeaveVehicle", () => {
   browser.call("react:updateSpeedoState", false);
 });
 
+var oldSpeed = 0;
+
+setInterval(() => {
+  if (mp.players.local.vehicle != null) {
+    let vehicleSpeed = parseInt(mp.players.local.vehicle.getSpeed() * 3.6);
+    let vehicleRpm = parseInt(mp.players.local.vehicle.rpm * 10000);
+    let vehicleGear = parseInt(mp.players.local.vehicle.gear);
+    browser.call("react:updateVehicleData", vehicleSpeed, vehicleRpm, vehicleGear);
+  }
+}, 100);

@@ -23,7 +23,7 @@ const RaceHudExpand = keyframes`
 `;
 
 export const RaceHudContainer = styled.div`
-  display: flex;
+  display: none; //temporary
   position: absolute;
   flex-direction: column;
   top: 2.5rem;

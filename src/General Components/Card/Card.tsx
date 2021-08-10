@@ -2,16 +2,16 @@ import { CardContent, CardHeader, CardWrapper } from "./CardStyles";
 
 interface Props {
   header?: string,
-  row?: string
-
+  row?: boolean,
+  column?: boolean,
 }
 
 const Card: React.FC<Props> = (props) => {
   return (
     <>
-      <CardWrapper style={{padding: "0px 0px 0px 0px"}}>
+      <CardWrapper>
         <CardHeader>{props.header}</CardHeader>
-        <CardContent>
+        <CardContent row = {props.row} column = {props.column} >
          {props.children}
         </CardContent>
       </CardWrapper>

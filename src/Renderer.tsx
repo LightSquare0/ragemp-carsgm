@@ -15,6 +15,7 @@ import { NotificationsContext } from "./General Components/Notifications/Notific
 import { useState, useEffect } from "react";
 import Notifications from "./General Components/Notifications/Notifications";
 import RaceManager from "./Interfaces/RaceManager/RaceManager";
+import ModeSelector from "./Interfaces/ModeSelector/ModeSelector";
 
 // interface Notification {
 //   title: string;
@@ -64,7 +65,9 @@ const Renderer: React.FC = () => {
             <Auth />
           </Route>
           <Route path="/racemanager">
+          <ModeSelector>
             <RaceManager/>
+          </ModeSelector>
           </Route>
         </HashRouter>
         <Notifications/>

@@ -15,7 +15,7 @@ namespace racing_src.Players
         [ServerEvent(Event.PlayerConnected)]
         public void DisplayLogin(Player player)
         {
-            player.Position = new Vector3(-640.68726, 36.51645, 61.35225);
+            player.Position = new Vector3(-45.322342, -824.4542, 1296.235);
             player.Transparency = 0;
         }
 
@@ -40,7 +40,7 @@ namespace racing_src.Players
                 if (exists)
                 {
                     player.TriggerEvent("clientside:LoginResult", 1);
-                    
+
                     //player.SendChatMessage($"user exists: {username}, {password}");
                     player.Position = new Vector3(227.21216, 1172.314, 225.45993);
                     player.Heading = -79;

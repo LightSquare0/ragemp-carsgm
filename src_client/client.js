@@ -4,6 +4,7 @@ require("./flymode/fly.js");
 require("./race/Race.js");
 require("./race/RaceManager.js");
 require("./notifications/Notifications.js");
+require("./MoveSkyCamera/index");
 
 mp.gui.chat.show(false);
 
