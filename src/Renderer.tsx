@@ -14,16 +14,9 @@ import Home from "./Interfaces/Home/Home";
 import { NotificationsContext } from "./General Components/Notifications/NotificationsContext";
 import { useState, useEffect } from "react";
 import Notifications from "./General Components/Notifications/Notifications";
-import RaceManager from "./Interfaces/RaceManager/RaceManager";
-import ModeSelector from "./Interfaces/ModeSelector/ModeSelector";
+import RaceList from "./Interfaces/RaceManager/RaceList";
+import GamemodeSelector from "./Interfaces/GamemodeSelector/GamemodeSelector";
 
-// interface Notification {
-//   title: string;
-//   text: string;
-//   type: string;
-// }
-
-// interface NotificationArray extends Array<Notification> {}
 
 const Renderer: React.FC = () => {
   const [notifications, setNotifications] = useState([]);
@@ -47,14 +40,13 @@ const Renderer: React.FC = () => {
     return () => clearInterval(interval);
   });
 
-  //@ts-ignore
   mp.events.add("react:DisplayNotification", (type, title, text) => {
     Notify(title, text, type);
-  })
+  });
 
   return (
     <>
-      <NotificationsContext.Provider value={{notifications, Notify}}>
+      <NotificationsContext.Provider value={{ notifications, Notify }}>
         <GlobalStyles />
         <Hud />
         <HashRouter>
@@ -64,13 +56,14 @@ const Renderer: React.FC = () => {
           <Route path="/auth">
             <Auth />
           </Route>
-          <Route path="/racemanager">
-          <ModeSelector>
-            <RaceManager/>
-          </ModeSelector>
+          <Route path="/gmselector">
+            <GamemodeSelector/>
+          </Route>
+          <Route path="/racelist">
+            <RaceList />
           </Route>
         </HashRouter>
-        <Notifications/>
+        <Notifications />
       </NotificationsContext.Provider>
     </>
   );

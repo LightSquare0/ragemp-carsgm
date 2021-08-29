@@ -1,17 +1,14 @@
 import styled from "styled-components";
 
-
 export const ControlsContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 1.25rem;
 `;
 
 export const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 1.875rem;
 `;
 
 export const OptionsContainer = styled.div`
@@ -21,9 +18,10 @@ export const OptionsContainer = styled.div`
 `;
 
 export const Option = styled.div`
-  color: gray;
-  font-size: 0.875rem;
+  color: var(--text-gray);
+  font-size: 0.9375rem;
   cursor: pointer;
+  margin-top: 2.75rem;
   &:hover {
     text-decoration: underline;
   }
@@ -36,12 +34,15 @@ export const Hr = styled.div`
   opacity: 0.7;
 `;
 
-export const Title = styled.span`
-  color: gray;
-`;
-
-export const ServerLogo = styled.img`
-  max-width: 12rem;
-  margin-top: 2rem;
-  margin-bottom: 0.8rem;
+export const LogoHead = styled.div`
+  color: var(--logo-gray);
+  font-family: "HemiHead";
+  text-align: center;
+  font-size: 5.625rem;
+  line-height: 80%;
+  margin-bottom: 6.25rem;
+  & > span {
+    display: block;
+    font-size: 4.5rem;
+  }
 `;

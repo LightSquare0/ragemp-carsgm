@@ -1,5 +1,5 @@
 import Icon from "../../Utils/Icon";
-import { InputBox, InputContainer } from "./InputStyles";
+import { InputBox, InputStyled, InputContainer, InputLabel } from "./InputStyles";
 
 interface Props {
   icon: string,
@@ -11,13 +11,17 @@ interface Props {
 }
 
 const Input: React.FC<Props> = ({ icon, placeholder, name, type, value, onChange }) => {
+
+  let UpperName = name[0].toLocaleUpperCase() + name.slice(1, name.length); 
+
   return (
-    <>
-      <InputContainer>
-        <Icon icon={icon} size="1.625rem" color="#5c5c5c" />
-        <InputBox placeholder={placeholder} name={name} type={type} value={value} onChange={onChange} />
-      </InputContainer>
-    </>
+    <InputContainer>
+      <InputLabel htmlFor={name}>{UpperName}</InputLabel>
+      <InputStyled>
+        <Icon icon={icon} size="1.8rem" color="var(--text-gray)" />
+        <InputBox placeholder={placeholder} id={name} name={name} type={type} value={value} onChange={onChange} />
+      </InputStyled>
+    </InputContainer>
   );
 };
 

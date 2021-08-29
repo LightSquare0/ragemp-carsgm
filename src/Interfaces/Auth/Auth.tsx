@@ -6,17 +6,16 @@ import { Button } from "../../Globals/GlobalStyles/ButtonStyles";
 import {
   ControlsContainer,
   FormContainer,
-  Hr,
+  LogoHead,
   Option,
   OptionsContainer,
-  ServerLogo,
-  Title,
 } from "./AuthStyles";
-import athrons_logo from "../../Static/athrons_logo.svg";
 import { useContext } from "react";
 import { NotificationsContext } from "../../General Components/Notifications/NotificationsContext";
-import { withRouter } from "react-router-dom";
+import { useHistory, withRouter } from "react-router-dom";
 import { Container } from "../../Utils/UtilsStyles";
+import { Skewify, DeSkewify } from "../../Globals/GlobalStyles/Skew";
+import { Routes } from "../../Utils/RoutesEnum";
 
 interface UserObject {
   username: string;
@@ -27,6 +26,8 @@ interface UserObject {
 mp.invoke("focus", true);
 
 const Auth: React.FC = (props) => {
+  const history = useHistory();
+
   const [authType, SetAuthType] = useState<string>("login");
   const [userdata, SetUserdata] = useState<UserObject>({
     username: "",
@@ -75,11 +76,7 @@ const Auth: React.FC = (props) => {
     if (result == 1) {
       //@ts-ignore
       // mp.invoke("focus", false);
-      //@ts-ignore
-      props.history.push("/");
-    } else if (result == 0) {
-      Notify("Eroare de compilare", "Mai baga o fisa", "error");
-      console.log("samppppppp");
+     history.push(Routes.GamemodeSelector); 
     }
   });
   mp.events.add("react:RegisterResult", (result: number) => {
@@ -94,91 +91,99 @@ const Auth: React.FC = (props) => {
 
   return (
     <Container>
-      <Card>
-        <ControlsContainer>
-          <FormContainer>
-            <ServerLogo src={athrons_logo}></ServerLogo>
-            {authType == "login" && (
-              <>
-                <Title>Login</Title>
-                <Input
-                  icon="user"
-                  placeholder="Username"
-                  name="username"
-                  type="text"
-                  value={userdata.username}
-                  onChange={HandleChange}
-                ></Input>
-                <Input
-                  icon="key-solid"
-                  placeholder="Password"
-                  name="password"
-                  type="password"
-                  value={userdata.password}
-                  onChange={HandleChange}
-                ></Input>
-
+      <ControlsContainer>
+        <FormContainer>
+          <LogoHead>
+            Invictum <span>Racing</span>
+          </LogoHead>
+          {authType == "login" && (
+            <>
+              <Input
+                icon="user"
+                placeholder="Type your username"
+                name="username"
+                type="text"
+                value={userdata.username}
+                onChange={HandleChange}
+              ></Input>
+              <Input
+                icon="key-solid"
+                placeholder="Type your password"
+                name="password"
+                type="password"
+                value={userdata.password}
+                onChange={HandleChange}
+              ></Input>
+              <div
+                style={{
+                  alignSelf: "flex-start",
+                  marginBottom: "1.3rem",
+                  marginLeft: "2.6rem",
+                }}
+              >
                 <Checkbox
                   checked={rememberMe}
                   onChange={HandleRemember}
                   text="Remember me"
                 />
+              </div>
 
+              <Skewify>
                 <Button
                   style={{ marginLeft: "auto", marginRight: "auto" }}
                   onClick={HandleAuth}
                 >
-                  Login
+                  <DeSkewify>Login</DeSkewify>
                 </Button>
-              </>
-            )}
+              </Skewify>
+            </>
+          )}
 
-            {authType == "register" && (
-              <>
-                <Title>Register</Title>
-                <Input
-                  icon="user"
-                  placeholder="Username"
-                  type="text"
-                  name="username"
-                  value={userdata.username}
-                  onChange={HandleChange}
-                ></Input>
-                <Input
-                  icon="at-solid"
-                  placeholder="Email"
-                  name="email"
-                  type="text"
-                  value={userdata.email}
-                  onChange={HandleChange}
-                ></Input>
-                <Input
-                  icon="key-solid"
-                  placeholder="Password"
-                  name="password"
-                  type="password"
-                  value={userdata.password}
-                  onChange={HandleChange}
-                ></Input>
+          {authType == "register" && (
+            <>
+              <Input
+                icon="user"
+                placeholder="Type your desired username"
+                type="text"
+                name="username"
+                value={userdata.username}
+                onChange={HandleChange}
+              ></Input>
+              <Input
+                icon="at-solid"
+                placeholder="Enter a valid email adress"
+                name="email"
+                type="text"
+                value={userdata.email}
+                onChange={HandleChange}
+              ></Input>
+              <Input
+                icon="key-solid"
+                placeholder="Type your password"
+                name="password"
+                type="password"
+                value={userdata.password}
+                onChange={HandleChange}
+              ></Input>
 
+              <Skewify>
                 <Button
                   style={{ marginLeft: "auto", marginRight: "auto" }}
                   onClick={HandleAuth}
                 >
-                  Register
+                  <DeSkewify>Register</DeSkewify>
                 </Button>
-              </>
-            )}
-          </FormContainer>
-          <Hr />
-          <OptionsContainer>
-            <Option>Forgot password?</Option>
-            <Option onClick={() => HandlePageChange()}>
-              {authType == "login" ? <>Register here</> : <>Login here</>}
-            </Option>
-          </OptionsContainer>
-        </ControlsContainer>
-      </Card>
+              </Skewify>
+            </>
+          )}
+        </FormContainer>
+        <OptionsContainer>
+          <Option>Forgot password?</Option>
+          <Option onClick={() => HandlePageChange()}>
+            {authType == "login" ? <>Create an account</> : <>Login here</>}
+          </Option>
+        </OptionsContainer>
+      </ControlsContainer>
     </Container>
   );
 };

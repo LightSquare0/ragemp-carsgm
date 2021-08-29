@@ -49,12 +49,12 @@ mp.events.add("clientside:LoginResult", (result) => {
   browser.call("react:LoginResult", result);
   if (result === 1) {
     // mp.events.call("clientside:OpenRaceManagerUI");
-    mp.gui.chat.show(true);
-    mp.game.cam.renderScriptCams(false, false, 0, true, false);
-    mp.players.local.freezePosition(false);
-    mp.game.graphics.transitionFromBlurred(500);
-    mp.game.ui.displayRadar(true);
-sceneryCamera.shake("HAND_SHAKE", 0.0); 
+//     mp.gui.chat.show(true);
+//     mp.game.cam.renderScriptCams(false, false, 0, true, false);
+//     mp.players.local.freezePosition(false);
+//     mp.game.graphics.transitionFromBlurred(500);
+//     mp.game.ui.displayRadar(true);
+// sceneryCamera.shake("HAND_SHAKE", 0.0); 
   }
 });
 
