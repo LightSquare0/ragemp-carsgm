@@ -4,6 +4,10 @@ import { Routes } from "../../Utils/RoutesEnum";
 const Home: React.FC = () => {
   const history = useHistory();
 
+  mp.events.add("react:DisplayRoot", () => {
+    history.push(Routes.Root);
+  })
+
   mp.events.add("react:DisplayLogin", () => {
     history.push(Routes.Auth);
   });
@@ -12,7 +16,7 @@ const Home: React.FC = () => {
     history.push(Routes.GamemodeSelector);
   });
 
-  mp.events.add("react:OpenRaceManagerUI", () => {
+  mp.events.add("react:OpenRaceListUI", () => {
     history.push(Routes.RaceList);
   });
 

@@ -1,4 +1,4 @@
-import styled, { CSSProperties, keyframes } from "styled-components";
+import styled, { css, CSSProperties, keyframes } from "styled-components";
 
 export const translateIn = keyframes`
  from {
@@ -8,6 +8,8 @@ export const translateIn = keyframes`
 `;
 
 interface ButtonProps {
+  host?: boolean;
+  join?: boolean;
   discord?: boolean;
   onChange?: (event: any) => void;
   style?: CSSProperties;
@@ -21,10 +23,42 @@ export const Button = styled.div<ButtonProps>`
   text-transform: uppercase;
   padding: 1rem 6.25rem 1rem 6.25rem;
   border-radius: 0.5rem;
-  box-shadow: 0.16rem 0.1875rem 1rem rgba(0, 0, 0, 0.3);
-	
+  box-shadow: var(--general-shadow);
+  transition: transform 0.2s ease;
+  transform: skewX(-7deg);
+
+  ${(props) =>
+    props.host &&
+    css`
+      width: 15rem;
+      height: 3rem;
+      padding: 0.7rem 2.8125rem 0.7rem 2.8125rem;
+      margin-left: auto;
+      margin-right: 1rem;
+    `}
+  ${(props) =>
+    props.join &&
+    css`
+      width: 11.5625rem;
+      height: 2.5rem;
+      font-size: 1.125rem;
+      padding: 0rem;
+      text-align: center;
+      padding-top: 0.625rem;
+      padding-bottom: 0.625rem;
+    `}
+
+
+  & > :first-child {
+    transform: skewX(7deg);
+  }
+
   &:active {
-    transform: translateY(0.25rem);
+    transform: translateY(0.25rem) skewX(-7deg);
+  }
+
+  &:hover {
+    transform: translateY(-0.25rem) skewX(-7deg);
   }
 
   &:focus-visible {

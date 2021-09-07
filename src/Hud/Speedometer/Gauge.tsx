@@ -1,4 +1,3 @@
-import * as d3 from "d3";
 import { scaleLinear } from "d3-scale";
 import { Arc, arc } from "d3-shape";
 import { useState } from "react";

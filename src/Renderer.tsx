@@ -4,9 +4,6 @@ import GlobalStyles from "./Globals/GlobalStyles/GlobalStyles";
 import {
   Route,
   HashRouter,
-  Link,
-  Redirect,
-  useHistory,
 } from "react-router-dom";
 import Auth from "./Interfaces/Auth/Auth";
 import Hud from "./Hud/Hud";
@@ -14,8 +11,8 @@ import Home from "./Interfaces/Home/Home";
 import { NotificationsContext } from "./General Components/Notifications/NotificationsContext";
 import { useState, useEffect } from "react";
 import Notifications from "./General Components/Notifications/Notifications";
-import RaceList from "./Interfaces/RaceManager/RaceList";
 import GamemodeSelector from "./Interfaces/GamemodeSelector/GamemodeSelector";
+import RacesList from "./Interfaces/RacesList/RacesList";
 
 
 const Renderer: React.FC = () => {
@@ -60,7 +57,7 @@ const Renderer: React.FC = () => {
             <GamemodeSelector/>
           </Route>
           <Route path="/racelist">
-            <RaceList />
+            <RacesList />
           </Route>
         </HashRouter>
         <Notifications />

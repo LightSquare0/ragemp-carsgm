@@ -13,14 +13,14 @@ namespace racing_src.Players
     public class Auth : Script
     {
         [ServerEvent(Event.PlayerConnected)]
-        public void DisplayLogin(Player player)
+        public void DisplayLogin(GTANetworkAPI.Player player)
         {
             player.Position = new Vector3(-45.322342, -824.4542, 1296.235);
             player.Transparency = 0;
         }
 
         [RemoteEvent("serverside:OnPlayerLogin")]
-        public async Task OnPlayerLogin(Player player, string username, string password)
+        public async Task OnPlayerLogin(GTANetworkAPI.Player player, string username, string password)
         {
             if (NAPI.Pools.GetAllPlayers().FindAll(x => x.Name == username).Count > 0)
             {
@@ -39,28 +39,27 @@ namespace racing_src.Players
                 var exists = await db.ExecuteScalarAsync<bool>(getUserSQL, loginParams);
                 if (exists)
                 {
-                    player.TriggerEvent("clientside:LoginResult", 1);
-
-                    //player.SendChatMessage($"user exists: {username}, {password}");
-                    player.Position = new Vector3(227.21216, 1172.314, 225.45993);
-                    player.Heading = -79;
-                    player.Transparency = 255;
+                    player.TriggerEvent("clientside:LoginResult", 1, player.Name);
                     await AccountModel.LoadPlayerData(player, username);
                     player.Notify(Notifications.Type.Success, $"Welcome {player.Name}", "Successfully logged in.");
                 }
                 else
                 {
-                    //player.SendChatMessage($"user doesn't exist: {username}, {password}");
                     player.Notify(Notifications.Type.Error, "Wrong credentials!", "Please check your spelling and try again.");
                     player.TriggerEvent("clientside:LoginResult", 0);
                 }
 
-
             }
         }
 
+        [RemoteProc("serverside:samp")]
+        public void SAMPPP()
+        {
+
+        }
+
         [RemoteEvent("serverside:OnPlayerRegister")]
-        public async Task RegisterPlayer (Player player, string username, string password, string email)
+        public async Task RegisterPlayer (GTANetworkAPI.Player player, string username, string password, string email)
         {
             using (IDbConnection db = new MySqlConnection(Database.GetConnectionString()))
             {

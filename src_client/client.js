@@ -2,6 +2,7 @@ require("./auth/Auth.js");
 require("./hud/Speedometer.js");
 require("./flymode/fly.js");
 require("./race/Race.js");
+require("./players/Players.js");
 require("./race/RaceManager.js");
 require("./notifications/Notifications.js");
 require("./MoveSkyCamera/index");

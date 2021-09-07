@@ -10,9 +10,8 @@ export const Skewify: React.FC = (props) => {
 
 export const DeSkewify: React.FC = (props) => {
   const DeSkewifyS = styled.div`
-  transform: skew(7deg);
-  `
+    transform: skew(7deg);
+  `;
 
-  return <DeSkewifyS>{props.children}</DeSkewifyS>
-}
-
+  return <DeSkewifyS>{props.children}</DeSkewifyS>;
+};

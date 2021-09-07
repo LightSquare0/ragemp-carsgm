@@ -57,6 +57,9 @@ html, body{
     --very-light-yellow: #F9E499;
     --middle-yellow: #EDC443;
     --orangeish-yellow: #D79200;
+    /* Shadows & other */
+    --general-shadow: 0.16rem 0.1875rem 1rem rgba(0, 0, 0, 0.3);
+    --yellow-shadow:  0.16rem 0.1875rem 1rem rgba(237, 196, 67, 0.9);
 }
 
 #app{
@@ -112,6 +115,26 @@ html, body{
   }
 }
 
+/* width */
+::-webkit-scrollbar {
+  width: 0.5rem;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  border-radius: 0.625rem;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: transparent; 
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--stroke-gray); 
+}
 
 `;
 

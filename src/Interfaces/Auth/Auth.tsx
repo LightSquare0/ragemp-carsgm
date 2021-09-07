@@ -70,13 +70,13 @@ const Auth: React.FC = (props) => {
     }
   };
 
-  mp.events.add("react:LoginResult", (result: number) => {
+  mp.events.add("react:LoginResult", (result: number, playerName: string) => {
     SetLoginResult(result);
     console.log(`set result to ${result}`);
     if (result == 1) {
       //@ts-ignore
       // mp.invoke("focus", false);
-     history.push(Routes.GamemodeSelector); 
+      history.push(Routes.GamemodeSelector);
     }
   });
   mp.events.add("react:RegisterResult", (result: number) => {
@@ -128,14 +128,12 @@ const Auth: React.FC = (props) => {
                 />
               </div>
 
-              <Skewify>
-                <Button
-                  style={{ marginLeft: "auto", marginRight: "auto" }}
-                  onClick={HandleAuth}
-                >
-                  <DeSkewify>Login</DeSkewify>
-                </Button>
-              </Skewify>
+              <Button
+                style={{ marginLeft: "auto", marginRight: "auto" }}
+                onClick={HandleAuth}
+              >
+                <div>Login</div>
+              </Button>
             </>
           )}
 
@@ -166,14 +164,12 @@ const Auth: React.FC = (props) => {
                 onChange={HandleChange}
               ></Input>
 
-              <Skewify>
-                <Button
-                  style={{ marginLeft: "auto", marginRight: "auto" }}
-                  onClick={HandleAuth}
-                >
-                  <DeSkewify>Register</DeSkewify>
-                </Button>
-              </Skewify>
+              <Button
+                style={{ marginLeft: "auto", marginRight: "auto" }}
+                onClick={HandleAuth}
+              >
+                <div>Register</div>
+              </Button>
             </>
           )}
         </FormContainer>
