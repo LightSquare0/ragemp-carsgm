@@ -13,7 +13,7 @@ export const chatbox = mp.browsers.new("package://chat/chat.html");
 chatbox.markAsChat();
 
 export const browser = mp.browsers.new("http://naivoe.go.ro:8080");
-
+mp.game.gxt.set('PM_PAUSE_HDR', "Invictum Racing");
 // ` - trigger cursor
 mp.keys.bind(0xc0, true, () => {
   let state = !mp.gui.cursor.visible;
