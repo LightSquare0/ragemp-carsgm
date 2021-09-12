@@ -69,7 +69,7 @@ export const RacesListed = styled.div`
   overflow: auto;
 `;
 
-export const Race = styled.div`
+export const RaceContainer = styled.div`
   display: flex;
   justify-content: space-between;
   flex-direction: row;
@@ -81,6 +81,15 @@ export const Race = styled.div`
   color: white;
   box-shadow: var(--general-shadow);
   background-color: var(--darker-gray);
+`;
+
+export const RacePlaceholder = styled.div`
+  width: 100%;
+  height: 4.75rem;
+  margin-bottom: 1.25rem;
+  border-radius: 0.625rem;
+  box-shadow: var(--general-shadow);
+  background-color: var(--darker-gray-variant);
 `;
 
 export const RaceBrief = styled.div`
@@ -117,7 +126,7 @@ export const VehicleClass = styled.div`
   }
 `;
 
-export const OpenedRace = styled.div`
+export const RacePanelContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 40%;
@@ -156,6 +165,7 @@ export const TrackMap = styled.img`
   height: auto;
   width: 100%;
   border-radius: 0.4375rem;
+  opacity: 0.8;
 `;
 
 export const OpenedBottom = styled.div`
@@ -230,4 +240,9 @@ export const BackButton = styled.div<any>`
   font-size: 1.25rem;
   color: white;
   background-color: var(--darker-gray);
+`;
+
+export const HostGenericHeader = styled.div`
+  margin-top: 0.75rem;
+  font-size: 1.25rem;
 `;

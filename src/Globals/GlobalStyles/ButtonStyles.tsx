@@ -21,6 +21,7 @@ export const Button = styled.div<ButtonProps>`
   color: white;
   font-size: 1.5rem;
   text-transform: uppercase;
+  text-align: center;
   padding: 1rem 6.25rem 1rem 6.25rem;
   border-radius: 0.5rem;
   box-shadow: var(--general-shadow);
@@ -32,7 +33,7 @@ export const Button = styled.div<ButtonProps>`
     css`
       width: 15rem;
       height: 3rem;
-      padding: 0.7rem 2.8125rem 0.7rem 2.8125rem;
+      padding: 0.7rem 0rem 0.7rem 0rem;
       margin-left: auto;
       margin-right: 1rem;
     `}

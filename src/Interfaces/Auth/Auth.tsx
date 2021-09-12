@@ -76,7 +76,7 @@ const Auth: React.FC = (props) => {
     if (result == 1) {
       //@ts-ignore
       // mp.invoke("focus", false);
-      history.push(Routes.GamemodeSelector);
+      mp.trigger("clientside:OpenGamemodeSelectorUI");
     }
   });
   mp.events.add("react:RegisterResult", (result: number) => {

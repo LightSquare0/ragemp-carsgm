@@ -12,7 +12,7 @@ import { NotificationsContext } from "./General Components/Notifications/Notific
 import { useState, useEffect } from "react";
 import Notifications from "./General Components/Notifications/Notifications";
 import GamemodeSelector from "./Interfaces/GamemodeSelector/GamemodeSelector";
-import RacesList from "./Interfaces/RacesList/RacesList";
+import { RacesList } from "./Interfaces/RacesList/RacesList";
 
 
 const Renderer: React.FC = () => {

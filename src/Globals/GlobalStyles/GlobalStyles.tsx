@@ -41,7 +41,8 @@ html, body{
     --background-gray: #242424F2; 
     --badge-gray: #2F2F2F;
     --stroke-gray: #3D3D3B;
-    --darker-gray: #41414199;
+    --darker-gray: #414141B3;
+    --darker-gray-variant: #41414159;
     --logo-gray: #5B5B5B;
     --middle-gray: #868686;
     --whiter-gray: #9D9D9D;
@@ -60,6 +61,7 @@ html, body{
     /* Shadows & other */
     --general-shadow: 0.16rem 0.1875rem 1rem rgba(0, 0, 0, 0.3);
     --yellow-shadow:  0.16rem 0.1875rem 1rem rgba(237, 196, 67, 0.9);
+    --dimmer-yellow-shadow: 0 0 0.5rem 0.125rem rgba(237, 196, 67, 0.2);
 }
 
 #app{
