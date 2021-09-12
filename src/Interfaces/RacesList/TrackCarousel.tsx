@@ -143,7 +143,7 @@ const TrackCarousel: React.FC = () => {
       case "right":
         let prevImages = [...images];
         let _imageIndex = imageIndex;
-        if (11 == _imageIndex) return;
+        if (imageIndex >= prevImages.length - 1) return;
         console.log("old index ", imageIndex);
         let _newIndex = imageIndex + 1;
         setImageIndex(_newIndex);
