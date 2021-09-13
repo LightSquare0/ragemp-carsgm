@@ -4,6 +4,7 @@ import {
   TrackImage,
   TrackDiv,
   TrackImagesContainer,
+  TrackName,
 } from "./TrackCarouselStyles";
 import demo_map from "../../Static/Demo_map.png";
 import Icon from "../../Utils/Icon";
@@ -34,7 +35,7 @@ const TrackCarousel: React.FC = () => {
       state: "hidden",
     },
     {
-      name: "Eclipse Tour",
+      name: "Santa Maria Beach",
       image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
       state: "hidden",
     },
@@ -94,42 +95,31 @@ const TrackCarousel: React.FC = () => {
   };
 
   const updateCarousel = (_imageIndex: number) => {
-    images.forEach((race: race) => {
-      let prevImages = [...images];
-      let currentIndex = images.indexOf(race);
+    resetImages();
+    let prevImages = [...images];
 
-      let hiddenLeft = currentIndex - 2;
-      let prev = currentIndex - 1;
-      let selected = currentIndex;
-      let next = currentIndex + 1;
-      let hiddenRight = currentIndex + 2;
-      if (currentIndex == _imageIndex) {
-        if (hiddenLeft > 0) {
-          prevImages[hiddenLeft].state = state.hiddenLeft;
-        }
-        if (prev > -1) {
-          prevImages[prev].state = state.prev;
-        }
-        prevImages[selected].state = state.selected;
-        // if (next < prevImages.length - 1) {
-          prevImages[next].state = state.next;
-        // }
-        // if (hiddenRight < prevImages.length - 2) {
-          prevImages[hiddenRight].state = state.hiddenRight;
-        // }
-        setImages(prevImages);
-      }
-    });
+    let hiddenLeft: race = prevImages[_imageIndex - 2];
+    let prev: race = prevImages[_imageIndex - 1];
+    let selected: race = prevImages[_imageIndex];
+    let next: race = prevImages[_imageIndex + 1];
+    let hiddenRight: race = prevImages[_imageIndex + 2];
+
+    if (hiddenLeft != undefined) {
+      hiddenLeft.state = state.hiddenLeft;
+    }
+    if (prev != undefined) {
+      prev.state = state.prev;
+    }
+    selected.state = state.selected;
+    next.state = state.next;
+    hiddenRight.state = state.hiddenRight;
+    setImages(prevImages);
   };
 
   useEffect(() => {
     resetImages();
     updateCarousel(imageIndex);
-    console.log(imageIndex);
-    console.log("sa dat treiger la efefct");
   }, []);
-
-  console.log(images);
 
   const moveCarousel = (direction: string) => {
     switch (direction) {
@@ -137,19 +127,14 @@ const TrackCarousel: React.FC = () => {
         if (imageIndex <= 0) return;
         let newIndex = imageIndex - 1;
         setImageIndex(newIndex);
-        resetImages();
         updateCarousel(newIndex);
         break;
       case "right":
-        let prevImages = [...images];
-        let _imageIndex = imageIndex;
-        if (imageIndex >= prevImages.length - 1) return;
-        console.log("old index ", imageIndex);
+        if (imageIndex >= images.length - 1) return;
         let _newIndex = imageIndex + 1;
         setImageIndex(_newIndex);
-        resetImages();
         updateCarousel(_newIndex);
-        // console.log("index ", imageIndex -1, images.length);
+        console.log(images);
         break;
       default:
         break;
@@ -168,17 +153,20 @@ const TrackCarousel: React.FC = () => {
       <TrackImagesContainer ref={tempRef}>
         {images.map((race: race) => {
           return (
-            <TrackDiv
-              currentIndex={imageIndex}
-              index={images.indexOf(race)}
-              state={race.state}
-            >
-              <TrackImage
+            <>
+              <TrackDiv
                 currentIndex={imageIndex}
                 index={images.indexOf(race)}
-                src={race.image}
-              />
-            </TrackDiv>
+                state={race.state}
+              >
+                <TrackImage
+                  currentIndex={imageIndex}
+                  index={images.indexOf(race)}
+                  src={race.image}
+                />
+              </TrackDiv>
+              <TrackName state={race.state}>{race.name}</TrackName>
+            </>
           );
         })}
       </TrackImagesContainer>

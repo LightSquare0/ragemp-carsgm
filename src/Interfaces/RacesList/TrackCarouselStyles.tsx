@@ -15,18 +15,11 @@ export const TrackImagesContainer = styled.div`
   /* display: flex; */
   position: relative;
   /* align-items: center; */
-  height: 8.125rem;
+  height: 9.375rem;
   width: 80%;
   /* width: 23.875rem; */
   overflow: hidden;
-  /* top: 50%; */
-  /* & > :first-child {
-    margin-left: auto;
-  }
 
-  & > :last-child {
-    margin-right: auto;
-  } */
 `;
 
 export const ArrowButton = styled.div`
@@ -105,4 +98,21 @@ export const TrackImage = styled.img<TrackImage>`
   height: 100%;
   width: auto;
   border-radius: 0.4375rem;
+`;
+
+export const TrackName = styled.div<TrackImage>`
+  color: white;
+  font-size: 1rem;
+  position: absolute;
+  top: 90%;
+  left: 50%;
+  transform: translateX(-50%);
+  ${({ state }) =>
+    state == "selected"
+      ? css`
+          display: inline;
+        `
+      : css`
+          display: none;
+        `}
 `;
