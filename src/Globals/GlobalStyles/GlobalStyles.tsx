@@ -41,6 +41,7 @@ html, body{
     --background-gray: #242424F2; 
     --badge-gray: #2F2F2F;
     --stroke-gray: #3D3D3B;
+    --stroke2-gray: #454545CC;
     --darker-gray: #414141B3;
     --darker-gray-variant: #41414159;
     --logo-gray: #5B5B5B;

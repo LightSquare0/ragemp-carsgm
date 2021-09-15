@@ -32,12 +32,15 @@ import {
   VehicleClassContainer,
   RacePlaceholder,
   HostGenericHeader,
+  TrackFiltering,
 } from "./RacesListStyles";
 import demo_map from "../../Static/Demo_map.png";
 import { useHistory } from "react-router-dom";
 import { Routes } from "../../Utils/RoutesEnum";
 import { useState } from "react";
 import TrackCarousel from "./TrackCarousel";
+import Dropdown from "../../General Components/Dropdown/Dropdown";
+import Search from "../../General Components/Search/Search";
 
 const racesMockup = [
   {
@@ -164,6 +167,124 @@ interface RacePanel {
 }
 
 export const RacePanel: React.FC<RacePanel> = ({ willHost }) => {
+  const [imageIndex, setImageIndex] = useState<number>(0);
+
+  const [images, setImages] = useState<any>([
+    {
+      name: "Eclipse Tour",
+      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
+      state: "hidden",
+    },
+    {
+      name: "Santa Maria Beach",
+      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
+      state: "hidden",
+    },
+    {
+      name: "Nurburgring",
+      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
+      state: "hidden",
+    },
+    {
+      name: "Spa-Francorchamps",
+      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
+      state: "hidden",
+    },
+    {
+      name: "Suzuka",
+      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
+      state: "hidden",
+    },
+    {
+      name: "Circuit de la Sarthe",
+      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
+      state: "hidden",
+    },
+    {
+      name: "Mount Panorama",
+      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
+      state: "hidden",
+    },
+    {
+      name: "Laguna Seca",
+      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
+      state: "hidden",
+    },
+    {
+      name: "Circuit de Monaco",
+      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
+      state: "hidden",
+    },
+    {
+      name: "Monza",
+      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
+      state: "hidden",
+    },
+    {
+      name: "Silverstone",
+      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
+      state: "hidden",
+    },
+    {
+      name: "Interlagos",
+      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
+      state: "hidden",
+    },
+    {
+      name: "Vinewood Sprint",
+      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
+      state: "hidden",
+    }
+  ]);
+
+  const [dropdownState, setDropdownState] = useState<boolean>(false);
+
+  const [dropdownText, setDropdownText] = useState<string>("Categories");
+
+  const [dropdownElements, setDropdownElements] = useState([
+    "Boats",
+    "Commercials",
+    "Compacts",
+    "Coupes",
+    "Helicopters",
+    "Industrial",
+    "Military",
+    "Motorcycles",
+    "Muscle",
+    "Off-Road",
+    "Open Wheel",
+    "Planes",
+    "SUVs",
+    "Sedans",
+    "Sports",
+    "Sports Classic",
+    "Super",
+    "Vans",
+  ]);
+
+  const [searchText, setSearchText] = useState<string>("");
+
+  const tracksMockup = [
+    "Eclipse Tour",
+    "Nurburgring",
+    "Spa-Francorchamps",
+    "Suzuka",
+    "Circuit de la Sarthe",
+    "Mount Panorama",
+    "Laguna Seca",
+    "Circuit de Monaco",
+    "Monza",
+    "Silverstone",
+    "Interlagos",
+    "Vinewood Sprint",
+  ];
+
+  const filterTrackImages = () => {
+    let prevImages = [...images];
+    let samp = prevImages.filter((image) => image.name.includes(searchText));
+    setImages(samp);
+  }
+
   return (
     <RacePanelContainer>
       {!willHost && (
@@ -209,14 +330,39 @@ export const RacePanel: React.FC<RacePanel> = ({ willHost }) => {
           </OpenedBottom>
         </>
       )}
-      {
-        willHost && 
+      {willHost && (
         <>
           <OpenedTrackName>Host a race</OpenedTrackName>
-          <HostGenericHeader>Select track</HostGenericHeader>
-          <TrackCarousel/>
+          <TrackFiltering>
+            <HostGenericHeader>Select track</HostGenericHeader>
+            <div style={{ display: "flex" }}>
+              <Dropdown
+                label=""
+                dropdownElements={dropdownElements}
+                dropdownText={dropdownText}
+                setDropdownState={setDropdownState}
+                setDropdownText={setDropdownText}
+                setDropdownElements={setDropdownElements}
+                dropdownState={dropdownState}
+              ></Dropdown>
+              <Search
+                style={{ marginLeft: "0.875rem" }}
+                placeholder="Filter tracks"
+                searchText={searchText}
+                setSearchText={setSearchText}
+                label=""
+                filterTrackImages={filterTrackImages}
+              ></Search>
+            </div>
+          </TrackFiltering>
+          <TrackCarousel
+            imageIndex={imageIndex}
+            setImageIndex={setImageIndex}
+            images={images}
+            setImages={setImages}
+          />
         </>
-      }
+      )}
     </RacePanelContainer>
   );
 };

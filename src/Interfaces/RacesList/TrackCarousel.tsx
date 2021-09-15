@@ -8,7 +8,7 @@ import {
 } from "./TrackCarouselStyles";
 import demo_map from "../../Static/Demo_map.png";
 import Icon from "../../Utils/Icon";
-import { useEffect, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 
 export enum state {
   hiddenLeft = "hiddenLeft",
@@ -24,67 +24,15 @@ interface race {
   state: state;
 }
 
-const TrackCarousel: React.FC = () => {
-  const [imageIndex, setImageIndex] = useState<number>(0);
-  const tempRef = useRef(null);
+interface TrackCarousel {
+  images: race[];
+  setImages: Dispatch<SetStateAction<object[]>>;
+  imageIndex: number;
+  setImageIndex: Dispatch<SetStateAction<number>>
+}
 
-  const [images, setImages] = useState<any>([
-    {
-      name: "Eclipse Tour",
-      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
-      state: "hidden",
-    },
-    {
-      name: "Santa Maria Beach",
-      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
-      state: "hidden",
-    },
-    {
-      name: "Eclipse Tour",
-      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
-      state: "hidden",
-    },
-    {
-      name: "Eclipse Tour",
-      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
-      state: "hidden",
-    },
-    {
-      name: "Eclipse Tour",
-      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
-      state: "hidden",
-    },
-    {
-      name: "Eclipse Tour",
-      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
-      state: "hidden",
-    },
-    {
-      name: "Eclipse Tour",
-      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
-      state: "hidden",
-    },
-    {
-      name: "Eclipse Tour",
-      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
-      state: "hidden",
-    },
-    {
-      name: "Eclipse Tour",
-      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
-      state: "hidden",
-    },
-    {
-      name: "Eclipse Tour",
-      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
-      state: "hidden",
-    },
-    {
-      name: "Eclipse Tour",
-      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
-      state: "hidden",
-    },
-  ]);
+const TrackCarousel: React.FC<TrackCarousel> = ({images, setImages, imageIndex, setImageIndex}) => {
+  
 
   const resetImages = () => {
     let _prevImages = [...images];
@@ -150,7 +98,7 @@ const TrackCarousel: React.FC = () => {
           color="var(--middle-gray)"
         />
       </ArrowButton>
-      <TrackImagesContainer ref={tempRef}>
+      <TrackImagesContainer>
         {images.map((race: race) => {
           return (
             <>

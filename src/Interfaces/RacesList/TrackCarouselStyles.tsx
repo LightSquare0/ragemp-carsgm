@@ -3,21 +3,15 @@ import { state } from "../RacesList/TrackCarousel";
 
 export const TrackCarouselContainer = styled.div`
   display: flex;
-  /* justify-content: center; */
-  /* align-items: center; */
   width: 100%;
-  /* height: 7.1875rem;  */
   margin-top: 1.375rem;
   margin-bottom: 1.375rem;
 `;
 
 export const TrackImagesContainer = styled.div`
-  /* display: flex; */
   position: relative;
-  /* align-items: center; */
   height: 9.375rem;
   width: 80%;
-  /* width: 23.875rem; */
   overflow: hidden;
 
 `;

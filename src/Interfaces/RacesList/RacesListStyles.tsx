@@ -246,3 +246,9 @@ export const HostGenericHeader = styled.div`
   margin-top: 0.75rem;
   font-size: 1.25rem;
 `;
+
+export const TrackFiltering = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
