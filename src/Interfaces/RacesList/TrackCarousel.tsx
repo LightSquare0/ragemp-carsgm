@@ -18,7 +18,7 @@ export enum state {
   hiddenRight = "hiddenRight",
 }
 
-interface race {
+export interface race {
   name: string;
   image: string;
   state: state;
@@ -28,46 +28,20 @@ interface TrackCarousel {
   images: race[];
   setImages: Dispatch<SetStateAction<object[]>>;
   imageIndex: number;
-  setImageIndex: Dispatch<SetStateAction<number>>
+  setImageIndex: Dispatch<SetStateAction<number>>;
+  updateCarousel: any;
+  resetImages: any;
 }
 
-const TrackCarousel: React.FC<TrackCarousel> = ({images, setImages, imageIndex, setImageIndex}) => {
+const TrackCarousel: React.FC<TrackCarousel> = ({
+  images,
+  setImages,
+  imageIndex,
+  setImageIndex,
+  updateCarousel,
+  resetImages
+}) => {
   
-
-  const resetImages = () => {
-    let _prevImages = [...images];
-    _prevImages.forEach((race: race) => {
-      race.state = state.hiddenLeft;
-    });
-    setImages(_prevImages);
-  };
-
-  const updateCarousel = (_imageIndex: number) => {
-    resetImages();
-    let prevImages = [...images];
-
-    let hiddenLeft: race = prevImages[_imageIndex - 2];
-    let prev: race = prevImages[_imageIndex - 1];
-    let selected: race = prevImages[_imageIndex];
-    let next: race = prevImages[_imageIndex + 1];
-    let hiddenRight: race = prevImages[_imageIndex + 2];
-
-    if (hiddenLeft != undefined) {
-      hiddenLeft.state = state.hiddenLeft;
-    }
-    if (prev != undefined) {
-      prev.state = state.prev;
-    }
-    selected.state = state.selected;
-    next.state = state.next;
-    hiddenRight.state = state.hiddenRight;
-    setImages(prevImages);
-  };
-
-  useEffect(() => {
-    resetImages();
-    updateCarousel(imageIndex);
-  }, []);
 
   const moveCarousel = (direction: string) => {
     switch (direction) {
@@ -75,13 +49,13 @@ const TrackCarousel: React.FC<TrackCarousel> = ({images, setImages, imageIndex, 
         if (imageIndex <= 0) return;
         let newIndex = imageIndex - 1;
         setImageIndex(newIndex);
-        updateCarousel(newIndex);
+        updateCarousel(images,newIndex);
         break;
       case "right":
         if (imageIndex >= images.length - 1) return;
         let _newIndex = imageIndex + 1;
         setImageIndex(_newIndex);
-        updateCarousel(_newIndex);
+        updateCarousel(images, _newIndex);
         console.log(images);
         break;
       default:
@@ -103,6 +77,7 @@ const TrackCarousel: React.FC<TrackCarousel> = ({images, setImages, imageIndex, 
           return (
             <>
               <TrackDiv
+                key={images.indexOf(race)}
                 currentIndex={imageIndex}
                 index={images.indexOf(race)}
                 state={race.state}

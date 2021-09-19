@@ -8,25 +8,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace racing_src.Players
 {
     public class Auth : Script
     {
+        
         [ServerEvent(Event.PlayerConnected)]
-        public void DisplayLogin(GTANetworkAPI.Player player)
+        public void DisplayLogin(Player player)
         {
             player.Position = new Vector3(-45.322342, -824.4542, 1296.235);
             player.Transparency = 0;
         }
 
+
         [RemoteEvent("serverside:OnPlayerLogin")]
-        public async Task OnPlayerLogin(GTANetworkAPI.Player player, string username, string password)
+        public async Task OnPlayerLogin(Player player, string username, string password)
         {
             if (NAPI.Pools.GetAllPlayers().FindAll(x => x.Name == username).Count > 0)
             {
                 player.Notify(Notifications.Type.Error, $"Already logged in!", $"A player with the name {username} is already logged in.");
                 return;
             } 
+            
             using (IDbConnection db = new MySqlConnection(Database.GetConnectionString()))
             {
                 string getUserSQL = "SELECT * FROM accounts WHERE username = @username AND password = @password";
@@ -59,7 +63,7 @@ namespace racing_src.Players
         }
 
         [RemoteEvent("serverside:OnPlayerRegister")]
-        public async Task RegisterPlayer (GTANetworkAPI.Player player, string username, string password, string email)
+        public async Task RegisterPlayer (Player player, string username, string password, string email)
         {
             using (IDbConnection db = new MySqlConnection(Database.GetConnectionString()))
             {

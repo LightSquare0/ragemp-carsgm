@@ -37,8 +37,8 @@ import {
 import demo_map from "../../Static/Demo_map.png";
 import { useHistory } from "react-router-dom";
 import { Routes } from "../../Utils/RoutesEnum";
-import { useState } from "react";
-import TrackCarousel from "./TrackCarousel";
+import { useEffect, useState } from "react";
+import TrackCarousel, { race, state } from "./TrackCarousel";
 import Dropdown from "../../General Components/Dropdown/Dropdown";
 import Search from "../../General Components/Search/Search";
 
@@ -234,7 +234,75 @@ export const RacePanel: React.FC<RacePanel> = ({ willHost }) => {
       name: "Vinewood Sprint",
       image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
       state: "hidden",
-    }
+    },
+  ]);
+
+  const [defaultImages, setDefaultImages] = useState<any>([
+    {
+      name: "Eclipse Tour",
+      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
+      state: "hidden",
+    },
+    {
+      name: "Santa Maria Beach",
+      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
+      state: "hidden",
+    },
+    {
+      name: "Nurburgring",
+      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
+      state: "hidden",
+    },
+    {
+      name: "Spa-Francorchamps",
+      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
+      state: "hidden",
+    },
+    {
+      name: "Suzuka",
+      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
+      state: "hidden",
+    },
+    {
+      name: "Circuit de la Sarthe",
+      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
+      state: "hidden",
+    },
+    {
+      name: "Mount Panorama",
+      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
+      state: "hidden",
+    },
+    {
+      name: "Laguna Seca",
+      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
+      state: "hidden",
+    },
+    {
+      name: "Circuit de Monaco",
+      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
+      state: "hidden",
+    },
+    {
+      name: "Monza",
+      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
+      state: "hidden",
+    },
+    {
+      name: "Silverstone",
+      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
+      state: "hidden",
+    },
+    {
+      name: "Interlagos",
+      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
+      state: "hidden",
+    },
+    {
+      name: "Vinewood Sprint",
+      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
+      state: "hidden",
+    },
   ]);
 
   const [dropdownState, setDropdownState] = useState<boolean>(false);
@@ -262,28 +330,57 @@ export const RacePanel: React.FC<RacePanel> = ({ willHost }) => {
     "Vans",
   ]);
 
-  const [searchText, setSearchText] = useState<string>("");
+  const [searchText, setSearchText] = useState("");
 
-  const tracksMockup = [
-    "Eclipse Tour",
-    "Nurburgring",
-    "Spa-Francorchamps",
-    "Suzuka",
-    "Circuit de la Sarthe",
-    "Mount Panorama",
-    "Laguna Seca",
-    "Circuit de Monaco",
-    "Monza",
-    "Silverstone",
-    "Interlagos",
-    "Vinewood Sprint",
-  ];
+  const resetImages = () => {
+    let _prevImages = [...defaultImages];
+    _prevImages.forEach((race: race) => {
+      race.state = state.hiddenLeft;
+    });
+    setImages(_prevImages);
+  };
 
-  const filterTrackImages = () => {
-    let prevImages = [...images];
-    let samp = prevImages.filter((image) => image.name.includes(searchText));
+  const updateCarousel = (prevImages: any, _imageIndex: number) => {
+    resetImages();
+
+    let hiddenLeft: race = prevImages[_imageIndex - 2];
+    let prev: race = prevImages[_imageIndex - 1];
+    let selected: race = prevImages[_imageIndex];
+    let next: race = prevImages[_imageIndex + 1];
+    let hiddenRight: race = prevImages[_imageIndex + 2];
+
+    if (hiddenLeft != undefined) {
+      hiddenLeft.state = state.hiddenLeft;
+    }
+    if (prev != undefined) {
+      prev.state = state.prev;
+    }
+
+    if (selected != undefined) {
+      selected.state = state.selected;
+    }
+
+    if (next != undefined) {
+      next.state = state.next;
+    }
+    if (hiddenRight != undefined) {
+      hiddenRight.state = state.hiddenRight;
+    }
+
+    setImages(prevImages);
+  };
+
+  useEffect(() => {
+    resetImages();
+    let samp = defaultImages.filter((image: { name: string }) => {
+      return image.name
+        .toLocaleLowerCase()
+        .includes(searchText.toLocaleLowerCase());
+    });
+    setImageIndex(0);
     setImages(samp);
-  }
+    updateCarousel(samp, imageIndex);
+  }, [searchText]);
 
   return (
     <RacePanelContainer>
@@ -351,7 +448,6 @@ export const RacePanel: React.FC<RacePanel> = ({ willHost }) => {
                 searchText={searchText}
                 setSearchText={setSearchText}
                 label=""
-                filterTrackImages={filterTrackImages}
               ></Search>
             </div>
           </TrackFiltering>
@@ -360,6 +456,8 @@ export const RacePanel: React.FC<RacePanel> = ({ willHost }) => {
             setImageIndex={setImageIndex}
             images={images}
             setImages={setImages}
+            updateCarousel={updateCarousel}
+            resetImages={resetImages}
           />
         </>
       )}

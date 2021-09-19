@@ -14,7 +14,7 @@ interface Search {
   searchText: string;
   setSearchText: Dispatch<SetStateAction<string>>;
   style?: any;
-  filterTrackImages: any;
+  filterTrackImages?: any;
 }
 
 const Search: React.FC<Search> = ({
@@ -23,20 +23,15 @@ const Search: React.FC<Search> = ({
   searchText,
   setSearchText,
   style,
-  filterTrackImages
 }) => {
-  const handleChange = (event: any) => {
-    setSearchText(event.target.value);
-    filterTrackImages();
-  };
-
   return (
     <SearchWrapper style={style}>
       <SearchLabel>{label}</SearchLabel>
       <SearchBox>
         <SearchInput
           placeholder={placeholder}
-          onChange={(event: any) => handleChange(event)}
+          value={searchText}
+          onChange={(event: any) => setSearchText(event.target.value)}
         />
         <SearchButton>
           <Icon icon="search-solid" size="1rem" color="white" />

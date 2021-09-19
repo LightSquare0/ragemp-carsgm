@@ -23,7 +23,7 @@ interface UserObject {
   email: string;
 }
 //@ts-ignore
-mp.invoke("focus", true);
+// mp.invoke("focus", true);
 
 const Auth: React.FC = (props) => {
   const history = useHistory();
