@@ -41,6 +41,7 @@ import { useEffect, useState } from "react";
 import TrackCarousel, { race, state } from "./TrackCarousel";
 import Dropdown from "../../General Components/Dropdown/Dropdown";
 import Search from "../../General Components/Search/Search";
+import Steps from "./Steps";
 
 const racesMockup = [
   {
@@ -307,7 +308,7 @@ export const RacePanel: React.FC<RacePanel> = ({ willHost }) => {
 
   const [dropdownState, setDropdownState] = useState<boolean>(false);
 
-  const [dropdownText, setDropdownText] = useState<string>("Categories");
+  const [dropdownText, setDropdownText] = useState<string>("Type");
 
   const [dropdownElements, setDropdownElements] = useState([
     "Boats",
@@ -459,6 +460,9 @@ export const RacePanel: React.FC<RacePanel> = ({ willHost }) => {
             updateCarousel={updateCarousel}
             resetImages={resetImages}
           />
+          <Steps>
+
+          </Steps>
         </>
       )}
     </RacePanelContainer>

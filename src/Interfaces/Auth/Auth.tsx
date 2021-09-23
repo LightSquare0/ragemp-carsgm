@@ -122,6 +122,7 @@ const Auth: React.FC = (props) => {
                 }}
               >
                 <Checkbox
+                rounded={false}
                   checked={rememberMe}
                   onChange={HandleRemember}
                   text="Remember me"

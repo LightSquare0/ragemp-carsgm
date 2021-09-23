@@ -27,10 +27,10 @@ export const NotificationWrapper = styled.div`
   background-color: #161616;
   opacity: 0.9;
   color: white;
-  padding: 15px;
-  margin-top: 8px;
-  margin-bottom: 8px;
-  border-radius: 15px;
+  padding: 0.9375rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  border-radius: 0.9375rem;
   &.enter-appear {
 	  opacity: 0.01;
   }

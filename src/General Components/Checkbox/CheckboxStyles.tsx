@@ -1,7 +1,9 @@
 import styled from "styled-components";
 
 interface CheckboxProps {
-  checked: boolean
+  checked: boolean;
+  rounded: boolean;
+  disabled?: boolean;
 }
 
 export const HiddenCheckbox = styled.input.attrs({ type: "checkbox" })`
@@ -33,7 +35,7 @@ export const CheckboxStyled = styled.div<CheckboxProps>`
     props.checked
       ? "0rem 0rem 0.375rem 0.05rem rgba(90, 90, 90, 1)"
       : "0rem 0rem 0.313rem 0rem rgba(90, 90, 90, 1)"};
-  border-radius: 0.375rem;
+  border-radius: ${(props) => (props.rounded ? "50%" : "0.375rem")};
   transition: all 150ms;
 `;
 

@@ -17,7 +17,7 @@ interface DropdownProps {
   setDropdownState: Dispatch<SetStateAction<boolean>>;
   setDropdownText: Dispatch<SetStateAction<string>>;
   setDropdownElements: Dispatch<SetStateAction<string[]>>;
-  label: string; 
+  label?: string; 
 }
 
 const Dropdown: React.FC<DropdownProps> = ({dropdownElements, dropdownText, dropdownState, setDropdownState, setDropdownText, setDropdownElements, label }) => {
