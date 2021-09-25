@@ -26,7 +26,7 @@ const Search: React.FC<Search> = ({
 }) => {
   return (
     <SearchWrapper style={style}>
-      <SearchLabel>{label}</SearchLabel>
+      {label.length == 0 ? <></> : <SearchLabel>{label}</SearchLabel>}
       <SearchBox>
         <SearchInput
           placeholder={placeholder}

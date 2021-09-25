@@ -39,17 +39,15 @@ const TrackCarousel: React.FC<TrackCarousel> = ({
   imageIndex,
   setImageIndex,
   updateCarousel,
-  resetImages
+  resetImages,
 }) => {
-  
-
   const moveCarousel = (direction: string) => {
     switch (direction) {
       case "left":
         if (imageIndex <= 0) return;
         let newIndex = imageIndex - 1;
         setImageIndex(newIndex);
-        updateCarousel(images,newIndex);
+        updateCarousel(images, newIndex);
         break;
       case "right":
         if (imageIndex >= images.length - 1) return;
@@ -75,9 +73,8 @@ const TrackCarousel: React.FC<TrackCarousel> = ({
       <TrackImagesContainer>
         {images.map((race: race) => {
           return (
-            <>
+            <div key={images.indexOf(race)}>
               <TrackDiv
-                key={images.indexOf(race)}
                 currentIndex={imageIndex}
                 index={images.indexOf(race)}
                 state={race.state}
@@ -89,7 +86,7 @@ const TrackCarousel: React.FC<TrackCarousel> = ({
                 />
               </TrackDiv>
               <TrackName state={race.state}>{race.name}</TrackName>
-            </>
+            </div>
           );
         })}
       </TrackImagesContainer>

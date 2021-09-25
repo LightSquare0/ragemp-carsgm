@@ -11,20 +11,41 @@ import {
 } from "./DropdownStyles";
 
 interface DropdownProps {
-  dropdownElements: string[];
+  dropdownElements: Array<{ id: number; name: string }>;
   dropdownText: string;
   dropdownState: boolean;
   setDropdownState: Dispatch<SetStateAction<boolean>>;
   setDropdownText: Dispatch<SetStateAction<string>>;
-  setDropdownElements: Dispatch<SetStateAction<string[]>>;
-  label?: string; 
+  setDropdownElements: Dispatch<
+    SetStateAction<Array<{ id: number; name: string }>>
+  >;
+  currentClassId?: number;
+  setCurrentClassId?: Dispatch<SetStateAction<number>>;
+  label?: string;
 }
 
-const Dropdown: React.FC<DropdownProps> = ({dropdownElements, dropdownText, dropdownState, setDropdownState, setDropdownText, setDropdownElements, label }) => {
+const Dropdown: React.FC<DropdownProps> = ({
+  dropdownElements,
+  dropdownText,
+  dropdownState,
+  setDropdownState,
+  setDropdownText,
+  setDropdownElements,
+  currentClassId,
+  setCurrentClassId,
+  label,
+}) => {
   
+  const HandleSelect = (element: { id: number; name: string }) => {
+    setDropdownText(element.name);
+    if (currentClassId != undefined) setCurrentClassId(element.id);
+  };
+
+  console.log(currentClassId);
+
   return (
     <DropdownWrapper onClick={() => setDropdownState(!dropdownState)}>
-      <DropdownLabel>{label}</DropdownLabel>
+      {label.length == 0 ? <></> : <DropdownLabel>{label}</DropdownLabel>}
       <DropdownBox>
         <DropdownText>{dropdownText}</DropdownText>
         <DropdownButton>
@@ -32,8 +53,15 @@ const Dropdown: React.FC<DropdownProps> = ({dropdownElements, dropdownText, drop
         </DropdownButton>
       </DropdownBox>
       <DropdownElements state={dropdownState}>
-        {dropdownElements.map((element: string) => {
-          return <DropdownElement onClick={() => setDropdownText(element)}>{element}</DropdownElement>;
+        {dropdownElements.map((element: { id: number; name: string }) => {
+          return (
+            <DropdownElement
+              key={element.id}
+              onClick={() => HandleSelect(element)}
+            >
+              {element.name}
+            </DropdownElement>
+          );
         })}
       </DropdownElements>
     </DropdownWrapper>

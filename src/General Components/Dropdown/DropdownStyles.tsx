@@ -1,6 +1,7 @@
 import styled, { css } from "styled-components";
 
-export const DropdownWrapper = styled.div``;
+export const DropdownWrapper = styled.div`
+`;
 export const DropdownLabel = styled.label`
   font-size: 0.875rem;
   margin-bottom: 0.0625rem;

@@ -65,6 +65,7 @@ const DisplayRaces: React.FC = () => {
   racesMockup.map((i) => {
     rows.push(
       <Race
+        key={racesMockup.indexOf(i)}
         name={i.name}
         track={i.track}
         type={i.type}
@@ -75,7 +76,7 @@ const DisplayRaces: React.FC = () => {
   });
 
   for (let i = rows.length; i < 7; i++) {
-    rows.push(<RacePlaceholder />);
+    rows.push(<RacePlaceholder key={i} />);
   }
 
   return <>{rows}</>;
@@ -306,31 +307,6 @@ export const RacePanel: React.FC<RacePanel> = ({ willHost }) => {
     },
   ]);
 
-  const [dropdownState, setDropdownState] = useState<boolean>(false);
-
-  const [dropdownText, setDropdownText] = useState<string>("Type");
-
-  const [dropdownElements, setDropdownElements] = useState([
-    "Boats",
-    "Commercials",
-    "Compacts",
-    "Coupes",
-    "Helicopters",
-    "Industrial",
-    "Military",
-    "Motorcycles",
-    "Muscle",
-    "Off-Road",
-    "Open Wheel",
-    "Planes",
-    "SUVs",
-    "Sedans",
-    "Sports",
-    "Sports Classic",
-    "Super",
-    "Vans",
-  ]);
-
   const [searchText, setSearchText] = useState("");
 
   const resetImages = () => {
@@ -434,15 +410,6 @@ export const RacePanel: React.FC<RacePanel> = ({ willHost }) => {
           <TrackFiltering>
             <HostGenericHeader>Select track</HostGenericHeader>
             <div style={{ display: "flex" }}>
-              <Dropdown
-                label=""
-                dropdownElements={dropdownElements}
-                dropdownText={dropdownText}
-                setDropdownState={setDropdownState}
-                setDropdownText={setDropdownText}
-                setDropdownElements={setDropdownElements}
-                dropdownState={dropdownState}
-              ></Dropdown>
               <Search
                 style={{ marginLeft: "0.875rem" }}
                 placeholder="Filter tracks"
@@ -460,9 +427,7 @@ export const RacePanel: React.FC<RacePanel> = ({ willHost }) => {
             updateCarousel={updateCarousel}
             resetImages={resetImages}
           />
-          <Steps>
-
-          </Steps>
+          <Steps></Steps>
         </>
       )}
     </RacePanelContainer>

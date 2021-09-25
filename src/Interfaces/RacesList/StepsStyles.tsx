@@ -1,9 +1,9 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const StepWrapper = styled.div`
   display: grid;
   grid-template-rows: repeat(auto-fill, 1fr);
-height: 60%;
+  height: 60%;
 `;
 
 export const StepHeader = styled.div`
@@ -13,23 +13,54 @@ export const StepHeader = styled.div`
   font-size: 1.25rem;
 `;
 
-export const StepContainer = styled.div`
+interface StepContainer {
+  size: "big" | "small";
+}
+
+export const StepContainer = styled.div<StepContainer>`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  
   & > :not(:last-child) {
-    margin-bottom: 1.25rem;
+    ${({ size }) =>
+      size == "big" &&
+      css`
+        margin-bottom: 0.9375rem;
+      `}
+
+    ${({ size }) =>
+      size == "small" &&
+      css`
+        margin-bottom: 0.625rem;
+      `}
   }
 `;
 
-export const StepMode = styled.div`
+interface StepMode {
+  size: "big" | "small";
+}
+
+export const StepMode = styled.div<StepMode>`
   display: flex;
   align-items: center;
   background-color: var(--badge-gray);
   border-radius: 0.4375rem;
-  width: 16.25rem;
-  height: 2.8125rem;
+
+  ${({ size }) =>
+    size == "big" &&
+    css`
+      width: 16.25rem;
+      height: 2.8125rem;
+    `};
+
+  ${({ size }) =>
+    size == "small" &&
+    css`
+      width: 15rem;
+      height: 2.1875rem;
+    `}
   & > :first-child {
     margin: 0;
     padding: 0;
@@ -55,4 +86,12 @@ export const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   width: 100%;
+`;
+
+export const StepSelectContainer = styled.div`
+  height: 8.4375rem;
+  overflow: auto;
+  & > :not(:last-child) {
+    margin-bottom: 0.625rem;
+  }
 `;
