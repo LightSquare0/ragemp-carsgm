@@ -8,3 +8,4 @@ bin/
 .vs/
 ragemp-server.exe
 BugTrap-x64.dll
+client_packages/webview/vehicleClassesData.json

@@ -10,17 +10,23 @@ import {
   DropdownWrapper,
 } from "./DropdownStyles";
 
+interface Dropdown_Element {
+  id: number
+  name: string
+  className: string
+}
+
 interface DropdownProps {
-  dropdownElements: Array<{ id: number; name: string }>;
+  dropdownElements: Array<Dropdown_Element>;
   dropdownText: string;
   dropdownState: boolean;
   setDropdownState: Dispatch<SetStateAction<boolean>>;
   setDropdownText: Dispatch<SetStateAction<string>>;
   setDropdownElements: Dispatch<
-    SetStateAction<Array<{ id: number; name: string }>>
+    SetStateAction<Array<Dropdown_Element>>
   >;
-  currentClassId?: number;
-  setCurrentClassId?: Dispatch<SetStateAction<number>>;
+  currentClassName?: string;
+  setCurrentClassName?: Dispatch<SetStateAction<string>>;
   label?: string;
 }
 
@@ -31,17 +37,14 @@ const Dropdown: React.FC<DropdownProps> = ({
   setDropdownState,
   setDropdownText,
   setDropdownElements,
-  currentClassId,
-  setCurrentClassId,
+  currentClassName,
+  setCurrentClassName,
   label,
 }) => {
-  
-  const HandleSelect = (element: { id: number; name: string }) => {
+  const HandleSelect = (element: Dropdown_Element) => {
     setDropdownText(element.name);
-    if (currentClassId != undefined) setCurrentClassId(element.id);
+    setCurrentClassName(element.className);
   };
-
-  console.log(currentClassId);
 
   return (
     <DropdownWrapper onClick={() => setDropdownState(!dropdownState)}>
@@ -53,7 +56,7 @@ const Dropdown: React.FC<DropdownProps> = ({
         </DropdownButton>
       </DropdownBox>
       <DropdownElements state={dropdownState}>
-        {dropdownElements.map((element: { id: number; name: string }) => {
+        {dropdownElements.map((element: Dropdown_Element) => {
           return (
             <DropdownElement
               key={element.id}
