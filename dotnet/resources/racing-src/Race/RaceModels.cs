@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace racing_src.Race
 {
@@ -77,8 +78,11 @@ namespace racing_src.Race
         public string TrackName { get; set; }
         public string Category { get; set; }
         public string Creator { get; set; }
+        [JsonIgnore]
         public List<Vector3> Checkpoints { get; set; }
+        [JsonIgnore]
         public List<Spawnpoint> Spawnpoints { get; set; }
+        public string Image { get; set; }
         public RaceTemplate() { }
         public RaceTemplate(int sqlid, string trackname, string category, string creator, List<Vector3> checkpoints, List<Spawnpoint> spawnpoints)
         {
@@ -91,28 +95,47 @@ namespace racing_src.Race
         }
     }
 
+    public class TrackImage
+    {
+        public string name { get; set; }
+        public string image { get; set; }
+        public string state { get; set; }
+    }
+
     public class Race : RaceTemplate
     {
+        public Guid Guid { get; set; }
+        [JsonIgnore]
         public Player Hoster { get; set; }
         public int MaxParticipants { get; set; }
+        public string Name { get; set; }
+        public bool Mode { get; set; }
+        public int Laps { get; set; }
         public int MaxDuration { get; set; }
         public bool HasStarted { get; set; }
         public bool HasEnded { get; set; }
+        [JsonIgnore]
         public List<Spawnpoint> _Spawnpoints { get; set; }
+        public string Type { get; set; }
         public List<Racer> Racers { get; set; }
-        public List<Park> Parks { get; set; }
-        public Race(int sqlid, string trackname, string category, string creator, Player hoster, int max_participants, int max_duration)
+        public Race(int sqlid, string trackname, string category, string creator, Player hoster, bool mode, int laps, int max_duration, int max_participants, string type, string image)
         {
+            Guid = Guid.NewGuid(); 
             Racers = new List<Racer>();
             SQLid = sqlid;
             TrackName = trackname;
             Category = category;
             Creator = creator;
             Hoster = hoster;
+            Mode = mode;
+            Laps = laps;
             HasStarted = false;
             HasEnded = false;
             MaxParticipants = max_participants;
             MaxDuration = max_duration;
+            Type = type;
+            Image = image;
+            Name = Hoster.Name + "'s race";
             Checkpoints = new List<Vector3>();
         }
 
@@ -131,6 +154,24 @@ namespace racing_src.Race
             Racers.Remove(racer);
         }
 
+        public void Update()
+        {
+            foreach (var player in NAPI.Pools.GetAllPlayers())
+            {
+                if (player.HasData("inRaceManager"))
+                {
+                    player.TriggerEvent("clientside:UpdateRace", new
+                    {
+                        Guid = Guid, 
+                        Name = Name, 
+                        TrackName = TrackName, 
+                        Type = Type, 
+                        RacersCount = Racers.Count, 
+                        Status = HasStarted
+                    } );
+                }
+            }
+        }
     }
     
 

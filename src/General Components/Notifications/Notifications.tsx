@@ -16,8 +16,8 @@ const Notifications: React.FC = () => {
   const { notifications } = useContext(NotificationsContext);
   return (
     <NotificationsContainer>
-      {notifications.map((notification: any) => (
-        <NotificationWrapper>
+      {notifications.map((notification: any, index: number) => (
+        <NotificationWrapper key={index}>
           <NotificationContent>
             <NotificationColumn>
               <NotificationIcon>

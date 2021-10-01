@@ -54,7 +54,6 @@ const TrackCarousel: React.FC<TrackCarousel> = ({
         let _newIndex = imageIndex + 1;
         setImageIndex(_newIndex);
         updateCarousel(images, _newIndex);
-        console.log(images);
         break;
       default:
         break;
@@ -71,9 +70,9 @@ const TrackCarousel: React.FC<TrackCarousel> = ({
         />
       </ArrowButton>
       <TrackImagesContainer>
-        {images.map((race: race) => {
+        {images.map((race: race, index: number) => {
           return (
-            <div key={images.indexOf(race)}>
+            <div key={index}>
               <TrackDiv
                 currentIndex={imageIndex}
                 index={images.indexOf(race)}

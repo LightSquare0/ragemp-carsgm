@@ -1,11 +1,14 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Checkbox from "../../General Components/Checkbox/Checkbox";
 import Dropdown from "../../General Components/Dropdown/Dropdown";
+import { NotificationsContext } from "../../General Components/Notifications/NotificationsContext";
 import Search from "../../General Components/Search/Search";
 import Slider from "../../General Components/Slider/Slider";
 import { Button } from "../../Globals/GlobalStyles/ButtonStyles";
+import Icon from "../../Utils/Icon";
 import {
   ButtonContainer,
+  StepBackStyled,
   StepCheckbox,
   StepContainer,
   StepHeader,
@@ -14,6 +17,7 @@ import {
   StepSelectContainer,
   StepWrapper,
 } from "./StepsStyles";
+import { race } from "./TrackCarousel";
 
 enum StepsEnum {
   RaceMode = "Race Mode",
@@ -26,7 +30,6 @@ interface RaceSettings {
   Duration: number | readonly number[];
   Participants: number | readonly number[];
   Laps: number | readonly number[];
-  Vehicles: Array<string>;
 }
 
 interface Vehicle {
@@ -34,21 +37,34 @@ interface Vehicle {
   Class: string;
 }
 
-const Steps: React.FC = () => {
+const Steps: React.FC<{ selectedTrackName: string }> = ({ selectedTrackName }) => {
+  const { Notify } = useContext(NotificationsContext);
+
   const [currentStep, setCurrentStep] = useState<number>(0);
 
-  const updateStep = () => {
-    if (currentStep < 0 || currentStep >= 2) return;
-    setCurrentStep(currentStep + 1);
-  };
+  const [selectedVehicles, setSelectedVehicles] = useState<Array<string>>([]);
 
   const [raceSettings, setRaceSettings] = useState<RaceSettings>({
     Mode: true,
-    Duration: 0,
-    Participants: 0,
-    Laps: 0,
-    Vehicles: [],
+    Duration: 4,
+    Participants: 2,
+    Laps: 2,
   });
+
+  const updateStep = (direction: "forwards" | "backwards") => {
+    if (currentStep < 0 || currentStep > 2) return;
+    if (currentStep == 2 && direction == "forwards") {
+      if (selectedVehicles.length == 0) {
+        Notify("Error", "Please select at least one vehicle", "error");
+        return;
+      }
+
+      SendRaceData();
+    }
+    direction == "forwards"
+      ? setCurrentStep(currentStep + 1)
+      : setCurrentStep(currentStep - 1);
+  };
 
   const HandleRaceMode = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -56,6 +72,24 @@ const Steps: React.FC = () => {
   ) => {
     e.preventDefault();
     setRaceSettings((prevState) => ({ ...prevState, Mode: mode }));
+  };
+
+  const HandleVehicleSelection = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    vehicle: string
+  ) => {
+    event.preventDefault();
+    let prevSelectedVehicles = [...selectedVehicles];
+    let alreadyExists = prevSelectedVehicles.find((v) => v == vehicle);
+
+    if (alreadyExists) {
+      prevSelectedVehicles.splice(prevSelectedVehicles.indexOf(alreadyExists), 1);
+      setSelectedVehicles(prevSelectedVehicles);
+      return;
+    }
+
+    prevSelectedVehicles.push(vehicle);
+    setSelectedVehicles(prevSelectedVehicles);
   };
 
   const [dropdownState, setDropdownState] = useState<boolean>(false);
@@ -89,31 +123,38 @@ const Steps: React.FC = () => {
     { id: 21, name: "Trains", className: "rail" },
   ]);
 
-  // Array<{DisplayName: string, Class: string}>
   const [vehicleData, setVehicleData] = useState<Array<Vehicle>>([]);
-
-  useEffect(() => {
-    fetch("http://localhost:8080/vehicleClassesData.json")
-      .then((data) => data.json())
-      .then((actualData) => setVehicleData(actualData))
-      .catch((err) => console.error(err));
-  }, []);
-  console.log(vehicleData);
 
   const [filteredVehicleData, setFilteredVehicleData] =
     useState<Array<Vehicle>>(vehicleData);
 
   useEffect(() => {
+    fetch("http://naivoe.go.ro:8080/vehicleClassesData.json")
+      .then((data) => data.json())
+      .then((actualData) => setVehicleData(actualData))
+      .catch((err) => console.error(err));
+  }, []);
+
+  useEffect(() => {
     let filteredData = vehicleData.filter(
-      (vehicle: Vehicle) =>
-        vehicle.Class == currentClassName.toLocaleUpperCase()
+      (vehicle: Vehicle) => vehicle.Class == currentClassName.toLocaleUpperCase()
     );
     setFilteredVehicleData(filteredData);
-    console.log(vehicleData);
-    console.log(filteredData);
   }, [dropdownText]);
 
-  console.log(raceSettings);
+  const SendRaceData = () => {
+    //@ts-ignore
+    mp.trigger(
+      "clientside:HostRace",
+      selectedTrackName,
+      raceSettings.Mode,
+      raceSettings.Laps,
+      raceSettings.Duration,
+      raceSettings.Participants,
+      dropdownText
+    );
+    console.log(selectedTrackName);
+  };
 
   return (
     <StepWrapper>
@@ -142,13 +183,10 @@ const Steps: React.FC = () => {
             {raceSettings.Mode ? (
               <>
                 <Slider
-                  min={5}
+                  min={4}
                   max={30}
                   currentValue={raceSettings.Duration}
-                  onChange={(
-                    value: number | readonly number[],
-                    index: number
-                  ) =>
+                  onChange={(value: number | readonly number[], index: number) =>
                     setRaceSettings((prevState) => ({
                       ...prevState,
                       Duration: value,
@@ -161,20 +199,17 @@ const Steps: React.FC = () => {
             ) : (
               <>
                 <Slider
-                  min={5}
+                  min={2}
                   max={30}
-                  currentValue={raceSettings.Duration}
-                  onChange={(
-                    value: number | readonly number[],
-                    index: number
-                  ) =>
+                  currentValue={raceSettings.Laps}
+                  onChange={(value: number | readonly number[], index: number) =>
                     setRaceSettings((prevState) => ({
                       ...prevState,
                       Laps: value,
                     }))
                   }
                 />
-                <div>{raceSettings.Duration} laps</div>
+                <div>{raceSettings.Laps} laps</div>
               </>
             )}
 
@@ -210,14 +245,23 @@ const Steps: React.FC = () => {
               {filteredVehicleData.length == 0 ? (
                 <div>Select a vehicle class</div>
               ) : (
-                filteredVehicleData.map((vehicle) => {
+                filteredVehicleData.map((vehicle, index) => {
                   return (
                     <StepSelect
+                      key={index}
                       name={vehicle.DisplayName}
                       size="small"
-                      onClick={() => {}}
-                      checkboxState={false}
-                      onChange={() => {}}
+                      onClick={(event: React.MouseEvent<HTMLDivElement, MouseEvent>) =>
+                        HandleVehicleSelection(event, vehicle.DisplayName)
+                      }
+                      checkboxState={
+                        selectedVehicles.find((v) => v == vehicle.DisplayName)
+                          ? true
+                          : false
+                      }
+                      onChange={(event: React.MouseEvent<HTMLDivElement, MouseEvent>) =>
+                        HandleVehicleSelection(event, vehicle.DisplayName)
+                      }
                     />
                   );
                 })
@@ -226,9 +270,10 @@ const Steps: React.FC = () => {
           </>
         )}
       </StepContainer>
-      <ButtonContainer>
-        <Button join onClick={updateStep}>
-          <div>NEXT STEP</div>
+      <ButtonContainer rendered={currentStep > 0}>
+        {currentStep > 0 && <BackStep onClick={() => updateStep("backwards")}></BackStep>}
+        <Button join onClick={() => updateStep("forwards")}>
+          <div>{currentStep == 2 ? <>FINISH</> : <>NEXT STEP</>}</div>
         </Button>
       </ButtonContainer>
     </StepWrapper>
@@ -253,14 +298,19 @@ const StepSelect: React.FC<StepSelect> = ({
   return (
     <StepMode size={size} onClick={onClick}>
       <StepCheckbox>
-        <Checkbox
-          rounded={true}
-          checked={checkboxState}
-          onChange={onChange}
-        ></Checkbox>
+        <Checkbox rounded={true} checked={checkboxState} onChange={onChange}></Checkbox>
       </StepCheckbox>
       <StepModeText>{name}</StepModeText>
     </StepMode>
+  );
+};
+
+const BackStep: React.FC<{ onClick: any }> = ({ onClick }) => {
+  return (
+    <StepBackStyled onClick={onClick}>
+      <Icon icon="angle-left-solid" size="1.5rem" color="white" />
+      <div>Back</div>
+    </StepBackStyled>
   );
 };
 

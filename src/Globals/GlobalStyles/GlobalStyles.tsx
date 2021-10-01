@@ -9,16 +9,19 @@ const GlobalStyles = createGlobalStyle`
 @font-face {
     font-family: 'MaisonNeueMedium';
     src: url(${MaisonNeueMedium}) format('truetype');
-}
+    font-display: swap; 
+  }
 
 @font-face {
     font-family: "MaisonNeueBook";
     src: url(${MaisonNeueBook}) format('truetype');
-}
+    font-display: swap;
+  }
 
 @font-face {
     font-family: "HemiHead";
     src: url(${HemiHead}) format('truetype');
+    font-display: swap;
 }
 
  * {

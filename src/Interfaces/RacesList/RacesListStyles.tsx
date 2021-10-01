@@ -182,8 +182,8 @@ export const OpenedBottomInfo = styled.div`
 
 export const OpenedRaceStat = styled.div`
   display: flex;
-  margin-top: 0.625rem;
-  margin-bottom: 0.625rem;
+  margin-top: 0.3125rem;
+  margin-bottom: 0.3125rem;
   font-size: 1.125rem;
   text-transform: uppercase;
   & > :first-child {

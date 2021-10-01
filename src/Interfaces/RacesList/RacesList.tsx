@@ -43,36 +43,24 @@ import Dropdown from "../../General Components/Dropdown/Dropdown";
 import Search from "../../General Components/Search/Search";
 import Steps from "./Steps";
 
-const racesMockup = [
-  {
-    name: "Laity's street race",
-    track: "Eclipse Tour",
-    type: "Sports",
-    numberOfParticipants: "03/23",
-    status: "STARTED",
-  },
-  {
-    name: "Laity's street race",
-    track: "Eclipse Tour",
-    type: "Sports",
-    numberOfParticipants: "03/23",
-    status: "STARTED",
-  },
-];
 
-const DisplayRaces: React.FC = () => {
+
+const DisplayRaces: React.FC<{races: Array<Race>, setRaces: React.Dispatch<React.SetStateAction<Array<Race>>>}> = ({races, setRaces}) => {
+
+  useEffect(() => {
+    //@ts-ignore
+    mp.trigger("clientside:GetInitialRaces");
+  }, []);
+
+  mp.events.add("react:GetInitialRaces", (_races) => {
+    setRaces(JSON.parse(_races));
+  });
+
+  console.log(races);
+
   var rows: any[] = [];
-  racesMockup.map((i) => {
-    rows.push(
-      <Race
-        key={racesMockup.indexOf(i)}
-        name={i.name}
-        track={i.track}
-        type={i.type}
-        numberOfParticipants={i.numberOfParticipants}
-        status={i.status}
-      />
-    );
+  races.map((i: Race, index: number) => {
+    rows.push(<Race key={index} Race={i} />);
   });
 
   for (let i = rows.length; i < 7; i++) {
@@ -82,10 +70,18 @@ const DisplayRaces: React.FC = () => {
   return <>{rows}</>;
 };
 
+interface RaceStats {
+  CurrentRacesCount: number;
+  StartedRacesCount: number;
+  NotStartedRaces: number;
+}
+
 export const RacesList: React.FC = () => {
   const history = useHistory();
 
-  const [willHost, setWillHost] = useState<boolean>(true);
+  const [races, setRaces] = useState<Array<Race>>([]);
+
+  const [willHost, setWillHost] = useState<boolean>(false);
 
   return (
     <GeneralInterface header="Join or host a race">
@@ -114,7 +110,7 @@ export const RacesList: React.FC = () => {
         </RaceListHeader>
         <RacesListContainer>
           <RacesListed>
-            <DisplayRaces />
+            <DisplayRaces races={races} setRaces={setRaces}/>
           </RacesListed>
           <RacePanel willHost={willHost} />
         </RacesListContainer>
@@ -128,29 +124,25 @@ export const RacesList: React.FC = () => {
 };
 
 interface Race {
-  name: string;
-  track: string;
-  type: string;
-  numberOfParticipants: string;
-  status: string;
+  Guid?: string;
+  Name: string;
+  TrackName: string;
+  Type: string;
+  Racers: Array<any>;
+  MaxParticipants: number;
+  HasStarted: boolean;
 }
 
-export const Race: React.FC<Race> = ({
-  name,
-  track,
-  type,
-  numberOfParticipants,
-  status,
-}) => {
+export const Race: React.FC<{ Race: Race }> = ({ Race }) => {
   return (
     <RaceContainer>
       <RaceBrief>
-        <RaceName>{name}</RaceName>
-        <RaceTrack>{track}</RaceTrack>
+        <RaceName>{Race.Name}</RaceName>
+        <RaceTrack>{Race.TrackName}</RaceTrack>
       </RaceBrief>
       <VehicleClassContainer>
         <VehicleClass>
-          <div>{type}</div>
+          <div>{Race.Type}</div>
           <Icon
             color="var(--text-whiter-gray)"
             size="1rem"
@@ -158,8 +150,11 @@ export const Race: React.FC<Race> = ({
           ></Icon>
         </VehicleClass>
       </VehicleClassContainer>
-      <Participants>{numberOfParticipants}</Participants>
-      <Status>{status}</Status>
+      <Participants>
+        {Race.Racers.length < 9 ? "0" + Race.Racers.length : Race.Racers.length}/
+        {Race.MaxParticipants < 9 ? "0" + Race.MaxParticipants : Race.MaxParticipants}
+      </Participants>
+      <Status>{Race.HasStarted ? <>STARTED</> : <>NOT STARTED</>}</Status>
     </RaceContainer>
   );
 };
@@ -169,145 +164,53 @@ interface RacePanel {
 }
 
 export const RacePanel: React.FC<RacePanel> = ({ willHost }) => {
+  const [selectedTrackName, setSelectedTrackName] = useState<string>();
+
   const [imageIndex, setImageIndex] = useState<number>(0);
 
-  const [images, setImages] = useState<any>([
-    {
-      name: "Eclipse Tour",
-      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
-      state: "hidden",
-    },
-    {
-      name: "Santa Maria Beach",
-      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
-      state: "hidden",
-    },
-    {
-      name: "Nurburgring",
-      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
-      state: "hidden",
-    },
-    {
-      name: "Spa-Francorchamps",
-      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
-      state: "hidden",
-    },
-    {
-      name: "Suzuka",
-      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
-      state: "hidden",
-    },
-    {
-      name: "Circuit de la Sarthe",
-      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
-      state: "hidden",
-    },
-    {
-      name: "Mount Panorama",
-      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
-      state: "hidden",
-    },
-    {
-      name: "Laguna Seca",
-      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
-      state: "hidden",
-    },
-    {
-      name: "Circuit de Monaco",
-      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
-      state: "hidden",
-    },
-    {
-      name: "Monza",
-      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
-      state: "hidden",
-    },
-    {
-      name: "Silverstone",
-      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
-      state: "hidden",
-    },
-    {
-      name: "Interlagos",
-      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
-      state: "hidden",
-    },
-    {
-      name: "Vinewood Sprint",
-      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
-      state: "hidden",
-    },
-  ]);
+  const [images, setImages] = useState<any>([]);
 
-  const [defaultImages, setDefaultImages] = useState<any>([
-    {
-      name: "Eclipse Tour",
-      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
-      state: "hidden",
-    },
-    {
-      name: "Santa Maria Beach",
-      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
-      state: "hidden",
-    },
-    {
-      name: "Nurburgring",
-      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
-      state: "hidden",
-    },
-    {
-      name: "Spa-Francorchamps",
-      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
-      state: "hidden",
-    },
-    {
-      name: "Suzuka",
-      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
-      state: "hidden",
-    },
-    {
-      name: "Circuit de la Sarthe",
-      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
-      state: "hidden",
-    },
-    {
-      name: "Mount Panorama",
-      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
-      state: "hidden",
-    },
-    {
-      name: "Laguna Seca",
-      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
-      state: "hidden",
-    },
-    {
-      name: "Circuit de Monaco",
-      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
-      state: "hidden",
-    },
-    {
-      name: "Monza",
-      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
-      state: "hidden",
-    },
-    {
-      name: "Silverstone",
-      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
-      state: "hidden",
-    },
-    {
-      name: "Interlagos",
-      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
-      state: "hidden",
-    },
-    {
-      name: "Vinewood Sprint",
-      image: "http://naivoe.go.ro:8080/409da47d65a26d782320.png",
-      state: "hidden",
-    },
-  ]);
+  const [defaultImages, setDefaultImages] = useState<any>([]);
 
   const [searchText, setSearchText] = useState("");
+
+  useEffect(() => {
+    //@ts-ignore
+    mp.trigger("clientside:GetTrackImages");
+  }, []);
+
+  mp.events.add("react:GetTrackImages", (_images) => {
+    let prevImages = JSON.parse(_images);
+    let hiddenLeft: race = prevImages[imageIndex - 2];
+    let prev: race = prevImages[imageIndex - 1];
+    let selected: race = prevImages[imageIndex];
+    let next: race = prevImages[imageIndex + 1];
+    let hiddenRight: race = prevImages[imageIndex + 2];
+
+    if (hiddenLeft != undefined) {
+      hiddenLeft.state = state.hiddenLeft;
+    }
+    if (prev != undefined) {
+      prev.state = state.prev;
+    }
+
+    if (selected != undefined) {
+      selected.state = state.selected;
+    }
+
+    if (next != undefined) {
+      next.state = state.next;
+    }
+    if (hiddenRight != undefined) {
+      hiddenRight.state = state.hiddenRight;
+    }
+    setDefaultImages(prevImages);
+    setImages(prevImages);
+    setSelectedTrackName(selected.name);
+  });
+
+  console.log(images);
+  console.log(defaultImages);
 
   const resetImages = () => {
     let _prevImages = [...defaultImages];
@@ -335,6 +238,7 @@ export const RacePanel: React.FC<RacePanel> = ({ willHost }) => {
 
     if (selected != undefined) {
       selected.state = state.selected;
+      setSelectedTrackName(selected.name);
     }
 
     if (next != undefined) {
@@ -343,16 +247,13 @@ export const RacePanel: React.FC<RacePanel> = ({ willHost }) => {
     if (hiddenRight != undefined) {
       hiddenRight.state = state.hiddenRight;
     }
-
     setImages(prevImages);
   };
 
   useEffect(() => {
     resetImages();
     let samp = defaultImages.filter((image: { name: string }) => {
-      return image.name
-        .toLocaleLowerCase()
-        .includes(searchText.toLocaleLowerCase());
+      return image.name.toLocaleLowerCase().includes(searchText.toLocaleLowerCase());
     });
     setImageIndex(0);
     setImages(samp);
@@ -427,7 +328,7 @@ export const RacePanel: React.FC<RacePanel> = ({ willHost }) => {
             updateCarousel={updateCarousel}
             resetImages={resetImages}
           />
-          <Steps></Steps>
+          <Steps selectedTrackName={selectedTrackName}></Steps>
         </>
       )}
     </RacePanelContainer>

@@ -22,7 +22,7 @@ export const StepContainer = styled.div<StepContainer>`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  
+
   & > :not(:last-child) {
     ${({ size }) =>
       size == "big" &&
@@ -81,10 +81,10 @@ export const StepCheckbox = styled.div`
   width: 20%;
 `;
 
-export const ButtonContainer = styled.div`
+export const ButtonContainer = styled.div<{rendered: boolean}>`
   margin-top: auto;
   display: flex;
-  justify-content: flex-end;
+  justify-content: ${({rendered}) => rendered ? "space-between" : "flex-end"};
   width: 100%;
 `;
 
@@ -94,4 +94,9 @@ export const StepSelectContainer = styled.div`
   & > :not(:last-child) {
     margin-bottom: 0.625rem;
   }
+`;
+
+export const StepBackStyled = styled.div`
+  display: flex;
+  align-items: center;
 `;

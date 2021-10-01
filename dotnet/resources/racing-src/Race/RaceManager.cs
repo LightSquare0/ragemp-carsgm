@@ -16,6 +16,8 @@ namespace racing_src.Race
 
         public static List<RaceTemplate> RaceTemplates = new();
 
+        public static List<TrackImage> TrackImages = new();
+
         public List<Race> CurrentRaces = new();
 
 
@@ -35,7 +37,6 @@ namespace racing_src.Race
                 raceTimer.Enabled = true;
                 Console.WriteLine("Race timer started.");
             }
-
         }
 
         public void UpdateRacerPositions(object sender, ElapsedEventArgs e)
@@ -103,8 +104,16 @@ namespace racing_src.Race
                         Category = reader.GetString(index++),
                         Creator = reader.GetString(index++),
                         Checkpoints = NAPI.Util.FromJson<List<Vector3>>(reader.GetString(index++)),
-                        Spawnpoints = NAPI.Util.FromJson<List<Spawnpoint>>(reader.GetString(index++))
+                        Spawnpoints = NAPI.Util.FromJson<List<Spawnpoint>>(reader.GetString(index++)),
+                        Image = reader.GetString(index++) 
                     };
+                    TrackImage trackImage = new()
+                    {
+                        name = (string) reader["name"],
+                        image = (string) reader["image"],
+                        state = ""
+                    };
+                    TrackImages.Add(trackImage);
                     RaceTemplates.Add(raceTemplate);
                 }
                 reader.Close();
@@ -113,41 +122,52 @@ namespace racing_src.Race
         }
 
         [ServerEvent(Event.ResourceStart)]
-        public async Task LoadRaces()
+        public static async Task LoadRaces()
         {
             await LoadAllRaceTemplates();
-            ConsoleInfo.WriteSuccess($"Loaded {RaceTemplates.Count} race templates from database.");
-
+            ConsoleInfo.WriteSuccess($"Loaded {RaceTemplates.Count} race templates and {TrackImages.Count} track images from database.");
         }
 
-        [Command("host")]
-        public void HostRace(Player player, string racename, int max_participants, int max_duration)
+        [RemoteProc("serverside:SendTrackImages")]
+        public static List<TrackImage> SendTrackImages(Player player)
         {
-            using (IDbConnection db = new MySqlConnection(Database.GetConnectionString()))
+            return  TrackImages;
+        }
+
+        [RemoteEvent("serverside:HostRace")]
+        public void HostRace(Player player, string trackname, bool mode, int laps, int max_duration, int max_participants, string type)
+        {
+
+            // if (CurrentRaces.Exists(x => x.Hoster.Name == player.Name))
+            // {
+            //     player.Notify(Notifications.Type.Error, "You are already hosting a race.", "Please cancel it if you want to host another.");
+            //     return;
+            // }
+            
+            var template = RaceTemplates.Find(x => x.TrackName == trackname);
+            if (template is null)
             {
-
-                if (CurrentRaces.Exists(x => x.Hoster.Name == player.Name))
-                {
-                    player.Notify(Notifications.Type.Error, "You are already hosting a race.", "Please cancel it if you want to host another.");
-                    return;
-                }
-
-                var template = RaceTemplates.Find(x => x.TrackName == racename);
-                var newRace = new Race(template.SQLid, template.TrackName, template.Category, template.Creator, player, max_participants, max_duration);
-                newRace.Checkpoints = template.Checkpoints;
-                CurrentRaces.Add(newRace);
-
-                player.SendChatMessage($"Hosted new race with the TrackName:  {newRace.TrackName}, Hoster:  {newRace.Hoster.Name}, Duration:  {newRace.MaxDuration}s, MaxParticipants:  {newRace.MaxParticipants}.");
-
+                player.Notify(Notifications.Type.Error, "Invalid track name", "Please contact an administrator.");
+                return;
             }
+
+            var raceImage = TrackImages.Find((image) => image.name == template.TrackName).image;
+            
+            var newRace = new Race(template.SQLid, template.TrackName, template.Category, template.Creator, player, mode, laps, max_duration, max_participants, type, raceImage);
+            newRace.Checkpoints = template.Checkpoints;
+            CurrentRaces.Add(newRace);
+
+            player.SendChatMessage($"Hosted new race with the TrackName:  {newRace.TrackName}, Hoster:  {newRace.Hoster.Name}, Duration:  {newRace.MaxDuration}s, MaxParticipants:  {newRace.MaxParticipants}.");
+            Console.WriteLine($"Hosted new race with the TrackName:  {newRace.TrackName}, Hoster:  {newRace.Hoster.Name}, Duration:  {newRace.MaxDuration}s, MaxParticipants:  {newRace.MaxParticipants}.");
+            player.Notify(Notifications.Type.Success, "Success", "Your race is now publicly hosted.");
         }
 
-        [Command("rmenu")]
-        public void OpenRaceMenu(Player player)
+        [RemoteProc("serverside:SendInitialRaces")]
+        public List<Race> SendInitialRaces(Player player)
         {
-            player.TriggerEvent("clientside:OpenRaceManagerUI");
+            return CurrentRaces;
         }
-
+        
         [Command("cancelhost")]
         public void CancelHost(Player player)
         {
