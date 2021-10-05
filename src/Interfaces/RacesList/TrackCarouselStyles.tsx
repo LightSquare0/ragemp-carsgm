@@ -13,7 +13,6 @@ export const TrackImagesContainer = styled.div`
   height: 9.375rem;
   width: 80%;
   overflow: hidden;
-
 `;
 
 export const ArrowButton = styled.div`
@@ -109,4 +108,12 @@ export const TrackName = styled.div<TrackImage>`
       : css`
           display: none;
         `}
+`;
+
+export const NotFoundError = styled.div`
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.25rem;
 `;

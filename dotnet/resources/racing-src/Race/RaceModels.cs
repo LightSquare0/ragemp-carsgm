@@ -114,11 +114,12 @@ namespace racing_src.Race
         public int MaxDuration { get; set; }
         public bool HasStarted { get; set; }
         public bool HasEnded { get; set; }
+        public string Type { get; set; }
+        public string[] SelectedVehicles { get; set; }
         [JsonIgnore]
         public List<Spawnpoint> _Spawnpoints { get; set; }
-        public string Type { get; set; }
         public List<Racer> Racers { get; set; }
-        public Race(int sqlid, string trackname, string category, string creator, Player hoster, bool mode, int laps, int max_duration, int max_participants, string type, string image)
+        public Race(int sqlid, string trackname, string category, string creator, Player hoster, bool mode, int laps, int max_duration, int max_participants, string type, string image, string[] selected_vehicles)
         {
             Guid = Guid.NewGuid(); 
             Racers = new List<Racer>();
@@ -137,6 +138,7 @@ namespace racing_src.Race
             Image = image;
             Name = Hoster.Name + "'s race";
             Checkpoints = new List<Vector3>();
+            SelectedVehicles = selected_vehicles;
         }
 
         public void AddRacer(int position, Player player)
@@ -154,25 +156,17 @@ namespace racing_src.Race
             Racers.Remove(racer);
         }
 
-        public void Update()
+        public void SendRaceToList()
         {
             foreach (var player in NAPI.Pools.GetAllPlayers())
             {
-                if (player.HasData("inRaceManager"))
+                if (player.HasData("inRaceList") && player.GetData<bool>("inRaceList"))
                 {
-                    player.TriggerEvent("clientside:UpdateRace", new
-                    {
-                        Guid = Guid, 
-                        Name = Name, 
-                        TrackName = TrackName, 
-                        Type = Type, 
-                        RacersCount = Racers.Count, 
-                        Status = HasStarted
-                    } );
+                    player.TriggerEvent("clientside:SendRaceToList",  this);
+                    Console.WriteLine("sa trimis");
                 }
             }
         }
     }
     
-
 }

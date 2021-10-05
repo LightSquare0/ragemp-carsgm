@@ -62,13 +62,6 @@ export const RacesListContainer = styled.div`
   margin-top: 1rem;
 `;
 
-export const RacesListed = styled.div`
-  width: 60%;
-  height: 38.4375rem;
-  margin-right: 1.75rem;
-  overflow: auto;
-`;
-
 export const RaceContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -81,6 +74,18 @@ export const RaceContainer = styled.div`
   color: white;
   box-shadow: var(--general-shadow);
   background-color: var(--darker-gray);
+  transition: transform 0.3s cubic-bezier(0.8, -0.5, 0.2, 1.4);
+  &:hover {
+    transform: scale(0.98);
+  }
+`;
+
+export const RacesListed = styled.div`
+  width: 60%;
+  height: 38.4375rem;
+  margin-right: 1.75rem;
+  overflow-y: auto;
+  overflow-x: hidden;
 `;
 
 export const RacePlaceholder = styled.div`
@@ -111,6 +116,7 @@ export const VehicleClassContainer = styled.div`
   display: flex;
   justify-content: center;
   width: 10rem;
+  position: relative;
 `;
 
 export const VehicleClass = styled.div`
@@ -145,7 +151,7 @@ export const OpenedTrackName = styled.div`
   font-size: 1.75rem;
 `;
 
-export const OpenedAdditionalInfo = styled.div`
+export const OpenedAdditionalInfo = styled.div<any>`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -214,8 +220,25 @@ export const SecondaryOption = styled.div`
   display: flex;
   justify-content: center;
   width: 11.5625rem;
+  position: relative;
   &:hover {
     text-decoration: underline;
+  }
+`;
+
+export const FloatingWindow = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 7.1875rem;
+  position: absolute;
+  border-radius: 0.4375rem;
+  padding: 0.9375rem;
+  background: var(--badge-gray);
+  border: 0.0625rem solid var(--stroke2-gray);
+  z-index: 30;
+  & > div:not(:first-child){
+    margin-top: 0.5rem;
   }
 `;
 
@@ -243,7 +266,6 @@ export const BackButton = styled.div<any>`
 `;
 
 export const HostGenericHeader = styled.div`
-  margin-top: 0.75rem;
   font-size: 1.25rem;
 `;
 
@@ -251,4 +273,14 @@ export const TrackFiltering = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+`;
+
+export const NotOpenedMessage = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 1.375rem;
 `;

@@ -135,7 +135,8 @@ namespace racing_src.Race
         }
 
         [RemoteEvent("serverside:HostRace")]
-        public void HostRace(Player player, string trackname, bool mode, int laps, int max_duration, int max_participants, string type)
+        public void HostRace(Player player, string trackname, bool mode, int laps, int max_duration,
+            int max_participants, string type, string selected_vehicles)
         {
 
             // if (CurrentRaces.Exists(x => x.Hoster.Name == player.Name))
@@ -143,7 +144,7 @@ namespace racing_src.Race
             //     player.Notify(Notifications.Type.Error, "You are already hosting a race.", "Please cancel it if you want to host another.");
             //     return;
             // }
-            
+
             var template = RaceTemplates.Find(x => x.TrackName == trackname);
             if (template is null)
             {
@@ -151,15 +152,32 @@ namespace racing_src.Race
                 return;
             }
 
-            var raceImage = TrackImages.Find((image) => image.name == template.TrackName).image;
-            
-            var newRace = new Race(template.SQLid, template.TrackName, template.Category, template.Creator, player, mode, laps, max_duration, max_participants, type, raceImage);
+            var raceImage = TrackImages.Find((image) => image.name == template.TrackName)?.image;
+            if (raceImage is null)
+            {
+                player.Notify(Notifications.Type.Error, "Invalid track image", "Please contact an administrator.");
+                return;
+            }
+
+            var newRace = new Race(template.SQLid, template.TrackName, template.Category, template.Creator, player,
+                mode, laps, max_duration, max_participants, type, raceImage, NAPI.Util.FromJson<string[]>(selected_vehicles));
             newRace.Checkpoints = template.Checkpoints;
             CurrentRaces.Add(newRace);
+            newRace.SendRaceToList();
 
-            player.SendChatMessage($"Hosted new race with the TrackName:  {newRace.TrackName}, Hoster:  {newRace.Hoster.Name}, Duration:  {newRace.MaxDuration}s, MaxParticipants:  {newRace.MaxParticipants}.");
-            Console.WriteLine($"Hosted new race with the TrackName:  {newRace.TrackName}, Hoster:  {newRace.Hoster.Name}, Duration:  {newRace.MaxDuration}s, MaxParticipants:  {newRace.MaxParticipants}.");
+            player.SendChatMessage(
+                $"Hosted new race with the TrackName:  {newRace.TrackName}, Hoster:  {newRace.Hoster.Name}, Duration:  {newRace.MaxDuration}s, MaxParticipants:  {newRace.MaxParticipants}.");
+            Console.WriteLine(
+                $"Hosted new race with the TrackName:  {newRace.TrackName}, Hoster:  {newRace.Hoster.Name}, Duration:  {newRace.MaxDuration}s, MaxParticipants:  {newRace.MaxParticipants}. {newRace.SelectedVehicles.Count()}");
             player.Notify(Notifications.Type.Success, "Success", "Your race is now publicly hosted.");
+        }
+
+        [RemoteProc("serverside:SetIsInRaceList")]
+        public bool SetIsInRaceManager(Player player, bool state)
+        {
+            player.SetData("inRaceList", state);
+            Console.WriteLine(player.GetData<bool>("inRaceList"));
+            return player.GetData<bool>("inRaceList");
         }
 
         [RemoteProc("serverside:SendInitialRaces")]
@@ -255,7 +273,7 @@ namespace racing_src.Race
         [Command("exitrace")]
         public void ExitRace(Player player)
         {
-            CurrentRaces.ElementAtOrDefault(player.GetSharedData<int>("raceId")).RemoveRacer(player);
+            CurrentRaces[player.GetSharedData<int>("raceId")].RemoveRacer(player);
             player.ResetSharedData("raceId");
         }
 

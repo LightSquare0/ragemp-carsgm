@@ -159,7 +159,7 @@ const registerInput = (e) => {
 };
 
 window.onkeyup = registerInput;
-window.onload = chatAPI.push("Welcome to Athrons Racing");
+window.onload = chatAPI.push("Welcome to Invictum Racing");
 
 let api = {
   "chat:push": chatAPI.push,

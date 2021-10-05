@@ -29,4 +29,4 @@ setInterval(() => {
     let vehicleGear = parseInt(mp.players.local.vehicle.gear);
     browser.call("react:updateVehicleData", vehicleSpeed, vehicleRpm, vehicleGear);
   }
-}, 100);
+}, 10);

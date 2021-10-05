@@ -5,6 +5,7 @@ import {
   TrackDiv,
   TrackImagesContainer,
   TrackName,
+  NotFoundError,
 } from "./TrackCarouselStyles";
 import demo_map from "../../Static/Demo_map.png";
 import Icon from "../../Utils/Icon";
@@ -70,24 +71,30 @@ const TrackCarousel: React.FC<TrackCarousel> = ({
         />
       </ArrowButton>
       <TrackImagesContainer>
-        {images.map((race: race, index: number) => {
-          return (
-            <div key={index}>
-              <TrackDiv
-                currentIndex={imageIndex}
-                index={images.indexOf(race)}
-                state={race.state}
-              >
-                <TrackImage
-                  currentIndex={imageIndex}
-                  index={images.indexOf(race)}
-                  src={race.image}
-                />
-              </TrackDiv>
-              <TrackName state={race.state}>{race.name}</TrackName>
-            </div>
-          );
-        })}
+        {images.length == 0 ? (
+          <NotFoundError>No results found</NotFoundError>
+        ) : (
+          <>
+            {images.map((race: race, index: number) => {
+              return (
+                <div key={index}>
+                  <TrackDiv
+                    currentIndex={imageIndex}
+                    index={images.indexOf(race)}
+                    state={race.state}
+                  >
+                    <TrackImage
+                      currentIndex={imageIndex}
+                      index={images.indexOf(race)}
+                      src={race.image}
+                    />
+                  </TrackDiv>
+                  <TrackName state={race.state}>{race.name}</TrackName>
+                </div>
+              );
+            })}
+          </>
+        )}
       </TrackImagesContainer>
       <ArrowButton onClick={() => moveCarousel("right")}>
         <Icon

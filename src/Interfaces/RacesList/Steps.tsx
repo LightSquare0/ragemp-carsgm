@@ -151,9 +151,10 @@ const Steps: React.FC<{ selectedTrackName: string }> = ({ selectedTrackName }) =
       raceSettings.Laps,
       raceSettings.Duration,
       raceSettings.Participants,
-      dropdownText
+      dropdownText,
+      JSON.stringify(selectedVehicles)
     );
-    console.log(selectedTrackName);
+    console.log(selectedVehicles);
   };
 
   return (
