@@ -129,11 +129,11 @@ export const RacePanel: React.FC<RacePanel> = ({ openedRace, races, willHost }) 
     <RacePanelContainer>
       {!willHost &&
         (openedRace ? (
-          <OpenedRace Race={openedRace}></OpenedRace>
+          <OpenedRace races={races} Race={openedRace}></OpenedRace>
         ) : (
           <NotOpenedMessage>
             {races.length == 0 ? (
-              <>No races are currently hosted. Be the the first to host one!</>
+              <>No races are currently hosted. Be the first to host one!</>
             ) : (
               <>Click any race to view more information about it here.</>
             )}
@@ -178,7 +178,7 @@ export const RacePanel: React.FC<RacePanel> = ({ openedRace, races, willHost }) 
 //   HasStarted: boolean;
 // }
 
-export const OpenedRace: React.FC<{ Race: Race }> = ({ Race }) => {
+export const OpenedRace: React.FC<{races: Array<Race>, Race: Race }> = ({races, Race }) => {
   const getHoster = () => {
     let splitName = Race.Name.split("'");
     return splitName[0];
@@ -186,14 +186,23 @@ export const OpenedRace: React.FC<{ Race: Race }> = ({ Race }) => {
 
   const { ref, isComponentVisible, setIsComponentVisible } = useOutsideAlerter(false);
 
+  const onJoinRace = () => {
+    let raceId = races.indexOf(Race);
+    //@ts-ignore
+    mp.trigger("clientside:onJoinRace", raceId);
+    console.log(raceId);
+  }
+
+  let Racers = Object.values(Race.Racers); 
+
   return (
     <>
       <OpenedRaceHeader>
-        <OpenedTrackName>{Race.TrackName}</OpenedTrackName>
+        <OpenedTrackName>{Race.Template.TrackName}</OpenedTrackName>
         <OpenedAdditionalInfo>
           Hosted by {getHoster()}
           <Bullet />
-          {Race.Category}
+          {Race.Template.Category}
           <Bullet />
           Vinewood, Los Santos
         </OpenedAdditionalInfo>
@@ -217,7 +226,7 @@ export const OpenedRace: React.FC<{ Race: Race }> = ({ Race }) => {
           </OpenedRaceStat>
           <OpenedRaceStat>
             <div>Participants</div>
-            <div>{Race.Racers.length}</div>
+            <div>{Racers.length}</div>
           </OpenedRaceStat>
           <OpenedRaceStat>
             <div>Spectators</div>
@@ -233,10 +242,10 @@ export const OpenedRace: React.FC<{ Race: Race }> = ({ Race }) => {
           <SecondaryOption ref={ref} onClick={() => setIsComponentVisible(true)}>
             {isComponentVisible ? (
               <FloatingWindow>
-                {Race.Racers.length == 0 ? (
+                {Racers.length == 0 ? (
                   <>No racers</>
                 ) : (
-                  Race.Racers.map((racer) => <div>{racer}</div>)
+                  Racers.map((racer) => <div>{racer.ParticipantName}</div>)
                 )}
               </FloatingWindow>
             ) : (
@@ -244,7 +253,7 @@ export const OpenedRace: React.FC<{ Race: Race }> = ({ Race }) => {
             )}
             View participants
           </SecondaryOption>
-          <Button join>
+          <Button join onClick={() => onJoinRace()}>
             <div>JOIN NOW</div>
           </Button>
         </OpenedInteract>

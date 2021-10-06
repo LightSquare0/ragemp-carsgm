@@ -2,6 +2,7 @@ import { browser } from "../client";
 
 export const PrepareLogin = () => {
   mp.players.local.freezePosition(true);
+  mp.players.local.setAlpha(0);
   mp.game.ui.displayRadar(false);
   let sceneryCamera = mp.cameras.new(
     "default",
@@ -22,6 +23,7 @@ export const PrepareLogin = () => {
 mp.events.add("clientside:SpawnPlayer", () => {
   mp.gui.chat.show(true);
   mp.game.cam.renderScriptCams(false, false, 0, true, false);
+  mp.players.local.setAlpha(255);
   mp.players.local.freezePosition(false);
   mp.game.graphics.transitionFromBlurred(500);
   mp.game.ui.displayRadar(true);

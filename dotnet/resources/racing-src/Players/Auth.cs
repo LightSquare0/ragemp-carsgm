@@ -18,7 +18,6 @@ namespace racing_src.Players
         public void DisplayLogin(Player player)
         {
             player.Position = new Vector3(-45.322342, -824.4542, 1296.235);
-            player.Transparency = 0;
         }
 
 
@@ -56,12 +55,6 @@ namespace racing_src.Players
             }
         }
 
-        [RemoteProc("serverside:samp")]
-        public void SAMPPP()
-        {
-
-        }
-
         [RemoteEvent("serverside:OnPlayerRegister")]
         public async Task RegisterPlayer (Player player, string username, string password, string email)
         {
@@ -96,7 +89,6 @@ namespace racing_src.Players
                     player.TriggerEvent("clientside:RegisterResult", 1);
                     player.Position = new Vector3(227.21216, 1172.314, 225.45993);
                     player.Heading = -79;
-                    player.Transparency = 255;
                     player.SendChatMessage($"Succesfully registered user with the following credentials: {username}, {password}, {email}.");
                     player.Notify(Notifications.Type.Error, $"Welcome {username}", "Registered successfully.");
 

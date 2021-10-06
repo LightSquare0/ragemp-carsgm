@@ -1,3 +1,5 @@
+import { browser } from "../client";
+
 var currentCheckpoints = [];
 var _track = [];
 var currentPoint = 0;
@@ -24,30 +26,27 @@ mp.events.add("clientside:SaveRace", (racename, category, creator) => {
   );
 });
 
-
 mp.events.add("clientside:LoadRace", (track) => {
   _track = track;
   mp.gui.chat.push(_track + " loaded track cik");
   setTimeout(() => {
     createNewCheckpoint();
   }, 200);
-    
-
 });
 
 const resetRaceData = () => {
-if (currentCheckPoint != undefined){
+  if (currentCheckPoint != undefined) {
     currentCheckPoint.destroy();
     currentBlip.destroy();
     currentBlip = undefined;
     currentCheckPoint = undefined;
   }
-}
+};
 
 const createNewCheckpoint = () => {
-  resetRaceData();  
+  resetRaceData();
 
-  if (currentPoint == _track.length){
+  if (currentPoint == _track.length) {
     mp.gui.chat.push("ai ajuns la final.");
     mp.events.callRemote("serverside:OnPlayerEnterFinishCheckpoint");
     mp.game.audio.playSoundFrontend(-1, "FIRST_PLACE", "HUD_MINI_GAME_SOUNDSET", true);
@@ -57,43 +56,65 @@ const createNewCheckpoint = () => {
     return;
   }
 
-  if (currentPoint + 1 == _track.length){
-    currentCheckPoint = mp.checkpoints.new(10, new mp.Vector3(_track[currentPoint].x, _track[currentPoint].y, _track[currentPoint].z + 2), 10, {
-      color: [84, 150, 255, 100],
-      visible: true,
-      dimension: 0,
-    });
-    
-    currentBlip = mp.blips.new(38, new mp.Vector3(_track[currentPoint].x, _track[currentPoint].y, _track[currentPoint].z),
+  if (currentPoint + 1 == _track.length) {
+    currentCheckPoint = mp.checkpoints.new(
+      10,
+      new mp.Vector3(_track[currentPoint].x, _track[currentPoint].y, _track[currentPoint].z + 2),
+      10,
+      {
+        color: [84, 150, 255, 100],
+        visible: true,
+        dimension: 0,
+      }
+    );
+
+    currentBlip = mp.blips.new(
+      38,
+      new mp.Vector3(_track[currentPoint].x, _track[currentPoint].y, _track[currentPoint].z),
       {
         color: 3,
         shortRange: true,
-      });
+      }
+    );
     return;
   }
 
-
-   currentCheckPoint = mp.checkpoints.new(18, new mp.Vector3(_track[currentPoint].x, _track[currentPoint].y, _track[currentPoint].z + 2), 10, {
-      direction: new mp.Vector3(_track[currentPoint + 1].x, _track[currentPoint + 1].y, _track[currentPoint + 1].z),
+  currentCheckPoint = mp.checkpoints.new(
+    18,
+    new mp.Vector3(_track[currentPoint].x, _track[currentPoint].y, _track[currentPoint].z + 2),
+    10,
+    {
+      direction: new mp.Vector3(
+        _track[currentPoint + 1].x,
+        _track[currentPoint + 1].y,
+        _track[currentPoint + 1].z
+      ),
       color: [84, 150, 255, 100],
       visible: true,
       dimension: 0,
-    });
+    }
+  );
 
-    currentBlip = mp.blips.new(1, new mp.Vector3(_track[currentPoint].x, _track[currentPoint].y, _track[currentPoint].z),
+  currentBlip = mp.blips.new(
+    1,
+    new mp.Vector3(_track[currentPoint].x, _track[currentPoint].y, _track[currentPoint].z),
     {
-        color: 3,
-        shortRange: true,
-    });
-}
+      color: 3,
+      shortRange: true,
+    }
+  );
+};
 
 mp.events.add("playerEnterCheckpoint", (checkpoint) => {
-
   if (checkpoint == currentCheckPoint) {
-   mp.gui.chat.push("ai intrat in punctul " + currentPoint);
-  
-    mp.events.callRemote("serverside:OnPlayerEnterCheckpoint", currentPoint, mp.players.local.position);
-   
+    mp.gui.chat.push("ai intrat in punctul " + currentPoint);
+
+    mp.events.callRemote(
+      "serverside:OnPlayerEnterCheckpoint",
+      currentPoint,
+      mp.players.local.position
+    );
+
     mp.game.audio.playSoundFrontend(-1, "CHECKPOINT_NORMAL", "HUD_MINI_GAME_SOUNDSET", true);
 
     createNewCheckpoint();
@@ -101,7 +122,12 @@ mp.events.add("playerEnterCheckpoint", (checkpoint) => {
       currentPoint = 0;
       return;
     }
-    currentPoint++
+    currentPoint++;
   }
+});
 
+mp.events.add("clientside:onJoinRace", (raceId) => {
+  mp.events.callRemoteProc("serverside:onJoinRace", raceId).then((checkpoints) => {
+    mp.events.call("clientside:SpawnPlayer");
+  });
 });

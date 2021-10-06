@@ -78,6 +78,8 @@ mp.events.add({
   "clientside:GetInitialRaces": () => {
     mp.events.callRemoteProc("serverside:SendInitialRaces").then((races) => {
       browser.call("react:GetInitialRaces", races);
+      let samp = JSON.stringify(races);
+      mp.console.logInfo(samp);
     });
   },
 

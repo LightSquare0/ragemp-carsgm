@@ -115,11 +115,7 @@ export const RacesList: React.FC = () => {
         </RaceListHeader>
         <RacesListContainer>
           <RacesListed>
-            <DisplayRaces
-              setOpenedRace={setOpenedRace}
-              races={races}
-              setRaces={setRaces}
-            />
+            <DisplayRaces setOpenedRace={setOpenedRace} races={races} setRaces={setRaces} />
           </RacesListed>
           <RacePanel openedRace={openedRace} races={races} willHost={willHost} />
         </RacesListContainer>
@@ -134,41 +130,39 @@ export const RacesList: React.FC = () => {
 
 export interface Race {
   Guid?: string;
+  MaxParticipants: number;
   Name: string;
-  TrackName: string;
-  Type: string;
   Mode: boolean;
   Laps: number;
   MaxDuration: number;
-  Category: string;
-  Racers: Array<any>;
-  MaxParticipants: number;
   HasStarted: boolean;
+  Type: string;
   SelectedVehicles: Array<string>;
+  Racers: Array<any>;
+  Template: {
+    TrackName: string;
+    Category: string;
+    Image: string;
+  };
 }
 
-export const Race: React.FC<{ onClick: () => void; Race: Race }> = ({
-  onClick,
-  Race,
-}) => {
+export const Race: React.FC<{ onClick: () => void; Race: Race }> = ({ onClick, Race }) => {
   const { ref, isComponentVisible, setIsComponentVisible } = useOutsideAlerter(false);
 
   console.log(Race.SelectedVehicles);
+
+  let Racers = Object.keys(Race.Racers).length;
 
   return (
     <RaceContainer onClick={onClick}>
       <RaceBrief>
         <RaceName>{Race.Name}</RaceName>
-        <RaceTrack>{Race.TrackName}</RaceTrack>
+        <RaceTrack>{Race.Template.TrackName}</RaceTrack>
       </RaceBrief>
       <VehicleClassContainer onClick={() => setIsComponentVisible(true)}>
         <VehicleClass>
           <div>{Race.Type}</div>
-          <Icon
-            color="var(--text-whiter-gray)"
-            size="1rem"
-            icon="external-link-alt-solid"
-          ></Icon>
+          <Icon color="var(--text-whiter-gray)" size="1rem" icon="external-link-alt-solid"></Icon>
         </VehicleClass>
         {isComponentVisible ? (
           <FloatingWindow ref={ref}>
@@ -181,8 +175,10 @@ export const Race: React.FC<{ onClick: () => void; Race: Race }> = ({
         )}
       </VehicleClassContainer>
       <Participants>
-        {Race.Racers.length < 9 ? "0" + Race.Racers.length : Race.Racers.length}/
-        {Race.MaxParticipants < 9 ? "0" + Race.MaxParticipants : Race.MaxParticipants}
+        {Racers < 9
+          ? "0" + Racers
+          : Racers}
+        /{Race.MaxParticipants < 9 ? "0" + Race.MaxParticipants : Race.MaxParticipants}
       </Participants>
       <Status>{Race.HasStarted ? <>STARTED</> : <>NOT STARTED</>}</Status>
     </RaceContainer>

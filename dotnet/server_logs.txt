@@ -72539,4 +72539,215 @@ testing: System.InvalidCastException: Object must implement IConvertible.
    at void GTANetworkInternals.RemoteEventParser.Parse(Player sender, ulong eventNameHash, params object[] args)
 testing: System.InvalidCastException: Object must implement IConvertible.
    at object Convert.ChangeType(object value, Type conversionType, IFormatProvider provider)
-   at void GTANetworkInternals.RemoteEventParser.Parse(Player sender, ulong eventNameHash, pa
+   at void GTANetworkInternals.RemoteEventParser.Parse(Player sender, ulong eventNameHash, paInitializing Bootstrapper.dll (1.1.0.0)..
+-> SERVER STARTED AT 06-Oct-21 21:34:37
+Unable to load acl.xml
+Loaded 667 entries from vehicleData.json
+Loading resources..
+-> Starting racing-resource resource..
+racing-resource: loading scripts.. found 1 script(s)
+racing-resource: instantiating racing_src.Main..
+racing-resource: instantiating racing_src.AccountModel..
+racing-resource: instantiating racing_src.Database..
+racing-resource: instantiating racing_src.Race.RaceCreator..
+racing-resource: instantiating racing_src.Race.RaceManager..
+racing-resource: instantiating racing_src.Players.Auth..
+racing-resource: instantiating racing_src.Players.Players..
+racing-resource: instantiating racing_src.Admin.AdminCommands..
+racing-resource: loading server events.. found 2 server event(s)
+racing-resource: loading server events.. found 1 server event(s)
+racing-resource: loading server events.. found 2 server event(s)
+racing-resource: loading server events.. found 1 server event(s)
+racing-resource: loading server events.. found 1 server event(s)
+racing-resource: loaded 7 server events(s)
+racing-resource: loading commands.. found 2 command(s)
+racing-resource: loading commands.. found 6 command(s)
+racing-resource: loading commands.. found 7 command(s)
+racing-resource: loading commands.. found 9 command(s)
+racing-resource: loaded 24 commands(s)
+racing-resource: loading remote events.. found 1 remote event(s)
+racing-resource: loading remote events.. found 1 remote event(s)
+racing-resource: loading remote events.. found 3 remote event(s)
+racing-resource: loading remote events.. found 2 remote event(s)
+racing-resource: loading remote events.. found 1 remote event(s)
+racing-resource: loaded 8 remote event(s)
+racing-resource: loading remote procedures.. found 4 remote procedure(s)
+racing-resource: loading remote procedures.. found 1 remote procedure(s)
+racing-resource: loaded 5 remote procedure(s)
+-> Resource racing-resource started!
+Started! Waiting for connections..
+System.InvalidCastException: Unable to cast object of type 'System.Collections.Generic.List`1[racing_src.Race.Racer]' to type 'Newtonsoft.Json.JsonConverter'.
+   at JsonConverter Newtonsoft.Json.Serialization.JsonTypeReflector.GetJsonConverter(object attributeProvider)
+   at void Newtonsoft.Json.Serialization.DefaultContractResolver.SetPropertySettingsFromAttributes(JsonProperty property, object attributeProvider, string name, Type declaringType, MemberSerialization memberSerialization, out bool allowNonPublicAccess)
+   at JsonProperty Newtonsoft.Json.Serialization.DefaultContractResolver.CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
+   at IList<JsonProperty> Newtonsoft.Json.Serialization.DefaultContractResolver.CreateProperties(Type type, MemberSerialization memberSerialization)
+   at JsonObjectContract Newtonsoft.Json.Serialization.DefaultContractResolver.CreateObjectContract(Type objectType)
+   at JsonContract Newtonsoft.Json.Serialization.DefaultContractResolver.CreateContract(Type objectType)
+   at TValue System.Collections.Concurrent.ConcurrentDictionary<TKey, TValue>.GetOrAdd(TKey key, Func<TKey, TValue> valueFactory)
+   at TValue Newtonsoft.Json.Utilities.ThreadSafeStore<TKey, TValue>.Get(TKey key)
+   at JsonContract Newtonsoft.Json.Serialization.DefaultContractResolver.ResolveContract(Type type)
+   at bool Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.WriteStartArray(JsonWriter writer, object values, JsonArrayContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerProperty)
+   at void Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeList(JsonWriter writer, IEnumerable values, JsonArrayContract contract, JsonProperty member, JsonContainerContract collectionContract, JsonProperty containerProperty)
+   at void Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue(JsonWriter writer, object value, JsonContract valueContract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerProperty)
+   at void Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.Serialize(JsonWriter jsonWriter, object value, Type objectType)
+   at void Newtonsoft.Json.JsonSerializer.SerializeInternal(JsonWriter jsonWriter, object value, Type objectType)
+   at void Newtonsoft.Json.JsonSerializer.Serialize(JsonWriter jsonWriter, object value, Type objectType)
+   at string Newtonsoft.Json.JsonConvert.SerializeObjectInternal(object value, Type type, JsonSerializer jsonSerializer)
+   at string Newtonsoft.Json.JsonConvert.SerializeObject(object value, Type type, JsonSerializerSettings settings)
+   at string Newtonsoft.Json.JsonConvert.SerializeObject(object value)
+   at void GTANetworkMethods.EventPusher.PushOne(object obj)
+   at void GTANetworkMethods.EventPusher.Push(params object[] args)
+   at void GTANetworkInternals.RemoteProcHandler.Parse(Player player, ulong eventNameHash, uint callIdx, params object[] arguments)
+System.InvalidCastException: Unable to cast object of type 'System.Collections.Generic.List`1[racing_src.Race.Racer]' to type 'Newtonsoft.Json.JsonConverter'.
+   at JsonConverter Newtonsoft.Json.Serialization.JsonTypeReflector.GetJsonConverter(object attributeProvider)
+   at void Newtonsoft.Json.Serialization.DefaultContractResolver.SetPropertySettingsFromAttributes(JsonProperty property, object attributeProvider, string name, Type declaringType, MemberSerialization memberSerialization, out bool allowNonPublicAccess)
+   at JsonProperty Newtonsoft.Json.Serialization.DefaultContractResolver.CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
+   at IList<JsonProperty> Newtonsoft.Json.Serialization.DefaultContractResolver.CreateProperties(Type type, MemberSerialization memberSerialization)
+   at JsonObjectContract Newtonsoft.Json.Serialization.DefaultContractResolver.CreateObjectContract(Type objectType)
+   at JsonContract Newtonsoft.Json.Serialization.DefaultContractResolver.CreateContract(Type objectType)
+   at TValue System.Collections.Concurrent.ConcurrentDictionary<TKey, TValue>.GetOrAdd(TKey key, Func<TKey, TValue> valueFactory)
+   at JsonContract Newtonsoft.Json.Serialization.DefaultContractResolver.ResolveContract(Type type)
+   at bool Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.WriteStartArray(JsonWriter writer, object values, JsonArrayContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerProperty)
+   at void Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeList(JsonWriter writer, IEnumerable values, JsonArrayContract contract, JsonProperty member, JsonContainerContract collectionContract, JsonProperty containerProperty)
+   at void Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue(JsonWriter writer, object value, JsonContract valueContract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerProperty)
+   at void Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.Serialize(JsonWriter jsonWriter, object value, Type objectType)
+   at void Newtonsoft.Json.JsonSerializer.SerializeInternal(JsonWriter jsonWriter, object value, Type objectType)
+   at void Newtonsoft.Json.JsonSerializer.Serialize(JsonWriter jsonWriter, object value, Type objectType)
+   at string Newtonsoft.Json.JsonConvert.SerializeObjectInternal(object value, Type type, JsonSerializer jsonSerializer)
+   at string Newtonsoft.Json.JsonConvert.SerializeObject(object value, Type type, JsonSerializerSettings settings)
+   at string Newtonsoft.Json.JsonConvert.SerializeObject(object value)
+   at void GTANetworkMethods.EventPusher.PushOne(object obj)
+   at void GTANetworkMethods.EventPusher.Push(params object[] args)
+   at void GTANetworkInternals.RemoteProcHandler.Parse(Player player, ulong eventNameHash, uint callIdx, params object[] arguments)
+System.InvalidCastException: Unable to cast object of type 'System.Collections.Generic.List`1[racing_src.Race.Racer]' to type 'Newtonsoft.Json.JsonConverter'.
+   at JsonConverter Newtonsoft.Json.SerializatiInitializing Bootstrapper.dll (1.1.0.0)..
+-> SERVER STARTED AT 06-Oct-21 22:21:03
+Unable to load acl.xml
+Loaded 667 entries from vehicleData.json
+Loading resources..
+-> Starting racing-resource resource..
+racing-resource: loading scripts.. found 1 script(s)
+racing-resource: instantiating racing_src.Main..
+racing-resource: instantiating racing_src.AccountModel..
+racing-resource: instantiating racing_src.Database..
+racing-resource: instantiating racing_src.Race.RaceCreator..
+racing-resource: instantiating racing_src.Race.RaceManager..
+racing-resource: instantiating racing_src.Players.Auth..
+racing-resource: instantiating racing_src.Players.Players..
+racing-resource: instantiating racing_src.Admin.AdminCommands..
+racing-resource: loading server events.. found 2 server event(s)
+racing-resource: loading server events.. found 1 server event(s)
+racing-resource: loading server events.. found 2 server event(s)
+racing-resource: loading server events.. found 1 server event(s)
+racing-resource: loading server events.. found 1 server event(s)
+racing-resource: loaded 7 server events(s)
+racing-resource: loading commands.. found 2 command(s)
+racing-resource: loading commands.. found 6 command(s)
+racing-resource: loading commands.. found 7 command(s)
+racing-resource: loading commands.. found 9 command(s)
+racing-resource: loaded 24 commands(s)
+racing-resource: loading remote events.. found 1 remote event(s)
+racing-resource: loading remote events.. found 1 remote event(s)
+racing-resource: loading remote events.. found 3 remote event(s)
+racing-resource: loading remote events.. found 2 remote event(s)
+racing-resource: loading remote events.. found 1 remote event(s)
+racing-resource: loaded 8 remote event(s)
+racing-resource: loading remote procedures.. found 4 remote procedure(s)
+racing-resource: loading remote procedures.. found 1 remote procedure(s)
+racing-resource: loaded 5 remote procedure(s)
+-> Resource racing-resource started!
+Started! Waiting for connections..
+WARNING: "GetPlayerWeapons" function is not implemented yet.
+WARNING: "IsPlayerShooting" function is not implemented yet.
+DEPRECATE: GetPlayerNametag is deprecated.
+WARNING: "GetVehicleBulletproofTyres" function is not implemented yet.
+WARNING: "GetVehicleTyreSmokeColor" function is not implemented yet.
+WARNING: "GetVehicleEnginePowerMultiplier" function is not implemented yet.
+WARNING: "GetVehicleEngineTorqueMultiplier" function is not implemented yet.
+WARNING: "GetPlayerWeapons" function is not implemented yet.
+WARNING: "IsPlayerShooting" function is not implemented yet.
+DEPRECATE: GetPlayerNametag is deprecated.
+WARNING: "GetVehicleBulletproofTyres" function is not implemented yet.
+WARNING: "GetVehicleTyreSmokeColor" function is not implemented yet.
+WARNING: "GetVehicleEnginePowerMultiplier" function is not implemented yet.
+WARNING: "GetVehicleEngineTorqueMultiplier" function is not implemented yet.
+WARNING: "GetPlayerWeapons" function is not implemented yet.
+WARNING: "IsPlayerShooting" function is not implemented yet.
+DEPRECATE: GetPlayerNametag is deprecated.
+WARNING: "GetVehicleBulletproofTyres" function is not implemented yet.
+WARNING: "GetVehicleTyreSmokeColor" function is not implemented yet.
+WARNING: "GetVehicleEnginePowerMultiplier" function is not implemented yet.
+WARNING: "GetVehicleEngineTorqueMultiplier" function is not implemented yet.
+WARNING: "GetPlayerWeapons" function is not implemented yet.
+WARNING: "IsPlayerShooting" function is not implemented yet.
+DEPRECATE: GetPlayerNametag is deprecated.
+WARNING: "GetVehicleBulletproofTyres" function is not implemented yet.
+WARNING: "GetVehicleTyreSmokeColor" function is not implemented yet.
+WARNING: "GetVehicleEnginePowerMultiplier" function is not implemented yet.
+WARNING: "GetVehicleEngineTorqueMultiplier" function is not implemented yet.
+WARNING: "GetPlayerWeapons" function is not implemented yet.
+WARNING: "IsPlayerShooting" function is not implemented yet.
+DEPRECATE: GetPlayerNametag is deprecated.
+WARNING: "GetVehicleBulletproofTyres" function is not implemented yet.
+WARNING: "GetVehicleTyreSmokeColor" function is not implemented yet.
+WARNING: "GetVehicleEnginePowerMultiplier" function is not implemented yet.
+WARNING: "GetVehicleEngineTorqueMultiplier" function is not implemented yet.
+WARNING: "GetPlayerWeapons" function is not implemented yet.
+WARNING: "IsPlayerShooting" function is not implemented yet.
+DEPRECATE: GetPlayerNametag is deprecated.
+WARNING: "GetVehicleBulletproofTyres" function is not implemented yet.
+WARNING: "GetVehicleTyreSmokeColor" function is not implemented yet.
+WARNING: "GetVehicleEnginePowerMultiplier" function is not implemented yet.
+WARNING: "GetVehicleEngineTorqueMultiplier" function is not implemented yet.
+WARNING: "GetPlayerWeapons" function is not implemented yet.
+WARNING: "IsPlayerShooting" function is not implemented yet.
+DEPRECATE: GetPlayerNametag is deprecated.
+WARNING: "GetVehicleBulletproofTyres" function is not implemented yet.
+WARNING: "GetVehicleTyreSmokeColor" function is not implemented yet.
+WARNING: "GetVehicleEnginePowerMultiplier" function is not implemented yet.
+WARNING: "GetVehicleEngineTorqueMultiplier" function is not implemented yet.
+WARNING: "GetPlayerWeapons" function is not implemented yet.
+WARNING: "IsPlayerShooting" function is not implemented yet.
+DEPRECATE: GetPlayerNametag is deprecated.
+WARNING: "GetVehicleBulletproofTyres" function is not implemented yet.
+WARNING: "GetVehicleTyreSmokeColor" function is not implemented yet.
+WARNING: "GetVehicleEnginePowerMultiplier" function is not implemented yet.
+WARNING: "GetVehicleEngineTorqueMultiplier" function is not implemented yet.
+WARNING: "GetPlayerWeapons" function is not implemented yet.
+WARNING: "IsPlayerShooting" function is not implemented yet.
+DEPRECATE: GetPlayerNametag is deprecated.
+WARNING: "GetVehicleBulletproofTyres" function is not implemented yet.
+WARNING: "GetVehicleTyreSmokeColor" function is not implemented yet.
+WARNING: "GetVehicleEnginePowerMultiplier" function is not implemented yet.
+WARNING: "GetVehicleEngineTorqueMultiplier" function is not implemented yet.
+WARNING: "GetPlayerWeapons" function is not implemented yet.
+WARNING: "IsPlayerShooting" function is not implemented yet.
+DEPRECATE: GetPlayerNametag is deprecated.
+WARNING: "GetVehicleBulletproofTyres" function is not implemented yet.
+WARNING: "GetVehicleTyreSmokeColor" function is not implemented yet.
+WARNING: "GetVehicleEnginePowerMultiplier" function is not implemented yet.
+WARNING: "GetVehicleEngineTorqueMultiplier" function is not implemented yet.
+WARNING: "GetPlayerWeapons" function is not implemented yet.
+WARNING: "IsPlayerShooting" function is not implemented yet.
+DEPRECATE: GetPlayerNametag is deprecated.
+WARNING: "GetVehicleBulletproofTyres" function is not implemented yet.
+WARNING: "GetVehicleTyreSmokeColor" function is not implemented yet.
+WARNING: "GetVehicleEnginePowerMultiplier" function is not implemented yet.
+WARNING: "GetVehicleEngineTorqueMultiplier" function is not implemented yet.
+WARNING: "GetPlayerWeapons" function is not implemented yet.
+WARNING: "IsPlayerShooting" function is not implemented yet.
+DEPRECATE: GetPlayerNametag is deprecated.
+WARNING: "GetVehicleBulletproofTyres" function is not implemented yet.
+WARNING: "GetVehicleTyreSmokeColor" function is not implemented yet.
+WARNING: "GetVehicleEnginePowerMultiplier" function is not implemented yet.
+WARNING: "GetVehicleEngineTorqueMultiplier" function is not implemented yet.
+WARNING: "GetPlayerWeapons" function is not implemented yet.
+WARNING: "IsPlayerShooting" function is not implemented yet.
+DEPRECATE: GetPlayerNametag is deprecated.
+WARNING: "GetVehicleBulletproofTyres" function is not implemented yet.
+WARNING: "GetVehicleTyreSmokeColor" function is not implemented yet.
+WARNING: "GetVehicleEnginePowerMultiplier" function is not implemented yet.
+WARNING: "GetVehicleEngineTorqueMultiplier" function is not implemented yet.
+WARNING: "GetPlayerWeapons" function is not implemented yet.
+WARNING: "IsPlayerShooting" function is not implemented yet.
+DEPRECAT

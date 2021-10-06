@@ -15,7 +15,6 @@ namespace racing_src.Players
             player.TriggerEvent("clientside:SpawnPlayer");
             player.Position = new Vector3(227.21216, 1172.314, 225.45993);
             player.Heading = -79;
-            player.Transparency = 255;
         }
     }
 }

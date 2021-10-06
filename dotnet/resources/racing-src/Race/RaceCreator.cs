@@ -135,8 +135,8 @@ namespace racing_src.Race
                 string updateSpawnPointsSQL = "UPDATE races SET spawnpoints = @spawnpoints WHERE id = @id";
                 var spawnpoints = NAPI.Util.FromJson<List<Spawnpoint>>(db.QueryFirst<string>(getSpawnpointsSQL, new { id }));
                 //Vehicle veh = NAPI.Vehicle.CreateVehicle(NAPI.Util.GetHashKey("neon"), player.Position, player.Heading, 200, 200, $"Test vehicle.");
-                NAPI.Checkpoint.CreateCheckpoint(CheckpointType.Cyclinder, new Vector3(player.Position.X, player.Position.Y, player.Position.Z - 1), new Vector3(0, 1, 0), 2.5f, new Color(255, 0, 0), 0);
-                spawnpoints.Add(new Spawnpoint(new Vector3(player.Position.X, player.Position.Y, player.Position.Z), player.Vehicle.Heading, false));
+                NAPI.Checkpoint.CreateCheckpoint(CheckpointType.Cyclinder, new Vector3(player.Position.X, player.Position.Y, player.Position.Z - 1), new Vector3(0, 1, 0), 2.5f, new Color(255, 0, 0), player.Dimension);
+                spawnpoints.Add(new Spawnpoint(new Vector3(player.Position.X, player.Position.Y, player.Position.Z), player.Vehicle.Heading));
                 foreach (var c in spawnpoints)
                 {
                     Console.WriteLine($"{c.Position.X} {c.Position.Y} {c.Position.Z} {c.Heading}");

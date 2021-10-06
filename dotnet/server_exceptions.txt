@@ -7663,3 +7663,37 @@ System.Reflection.TargetInvocationException: Exception has been thrown by the ta
    --- End of inner exception stack trace ---
    at object Newtonsoft.Json.Serialization.JsonSerializerInternalReader.EnsureType(JsonReader reader, object value, CultureInfo culture, JsonContract contract, Type targetType)
    at object Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValue
+==================[06-Oct-21 21:35:21]==================
+System.InvalidCastException: Unable to cast object of type 'System.Collections.Generic.List`1[racing_src.Race.Racer]' to type 'Newtonsoft.Json.JsonConverter'.
+   at object System.Runtime.CompilerServices.CastHelpers.ChkCast_Helper(Void* toTypeHnd, object obj)
+=========================================================
+
+==================[06-Oct-21 21:35:21]==================
+System.InvalidCastException: Unable to cast object of type 'System.Collections.Generic.List`1[racing_src.Race.Racer]' to type 'Newtonsoft.Json.JsonConverter'.
+   at JsonConverter Newtonsoft.Json.Serialization.JsonTypeReflector.GetJsonConverter(object attributeProvider)
+   at void Newtonsoft.Json.Serialization.DefaultContractResolver.SetPropertySettingsFromAttributes(JsonProperty property, object attributeProvider, string name, Type declaringType, MemberSerialization memberSerialization, out bool allowNonPublicAccess)
+   at JsonProperty Newtonsoft.Json.Serialization.DefaultContractResolver.CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
+   at IList<JsonProperty> Newtonsoft.Json.Serialization.DefaultContractResolver.CreateProperties(Type type, MemberSerialization memberSerialization)
+   at JsonObjectContract Newtonsoft.Json.Serialization.DefaultContractResolver.CreateObjectContract(Type objectType)
+   at JsonContract Newtonsoft.Json.Serialization.DefaultContractResolver.CreateContract(Type objectType)
+   at TValue System.Collections.Concurrent.ConcurrentDictionary<TKey, TValue>.GetOrAdd(TKey key, Func<TKey, TValue> valueFactory)
+   at TValue Newtonsoft.Json.Utilities.ThreadSafeStore<TKey, TValue>.Get(TKey key)
+   at JsonContract Newtonsoft.Json.Serialization.DefaultContractResolver.ResolveContract(Type type)
+   at bool Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.WriteStartArray(JsonWriter writer, object values, JsonArrayContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerProperty)
+   at void Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeList(JsonWriter writer, IEnumerable values, JsonArrayContract contract, JsonProperty member, JsonContainerContract collectionContract, JsonProperty containerProperty)
+   at void Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.SerializeValue(JsonWriter writer, object value, JsonContract valueContract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerProperty)
+   at void Newtonsoft.Json.Serialization.JsonSerializerInternalWriter.Serialize(JsonWriter jsonWriter, object value, Type objectType)
+=========================================================
+
+==================[06-Oct-21 21:35:40]==================
+System.InvalidCastException: Unable to cast object of type 'System.Collections.Generic.List`1[racing_src.Race.Racer]' to type 'Newtonsoft.Json.JsonConverter'.
+   at object System.Runtime.CompilerServices.CastHelpers.ChkCast_Helper(Void* toTypeHnd, object obj)
+=========================================================
+
+==================[06-Oct-21 21:35:40]==================
+System.InvalidCastException: Unable to cast object of type 'System.Collections.Generic.List`1[racing_src.Race.Racer]' to type 'Newtonsoft.Json.JsonConverter'.
+   at JsonConverter Newtonsoft.Json.Serialization.JsonTypeReflector.GetJsonConverter(object attributeProvider)
+   at void Newtonsoft.Json.Serialization.DefaultContractResolver.SetPropertySettingsFromAttributes(JsonProperty property, object attributeProvider, string name, Type declaringType, MemberSerialization memberSerialization, out bool allowNonPublicAccess)
+   at JsonProperty Newtonsoft.Json.Serialization.DefaultContractResolver.CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
+   at IList<JsonProperty> Newtonsoft.Json.Serialization.DefaultContractResolver.CreateProperties(Type type, MemberSerialization memberSerialization)
+   at JsonObjectContract Newtonsoft.Json.Serialization.DefaultContractResolver.CreateObjectContract

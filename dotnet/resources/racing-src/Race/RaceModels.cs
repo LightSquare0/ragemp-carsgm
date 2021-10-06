@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -11,14 +12,11 @@ namespace racing_src.Race
     public class Park
     {
         public Vector3 Coords { get; set; }
-        public double Heading { get; set; }
-        public bool Occupied { get; set; }
-
-        public Park(Vector3 coords, double heading, bool occupied)
+        public float Heading { get; set; }
+        public Park(Vector3 coords, float heading)
         {
             Coords = coords;
             Heading = heading;
-            Occupied = occupied;
         }
     }
 
@@ -34,8 +32,10 @@ namespace racing_src.Race
             get { return Participant.GetData<int>("racePosition"); }
             set { Participant.SetData<int>("racePosition", value); }
         }
-
+        public string ParticipantName { get; set; }
+        [JsonIgnore]
         public Player Participant { get; set; }
+        [JsonIgnore]
         public Vehicle Vehicle { get; set; }
         public int CurrentCheckpoint
         {
@@ -52,6 +52,7 @@ namespace racing_src.Race
         public bool HasWon { get; set; }
         public Racer(Player participant)
         {
+            ParticipantName = participant.Name;
             Participant = participant;
             RacePosition = 0;
             HasFinished = false;
@@ -73,12 +74,10 @@ namespace racing_src.Race
     {
         public Vector3 Position { get; set; }
         public float Heading { get; set; }
-        public bool Occupied { get; set; }
-        public Spawnpoint(Vector3 position, float rotation, bool occupied)
+        public Spawnpoint(Vector3 position, float rotation)
         {
             Position = position;
             Heading = rotation;
-            Occupied = occupied;
         }
 
     }
@@ -129,7 +128,9 @@ namespace racing_src.Race
         public string Type { get; set; }
         public string[] SelectedVehicles { get; set; }
         [JsonIgnore]
-        public bool[] SpawnPointsStatus { get; set; } 
+        public bool[] SpawnPointsStatus { get; set; }
+        [JsonIgnore]
+        public bool[] ParksStatus { get; set; }
         public RaceTemplate Template { get; set; }
         public Dictionary<uint, Racer> Racers { get; set; }
         public Race(ref RaceTemplate template, Player hoster, bool mode, int laps,
@@ -139,6 +140,7 @@ namespace racing_src.Race
             Dimension = RaceManager.DimensionIncrementator++;
             Guid = Guid.NewGuid();
             Hoster = hoster;
+            Racers = new Dictionary<uint, Racer>();
             Mode = mode;
             Laps = laps;
             HasStarted = false;
@@ -148,6 +150,8 @@ namespace racing_src.Race
             Type = type;
             Name = Hoster.Name + "'s race";
             SelectedVehicles = selected_vehicles;
+            SpawnPointsStatus = new bool[Template.Spawnpoints.Count()];
+            ParksStatus = new bool[RaceManager.ParksSpots.Count()];
         }
 
         public Racer AddRacer( Player player)
@@ -181,6 +185,20 @@ namespace racing_src.Race
             return null;
         }
 
+        public Park FindEmptyParkSpot()
+        {
+            for (int i = 0; i < Template.Spawnpoints.Count(); i++)
+            {
+                if (!ParksStatus[i])
+                {
+                    ParksStatus[i] = true;
+                    return RaceManager.ParksSpots[i];
+                }
+            }
+
+            return null;
+        }
+        
         public void SendRaceToList()
         {
             foreach (var player in NAPI.Pools.GetAllPlayers())

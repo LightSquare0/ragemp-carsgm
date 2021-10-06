@@ -29,8 +29,6 @@ mp.events.add("clientside:StopEffect", (effect) => {
 });
 
 mp.events.add("playerDeath", (player, reason, killer) => {
-  // mp.game.graphics.startScreenEffect("DeathFailNeutralIn", 5000, false);
-
   mp.game.cam.doScreenFadeOut(300);
   setTimeout(() => {
     mp.game.cam.doScreenFadeIn(300);
