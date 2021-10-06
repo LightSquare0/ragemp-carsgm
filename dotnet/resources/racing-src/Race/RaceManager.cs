@@ -13,7 +13,7 @@ namespace racing_src.Race
 {
     public class RaceManager : Script
     {
-
+        public static uint DimensionIncrementator = 1;
         public static List<RaceTemplate> RaceTemplates = new();
 
         public static List<TrackImage> TrackImages = new();
@@ -27,7 +27,7 @@ namespace racing_src.Race
             Timer raceTimer = new();
             raceTimer.Elapsed += UpdateRacerPositions;
             raceTimer.Interval = 1000;
-            if (CurrentRaces.FindAll(race => race.HasStarted == true).Count > 0)
+            if (CurrentRaces.FindAll(race => race.HasStarted).Count > 0)
             {
                 raceTimer.Enabled = false;
                 Console.WriteLine("Race timer stopped.");
@@ -48,11 +48,11 @@ namespace racing_src.Race
 
                 startedRaces.ForEach(race =>
                 {
-                    race.Racers.Sort(delegate (Racer a, Racer b)
+                    race.Racers.Values.ToList().Sort(delegate (Racer a, Racer b)
                     {
                         if (a.CurrentCheckpoint == b.CurrentCheckpoint)
                         {
-                            if (a.DistanceToCheckpoint(race.Checkpoints[a.CurrentCheckpoint]) > b.DistanceToCheckpoint(race.Checkpoints[a.CurrentCheckpoint]))
+                            if (a.DistanceToCheckpoint(race.Template.Checkpoints[a.CurrentCheckpoint]) > b.DistanceToCheckpoint(race.Template.Checkpoints[a.CurrentCheckpoint]))
                             {
                                 b.Participant.SendChatMessage("L-ai devansat pe " + a.Participant.Name);
                                 a.Participant.SendChatMessage("Ai fost devansat de " + b.Participant.Name);
@@ -79,7 +79,7 @@ namespace racing_src.Race
                         }
                         return 0;
                     });
-                    race.Racers.ForEach(x => Console.WriteLine(x.Participant.Name));
+                    race.Racers.Values.ToList().ForEach(x => Console.WriteLine(x.Participant.Name));
                 });
 
             });
@@ -152,23 +152,15 @@ namespace racing_src.Race
                 return;
             }
 
-            var raceImage = TrackImages.Find((image) => image.name == template.TrackName)?.image;
-            if (raceImage is null)
-            {
-                player.Notify(Notifications.Type.Error, "Invalid track image", "Please contact an administrator.");
-                return;
-            }
-
-            var newRace = new Race(template.SQLid, template.TrackName, template.Category, template.Creator, player,
-                mode, laps, max_duration, max_participants, type, raceImage, NAPI.Util.FromJson<string[]>(selected_vehicles));
-            newRace.Checkpoints = template.Checkpoints;
+            var newRace = new Race(ref template, player,
+                mode, laps, max_duration, max_participants, type, NAPI.Util.FromJson<string[]>(selected_vehicles));
             CurrentRaces.Add(newRace);
             newRace.SendRaceToList();
 
             player.SendChatMessage(
-                $"Hosted new race with the TrackName:  {newRace.TrackName}, Hoster:  {newRace.Hoster.Name}, Duration:  {newRace.MaxDuration}s, MaxParticipants:  {newRace.MaxParticipants}.");
+                $"Hosted new race with the TrackName:  {newRace.Template.TrackName}, Hoster:  {newRace.Hoster.Name}, Duration:  {newRace.MaxDuration}s, MaxParticipants:  {newRace.MaxParticipants}.");
             Console.WriteLine(
-                $"Hosted new race with the TrackName:  {newRace.TrackName}, Hoster:  {newRace.Hoster.Name}, Duration:  {newRace.MaxDuration}s, MaxParticipants:  {newRace.MaxParticipants}. {newRace.SelectedVehicles.Count()}");
+                $"Hosted new race with the TrackName:  {newRace.Template.TrackName}, Hoster:  {newRace.Hoster.Name}, Duration:  {newRace.MaxDuration}s, MaxParticipants:  {newRace.MaxParticipants}. {newRace.SelectedVehicles.Count()}");
             player.Notify(Notifications.Type.Success, "Success", "Your race is now publicly hosted.");
         }
 
@@ -217,24 +209,27 @@ namespace racing_src.Race
                 player.SendChatMessage("The lobby you are trying to join is full.");
                 return;
             }
+            
+            player.TriggerEvent("clientside:onJoinRace", CurrentRaces[raceId].Template.Checkpoints);
+            player.Dimension = CurrentRaces[raceId].Dimension;
+            var racer = CurrentRaces[raceId].AddRacer(player);
             player.SetData("currentCheckpoint", 0);
-            CurrentRaces[raceId].AddRacer(0, player);
+            CurrentRaces[raceId].AddRacer(player);
             player.SetSharedData("raceId", raceId);
 
-
-            var trackData = RaceCreator.LoadTrackInfoAsync(player, CurrentRaces[raceId].TrackName);
-            CurrentRaces[raceId]._Spawnpoints = trackData.Item2;
-            var spawnpoint = CurrentRaces[raceId]._Spawnpoints.Find(spawnpoint => spawnpoint.Occupied == false);
-            spawnpoint.Occupied = true;
+            var spawnpoint = CurrentRaces[raceId].FindEmptySpawnPoint();
+             
 
             var veh = NAPI.Vehicle.CreateVehicle(NAPI.Util.GetHashKey("neon"), spawnpoint.Position, spawnpoint.Heading, 200, 200, $"Race {raceId}");
 
             NAPI.Task.Run(() =>
             {
-                player.SetIntoVehicle(veh, 0);
+               racer.SetVehicle(veh);
+               racer.SpawnInVehicle();
             }, 800);
 
             player.SendChatMessage($"You joined the race with the id of {raceId} on the position {CurrentRaces[raceId].Racers.Count()}, participant {player.Name}, rotation {spawnpoint.Heading}");
+            player.Notify(Notifications.Type.Success, "Success", $"Joined {CurrentRaces[raceId].Name}.");
             //@TODO remove the hosted race from the list on host crash.
         }
 
@@ -242,13 +237,14 @@ namespace racing_src.Race
         public void StartRace(Player player)
         {
             var raceId = player.GetSharedData<int>("raceId");
-
+            int startTime = 6000;
+            
             foreach (var racer in CurrentRaces[raceId].Racers)
             {
-                RaceCreator.LoadTrackAsync(racer.Participant, CurrentRaces[raceId].TrackName);
-                racer.Participant.SendChatMessage("Race started!");
-
-
+                if (racer.Value.Participant is not null)
+                {
+                    racer.Value.Participant.TriggerEvent("clientside:onRaceStart", startTime - racer.Value.Participant.Ping);
+                } 
             }
             CurrentRaces[raceId].HasStarted = true;
         }
@@ -281,7 +277,7 @@ namespace racing_src.Race
         public void ViewRace(Player player, int raceId)
         {
             var race = CurrentRaces[raceId];
-            player.SendChatMessage($"{race.TrackName} {race.SQLid} {race.Hoster.Name}");
+            player.SendChatMessage($"{race.Template.TrackName} {race.Template.SQLid} {race.Hoster.Name}");
         }
 
         [RemoteEvent("serverside:OnPlayerEnterCheckpoint")]
@@ -295,21 +291,24 @@ namespace racing_src.Race
         [RemoteEvent("serverside:OnPlayerEnterFinishCheckpoint")]
         public void PlayerGetFinishCheckpoint(Player player)
         {
-            var playerRace = CurrentRaces.ElementAtOrDefault(player.GetSharedData<int>("raceId"));
+            var playerRace = CurrentRaces[player.GetSharedData<int>("raceId")];
 
-            playerRace.Racers.Find(racer => racer.Participant.Name == player.Name).HasFinished = true;
-            if (playerRace.Racers.FindAll(racer => racer.HasWon == true).Count == 0)
+            playerRace.Racers[player.Id].HasFinished = true;
+            if (!playerRace.Racers.Select(racer => racer.Value.HasWon).Any())
             {
-                playerRace.Racers.Find(racer => racer.Participant == player).HasWon = true;
-                playerRace.Racers.ForEach(racer => racer.Participant.Notify(Notifications.Type.Success, $"{player.Name} has won the race!", ""));
+                playerRace.Racers[player.Id].HasWon = true;
+                foreach (var racer in playerRace.Racers.Values)
+                {
+                    racer.Participant.Notify(Notifications.Type.Success, $"{player.Name} has won the race!", "");
+                }
             }
             
             foreach(var racer in playerRace.Racers)
             {
-                racer.Participant.Notify(Notifications.Type.Success, $"{player.Name} has finished the race!", "");
+                racer.Value.Participant.Notify(Notifications.Type.Success, $"{player.Name} has finished the race!", "");
             }
 
-            if (playerRace.Racers.TrueForAll(racer => racer.HasFinished == true))
+            if (playerRace.Racers.Values.ToList().TrueForAll(racer => racer.HasFinished == true))
             {
                 NAPI.Task.Run(() =>
                 {
@@ -327,13 +326,13 @@ namespace racing_src.Race
 
             foreach(var race in CurrentRaces)
             {
-                Console.WriteLine($"{id++}. Track name: {race.TrackName} | Category: {race.Category} | Track creator: {race.Creator} | Hoster: {race.Hoster.Name} | MaxDuration: {race.MaxDuration} | MaxParticipants: {race.MaxParticipants}");
+                Console.WriteLine($"{id++}. Track name: {race.Template.TrackName} | Category: {race.Template.Category} | Track creator: {race.Template.Creator} | Hoster: {race.Hoster.Name} | MaxDuration: {race.MaxDuration} | MaxParticipants: {race.MaxParticipants}");
                 Console.WriteLine("Racers:");
                 foreach(var racer in race.Racers)
                 {
                     NAPI.Task.Run(() =>
                     {
-                        Console.WriteLine($"\n Name: {racer.Participant.Name} Position: {racer.RacePosition}");
+                        Console.WriteLine($"\n Name: {racer.Value.Participant.Name} Position: {racer.Value.RacePosition}");
                     });
                     
                 }

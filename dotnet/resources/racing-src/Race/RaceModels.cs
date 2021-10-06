@@ -36,6 +36,7 @@ namespace racing_src.Race
         }
 
         public Player Participant { get; set; }
+        public Vehicle Vehicle { get; set; }
         public int CurrentCheckpoint
         {
             get { return Participant.GetData<int>("currentCheckpoint"); }
@@ -49,12 +50,22 @@ namespace racing_src.Race
 
         public bool HasFinished { get; set; }
         public bool HasWon { get; set; }
-        public Racer(int position, Player participant)
+        public Racer(Player participant)
         {
             Participant = participant;
-            RacePosition = position;
+            RacePosition = 0;
             HasFinished = false;
             HasWon = false;
+        }
+
+        public void SetVehicle(Vehicle veh)
+        {
+            Vehicle = veh;
+        }
+
+        public void SpawnInVehicle()
+        {
+            Participant.SetIntoVehicle(Vehicle, 0);
         }
     }
 
@@ -102,9 +113,10 @@ namespace racing_src.Race
         public string state { get; set; }
     }
 
-    public class Race : RaceTemplate
+    public class Race 
     {
         public Guid Guid { get; set; }
+        public uint Dimension { get; set; }
         [JsonIgnore]
         public Player Hoster { get; set; }
         public int MaxParticipants { get; set; }
@@ -117,16 +129,15 @@ namespace racing_src.Race
         public string Type { get; set; }
         public string[] SelectedVehicles { get; set; }
         [JsonIgnore]
-        public List<Spawnpoint> _Spawnpoints { get; set; }
-        public List<Racer> Racers { get; set; }
-        public Race(int sqlid, string trackname, string category, string creator, Player hoster, bool mode, int laps, int max_duration, int max_participants, string type, string image, string[] selected_vehicles)
+        public bool[] SpawnPointsStatus { get; set; } 
+        public RaceTemplate Template { get; set; }
+        public Dictionary<uint, Racer> Racers { get; set; }
+        public Race(ref RaceTemplate template, Player hoster, bool mode, int laps,
+            int max_duration, int max_participants, string type, string[] selected_vehicles)
         {
-            Guid = Guid.NewGuid(); 
-            Racers = new List<Racer>();
-            SQLid = sqlid;
-            TrackName = trackname;
-            Category = category;
-            Creator = creator;
+            Template = template;
+            Dimension = RaceManager.DimensionIncrementator++;
+            Guid = Guid.NewGuid();
             Hoster = hoster;
             Mode = mode;
             Laps = laps;
@@ -135,25 +146,39 @@ namespace racing_src.Race
             MaxParticipants = max_participants;
             MaxDuration = max_duration;
             Type = type;
-            Image = image;
             Name = Hoster.Name + "'s race";
-            Checkpoints = new List<Vector3>();
             SelectedVehicles = selected_vehicles;
         }
 
-        public void AddRacer(int position, Player player)
+        public Racer AddRacer( Player player)
         {
-            Racers.Add(new Racer(position, player));
+            var racer = new Racer(player);
+            Racers.Add(player.Id, racer);
+            return racer;
         }
         public void RemoveRacer(Player participant)
         {
-            var racer = Racers.Find(racer => racer.Participant == participant);
-            if (racer == null)
+            var racer = Racers[participant.Id]; 
+            if (racer is null)
             {
-                Console.WriteLine("RemoveRacer: ERROR ! Tried to update non existent racer id.");
+                Console.WriteLine("RemoveRacer: ERROR! Tried to update non existent racer id.");
                 return;
             }
-            Racers.Remove(racer);
+            Racers.Remove(participant.Id);
+        }
+
+        public Spawnpoint FindEmptySpawnPoint()
+        {
+            for (int i = 0; i < Template.Spawnpoints.Count(); i++)
+            {
+                if (!SpawnPointsStatus[i])
+                {
+                    SpawnPointsStatus[i] = true;
+                    return Template.Spawnpoints[i];
+                }
+            }
+
+            return null;
         }
 
         public void SendRaceToList()
@@ -163,10 +188,8 @@ namespace racing_src.Race
                 if (player.HasData("inRaceList") && player.GetData<bool>("inRaceList"))
                 {
                     player.TriggerEvent("clientside:SendRaceToList",  this);
-                    Console.WriteLine("sa trimis");
                 }
             }
         }
     }
-    
 }
