@@ -47,7 +47,7 @@ namespace racing_src.Race
 
         public static Tuple<List<Vector3>, List<Spawnpoint>> LoadTrackInfoAsync(Player player, string racename)
         {
-            var template = RaceTemplates.Find(x => x.TrackName == racename);
+            var template = RaceData.RaceTemplates.Find(x => x.TrackName == racename);
             return Tuple.Create(template.Checkpoints, template.Spawnpoints);
         }
 

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using Newtonsoft.Json;
 
 namespace racing_src.Race
@@ -29,8 +30,13 @@ namespace racing_src.Race
 
         public int RacePosition
         {
-            get { return Participant.GetData<int>("racePosition"); }
-            set { Participant.SetData<int>("racePosition", value); }
+            get { return Participant.GetSharedData<int>("racePosition"); }
+            set { Participant.SetSharedData("racePosition", value); }
+        }
+        public int Lap
+        {
+            get { return Participant.GetSharedData<int>("lap"); }
+            set { Participant.SetSharedData("lap", value); }
         }
         public string ParticipantName { get; set; }
         [JsonIgnore]
@@ -40,12 +46,12 @@ namespace racing_src.Race
         public int CurrentCheckpoint
         {
             get { return Participant.GetData<int>("currentCheckpoint"); }
-            set { Participant.SetData<int>("currentCheckpoint", value); }
+            set { Participant.SetData("currentCheckpoint", value); }
         }
         public int Checkpoints
         {
             get { return Participant.GetData<int>("Checkpoints"); }
-            set {  Participant.SetData<int>("Checkpoints", value); }
+            set {  Participant.SetData("Checkpoints", value); }
         }
 
         public bool HasFinished { get; set; }
@@ -123,7 +129,9 @@ namespace racing_src.Race
         public bool Mode { get; set; }
         public int Laps { get; set; }
         public int MaxDuration { get; set; }
+        public Timer EndTimer { get; set; }
         public bool HasStarted { get; set; }
+        public bool InPreparation { get; set; }
         public bool HasEnded { get; set; }
         public string Type { get; set; }
         public string[] SelectedVehicles { get; set; }
@@ -133,11 +141,12 @@ namespace racing_src.Race
         public bool[] ParksStatus { get; set; }
         public RaceTemplate Template { get; set; }
         public Dictionary<uint, Racer> Racers { get; set; }
+
         public Race(ref RaceTemplate template, Player hoster, bool mode, int laps,
             int max_duration, int max_participants, string type, string[] selected_vehicles)
         {
             Template = template;
-            Dimension = RaceManager.DimensionIncrementator++;
+            Dimension = RaceData.DimensionIncrementator++;
             Guid = Guid.NewGuid();
             Hoster = hoster;
             Racers = new Dictionary<uint, Racer>();
@@ -150,10 +159,44 @@ namespace racing_src.Race
             Type = type;
             Name = Hoster.Name + "'s race";
             SelectedVehicles = selected_vehicles;
-            SpawnPointsStatus = new bool[Template.Spawnpoints.Count()];
-            ParksStatus = new bool[RaceManager.ParksSpots.Count()];
+            SpawnPointsStatus = new bool[Template.Spawnpoints.Count];
+            ParksStatus = new bool[RaceData.ParksSpots.Count];
+            EndTimer = new Timer();
         }
 
+        public void StartTimer()
+        {
+            if (!Mode) return;
+            
+           
+            EndTimer.Interval = (DateTime.Now.AddMinutes(MaxDuration) - DateTime.Now).TotalMilliseconds; /*10000*/;
+            EndTimer.AutoReset = false;
+            EndTimer.Elapsed += RunTimer;
+            EndTimer.Enabled = true;
+        }
+
+        public void RunTimer(object sender, ElapsedEventArgs e)
+        {
+
+            if (Racers.Select(racer => racer.Value.HasWon == false).Any())
+            {
+                Console.WriteLine("sa scurs clepsidra da na castigat nimeni.");
+                EndTimer.Enabled = false;
+            }
+            else
+            {
+                Console.WriteLine("sa scurs clepsidra da nu sa terminat cursa");
+                EndTimer.Interval = 1000;
+                EndTimer.AutoReset = true;
+                if (Racers.All(racer => racer.Value.HasFinished))
+                {
+                    EndTimer.Enabled = false;
+                    Console.WriteLine("sa terminat mogosule.");
+                }
+            }
+
+        }
+        
         public Racer AddRacer( Player player)
         {
             var racer = new Racer(player);
@@ -185,14 +228,15 @@ namespace racing_src.Race
             return null;
         }
 
-        public Park FindEmptyParkSpot()
+        public Park FindEmptyParkSpot(Player player)
         {
             for (int i = 0; i < Template.Spawnpoints.Count(); i++)
             {
                 if (!ParksStatus[i])
                 {
                     ParksStatus[i] = true;
-                    return RaceManager.ParksSpots[i];
+                    player.SetData("parkId", i);
+                    return RaceData.ParksSpots[i];
                 }
             }
 

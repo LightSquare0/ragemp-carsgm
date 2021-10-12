@@ -1,6 +1,11 @@
 import { browser } from "../client";
 
-export const PrepareLogin = () => {
+mp.events.add("clientside:SpawnPlayer", () => {
+  RemoveBackground();
+  mp.events.call("clientside:DisplayRoot");
+});
+
+export const PrepareBackground = () => {
   mp.players.local.freezePosition(true);
   mp.players.local.setAlpha(0);
   mp.game.ui.displayRadar(false);
@@ -11,6 +16,7 @@ export const PrepareLogin = () => {
     40
   );
 
+  mp.players.local.position = new mp.Vector3(-45.322342, -824.4542, 1296.235);
   mp.game.gameplay.setWeatherTypeNowPersist("CLEAR");
   mp.game.invoke("0xF36199225D6D8C86", 0.0);
   sceneryCamera.setActive(true);
@@ -20,13 +26,11 @@ export const PrepareLogin = () => {
   mp.game.cam.renderScriptCams(true, false, 0, true, false);
 };
 
-mp.events.add("clientside:SpawnPlayer", () => {
+export const RemoveBackground = () => {
   mp.gui.chat.show(true);
-  mp.game.cam.renderScriptCams(false, false, 0, true, false);
+  mp.game.cam.renderScriptCams(false, true, 2000, true, false);
   mp.players.local.setAlpha(255);
   mp.players.local.freezePosition(false);
   mp.game.graphics.transitionFromBlurred(500);
   mp.game.ui.displayRadar(true);
-//   sceneryCamera.shake("HAND_SHAKE", 0.0);
-  browser.call("react:DisplayRoot");
-});
+};

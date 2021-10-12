@@ -1,10 +1,26 @@
 import { browser } from "../client";
+import { PrepareBackground } from "../players/Players";
+
+var isBackgroundLoaded = false;
 
 /* Routes */
 mp.events.add({
+  "clientside:DisplayRoot": () => {
+    browser.call("react:DisplayRoot");
+    isBackgroundLoaded = false;
+  },
+  "clientside:DisplayLogin": () => {
+    browser.call("react:DisplayLogin");
+    isBackgroundLoaded = true;
+  },
   "clientside:OpenGamemodeSelectorUI": () => {
     mp.events.callRemoteProc("serverside:SetIsInRaceList", false).then((state) => {
       if (state == true) return;
+
+      if (!isBackgroundLoaded) {
+        PrepareBackground();
+        isBackgroundLoaded = true;
+      }
 
       browser.call("react:OpenGamemodeSelectorUI");
       mp.discord.update(
@@ -18,6 +34,7 @@ mp.events.add({
     mp.events.callRemoteProc("serverside:SetIsInRaceList", false).then((state) => {
       if (state == true) return;
 
+      isBackgroundLoaded = false;
       mp.events.callRemote("serverside:SpawnPlayer");
       mp.discord.update(
         "race.invictum.mp | DEV BUILD",
@@ -29,6 +46,11 @@ mp.events.add({
   "clientside:GamemodeRacingSelected": () => {
     mp.events.callRemoteProc("serverside:SetIsInRaceList", true).then((state) => {
       if (state == false) return;
+
+      if (!isBackgroundLoaded) {
+        PrepareBackground();
+        isBackgroundLoaded = true;
+      }
 
       browser.call("react:OpenRaceListUI");
       mp.discord.update(
@@ -60,7 +82,7 @@ mp.events.add({
       type,
       selected_vehicles
     );
-    mp.console.logInfo(selected_vehicles)
+    mp.console.logInfo(selected_vehicles);
   },
 
   "clientside:CancelHost": () => {},
@@ -87,4 +109,3 @@ mp.events.add({
     browser.call("react:SendRaceToList", race);
   },
 });
-

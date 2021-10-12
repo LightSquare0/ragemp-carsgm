@@ -18,6 +18,7 @@ namespace racing_src.Players
         public void DisplayLogin(Player player)
         {
             player.Position = new Vector3(-45.322342, -824.4542, 1296.235);
+            player.SetSharedData("raceId", -1);
         }
 
 

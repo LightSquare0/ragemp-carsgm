@@ -41,7 +41,7 @@ namespace racing_src.Admin
             if (!IsAdmin(player))
                 return;
 
-            Vehicle veh = NAPI.Vehicle.CreateVehicle(NAPI.Util.GetHashKey(vehicle), player.Position, player.Heading, 200, 200, "Admin");
+            Vehicle veh = NAPI.Vehicle.CreateVehicle(NAPI.Util.GetHashKey(vehicle), player.Position, player.Heading, 200, 200, "Admin", 255, false, true, player.Dimension);
             player.SetIntoVehicle(veh, 0);
         
         }
@@ -128,19 +128,6 @@ namespace racing_src.Admin
                 vehicle.Delete();
             }
             SendMessageToAdmins($"{player.Name} deleted {count} vehicles in an area of {area}.");
-        }
-
-        [Command("create")]
-        public void create(Player player)
-        {
-            var shape = NAPI.ColShape.CreateSphereColShape(player.Position, 5f);
-            player.SendChatMessage($"colshape position: {shape.Position.X} | player position: {player.Position}");
-
-            var marker = NAPI.Marker.CreateMarker(1, player.Position, new Vector3(), new Vector3(), 5f, new Color(255, 0, 0, 155), true);
-            player.SendChatMessage($"sa creat markeru la pozitia {marker.Position}");
-            if (NAPI.ColShape.IsPointWithinColshape(shape, player.Position))
-                player.SendChatMessage("esti inauntru");
-
         }
 
         [ServerEvent(Event.PlayerEnterColshape)]

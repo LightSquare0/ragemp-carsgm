@@ -24,8 +24,6 @@ const toggleChatInput = (state) => {
     mp.invoke("focus", state);
     chat.active = false;
   }
-  console.log(chat.active);
-  console.log(chatInput.style.display);
 };
 
 const addChatMessage = (message) => {
@@ -83,7 +81,6 @@ var chatAPI = {
     if (chat.size >= chat.historyLimit)
     {
     	chatMessagesContainer.removeChild[0];
-      console.log("removed element");
     }
   },
 
@@ -123,7 +120,6 @@ const registerInput = (e) => {
       chat.inputHistory.push(chat.inputText);
     }
     toggleChatInput(false);
-    console.log(chat.inputHistory);
     inputElement.value = "";
     chat.inputHistoryIdx = chat.inputHistory.length;
   }
@@ -142,7 +138,6 @@ const registerInput = (e) => {
 
     inputElement.value = previousMessages[chat.inputHistoryIdx - 1];
     chat.inputHistoryIdx--;
-    console.log(chat.inputHistoryIdx);
   }
   if (e.key == "ArrowDown") {
     if (chat.inputHistory.length === 0) return;
@@ -153,13 +148,17 @@ const registerInput = (e) => {
 
     inputElement.value = previousMessages[chat.inputHistoryIdx + 1];
     chat.inputHistoryIdx++;
-    console.log(chat.inputHistoryIdx);
   }
-  console.log(chat.inputText);
 };
 
 window.onkeyup = registerInput;
 window.onload = chatAPI.push("Welcome to Invictum Racing");
+
+window.addEventListener('keydown', function(e) {
+  if(e.keyCode == 32 && e.target == document.body) {
+    e.preventDefault();
+  }
+});
 
 let api = {
   "chat:push": chatAPI.push,

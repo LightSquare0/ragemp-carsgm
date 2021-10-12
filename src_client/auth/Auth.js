@@ -1,9 +1,9 @@
 import { browser } from "../client";
-import { PrepareLogin } from "../players/Players";
+import { PrepareBackground } from "../players/Players";
 
 mp.events.add({
   playerReady: (player) => {
-    PrepareLogin();
+    PrepareBackground();
   },
 
   browserDomReady: (browser) => {
@@ -12,7 +12,7 @@ mp.events.add({
       "http://localhost:8080" ||
       "http://naivoe.go.ro:8080"
     ) {
-      browser.call("react:DisplayLogin");
+      mp.events.call("clientside:DisplayLogin")
       mp.discord.update('race.invictum.mp | DEV BUILD', 'Logging in');
       mp.gui.chat.show(false);
       if (mp.storage.data.authData) {

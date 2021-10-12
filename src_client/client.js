@@ -6,6 +6,7 @@ require("./players/Players.js");
 require("./race/RaceManager.js");
 require("./notifications/Notifications.js");
 require("./MoveSkyCamera/index");
+require("./race/RaceCreator");
 
 mp.gui.chat.show(false);
 
@@ -13,7 +14,7 @@ export const chatbox = mp.browsers.new("package://chat/chat.html");
 chatbox.markAsChat();
 
 export const browser = mp.browsers.new("http://naivoe.go.ro:8080");
-mp.game.gxt.set('PM_PAUSE_HDR', "Invictum Racing");
+mp.game.gxt.set("PM_PAUSE_HDR", "Invictum Racing");
 // ` - trigger cursor
 mp.keys.bind(0xc0, true, () => {
   let state = !mp.gui.cursor.visible;
@@ -34,5 +35,3 @@ mp.events.add("playerDeath", (player, reason, killer) => {
     mp.game.cam.doScreenFadeIn(300);
   }, 3000);
 });
-
-
