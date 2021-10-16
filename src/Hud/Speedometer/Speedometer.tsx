@@ -22,7 +22,7 @@ const Speedometer: React.FC = () => {
     setVisible(visible);
   });
 
-    console.log("renders: ", renders.current++);
+    // console.log("renders: ", renders.current++);
   return (
     <>
       <Gauge

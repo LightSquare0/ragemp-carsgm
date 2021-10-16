@@ -44,7 +44,9 @@ namespace racing_src.Players
                 if (exists)
                 {
                     player.TriggerEvent("clientside:LoginResult", 1, player.Name);
+
                     await AccountModel.LoadPlayerData(player, username);
+                    player.TriggerEvent("clientside:SendServerData");
                     player.Notify(Notifications.Type.Success, $"Welcome {player.Name}", "Successfully logged in.");
                 }
                 else

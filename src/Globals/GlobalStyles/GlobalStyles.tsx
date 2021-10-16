@@ -1,7 +1,8 @@
 import { createGlobalStyle } from "styled-components";
 import MaisonNeueMedium from "../../Static/MaisonNeue-Medium.ttf";
 import MaisonNeueBook from "../../Static/maison-neue-book.ttf";
-import HemiHead from "../../Static/hemi-head.ttf";
+import HemiHeadItalic from "../../Static/hemi-head-italic.ttf";
+import HemiHeadRegular from "../../Static/hemi-head-regular.ttf";
 import game from "../../Static/game.png";
 
 const GlobalStyles = createGlobalStyle`
@@ -20,10 +21,15 @@ const GlobalStyles = createGlobalStyle`
 
 @font-face {
     font-family: "HemiHead";
-    src: url(${HemiHead}) format('truetype');
+    src: url(${HemiHeadItalic}) format('truetype');
     font-display: swap;
 }
 
+@font-face {
+    font-family: "HemiHeadRegular";
+    src: url(${HemiHeadRegular}) format('truetype');
+    font-display: swap;
+}
  * {
     margin: 0;
     padding: 0;
@@ -49,7 +55,10 @@ html, body{
     --darker-gray-variant: #41414159;
     --logo-gray: #5B5B5B;
     --middle-gray: #868686;
+    --hud-gray: #8F8F8F;
     --whiter-gray: #9D9D9D;
+    --hud-white-gray: #F3F3F3;
+    --hud-gray-span: #DDDDDD;
     --text-gray: #D0D0D0;
     --text-whiter-gray: #C2C2C2;
     /*  Green colors/gradients  */

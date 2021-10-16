@@ -37,6 +37,7 @@ namespace racing_src.Race
                 mode, laps, max_duration, max_participants, type, NAPI.Util.FromJson<string[]>(selected_vehicles));
             RaceData.CurrentRaces.Add(newRace);
             newRace.SendRaceToList();
+            NAPI.ClientEvent.TriggerClientEventForAll("clientside:SendServerData");
 
             player.SendChatMessage(
                 $"Hosted new race with the TrackName:  {newRace.Template.TrackName}, Hoster:  {newRace.Hoster.Name}, Duration:  {newRace.MaxDuration}s, MaxParticipants:  {newRace.MaxParticipants}.");

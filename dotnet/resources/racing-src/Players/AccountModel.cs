@@ -2,30 +2,23 @@
 using GTANetworkAPI;
 using MySql.Data.MySqlClient;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace racing_src
 {
     public class AccountModel : Script
     {
-        public string Username { get; set; }
+        public string Username { get { return Player.Name; } set { Player.Name = value; } }
         public string Password { get; set; }
-        public string Email { get; set; }
-        public Player player { get; set; }
-        public int Admin { get; set; }
-
-        public AccountModel()
-        {
-
-        }
-
+        public string Email { get { return Player.GetSharedData<string>("email"); } set { Player.SetSharedData("email", value); } }
+        public int Admin { get { return Player.GetSharedData<int>("admin"); } set { Player.SetSharedData("admin", value); } }
+        public Player Player { get; set; }
+    
+        public AccountModel() { }
         public AccountModel(Player player)
         {
-            this.player = player;
+           Player = player;
         }
 
         public static async Task LoadPlayerData(Player player, string username)
@@ -39,14 +32,19 @@ namespace racing_src
                     username = username
                 };
 
-                var playerData = await db.QueryAsync<AccountModel>(selectUserDataSQL, userParams);
-                foreach(var data in playerData)
+                var reader = await db.ExecuteReaderAsync(selectUserDataSQL, userParams);
+                while (reader.Read())
                 {
-                    player.Name = data.Username;
-                    player.SetSharedData("email", data.Email);
-                    player.SetSharedData("admin", data.Admin);
-
+                    int index = 0;
+                    AccountModel accountModel = new(player)
+                    {
+                        Username = (string)reader["username"],
+                        Email = (string)reader["email"],
+                        Admin = (int)reader["admin"]
+                    };
                 }
+                reader.Close();
+               
                 player.SetSharedData("creatormode", false);
                 player.SetSharedData("raceId", -1);
                 player.SendChatMessage($"Welcome back, {player.Name}!");

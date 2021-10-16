@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Threading;
 using GTANetworkAPI;
 
 namespace racing_src
@@ -22,6 +24,20 @@ namespace racing_src
                 NAPI.Player.SpawnPlayer(player, new Vector3(227.21216, 1172.314, 225.45993));
             }, delayTime: 2500);
 
+        }
+
+        [ServerEvent(Event.PlayerConnected)]
+        public void PlayerConnected(Player player)
+        {
+            Server.ServerData.IncreasePlayerCount();
+            NAPI.ClientEvent.TriggerClientEventForAll("clientside:SendServerData");
+        }
+
+        [ServerEvent(Event.PlayerDisconnected)]
+        public void PlayerDisconnected(Player player, DisconnectionType type, string reason)
+        {
+            Server.ServerData.DecreasePlayerCount();
+            NAPI.ClientEvent.TriggerClientEventForAll("clientside:SendServerData");
         }
 
         

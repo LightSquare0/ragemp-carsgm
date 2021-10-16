@@ -45,8 +45,6 @@ const Auth: React.FC = (props) => {
       ...userdata,
       [event.target.name]: value,
     });
-    console.log(value);
-    console.log(event.target.name);
   };
 
   const HandleRemember = (event: any) => {

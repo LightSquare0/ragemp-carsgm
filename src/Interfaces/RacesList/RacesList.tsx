@@ -175,10 +175,8 @@ export const Race: React.FC<{ onClick: () => void; Race: Race }> = ({ onClick, R
         )}
       </VehicleClassContainer>
       <Participants>
-        {Racers < 9
-          ? "0" + Racers
-          : Racers}
-        /{Race.MaxParticipants < 9 ? "0" + Race.MaxParticipants : Race.MaxParticipants}
+        {Racers < 9 ? "0" + Racers : Racers}/
+        {Race.MaxParticipants < 9 ? "0" + Race.MaxParticipants : Race.MaxParticipants}
       </Participants>
       <Status>{Race.HasStarted ? <>STARTED</> : <>NOT STARTED</>}</Status>
     </RaceContainer>

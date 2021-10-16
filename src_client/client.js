@@ -7,6 +7,7 @@ require("./race/RaceManager.js");
 require("./notifications/Notifications.js");
 require("./MoveSkyCamera/index");
 require("./race/RaceCreator");
+require("./server/ServerData")
 
 mp.gui.chat.show(false);
 
