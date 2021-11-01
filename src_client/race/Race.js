@@ -1,4 +1,10 @@
+import { browser } from "../client";
+
+// raceStatus: "notStarted" | "starting" | "started" | "ended"
+
 var race = {
+  startRaceTime: 0,
+  raceStatus: "notStarted",
   player: {
     currentLap: 1,
   },
@@ -6,9 +12,15 @@ var race = {
     track: undefined,
     mode: undefined,
     laps: undefined,
+    timerStarted: false,
+    maxParticipants: 0,
+    duration: 0,
     currentPoint: 0,
     currentBlip: undefined,
     currentCheckPoint: undefined,
+    isLastCheckpointInRace: false,
+    isLastCheckpointInArray: false,
+
     reset: () => {
       if (race.data.currentCheckPoint != undefined) {
         race.data.currentCheckPoint.destroy();
@@ -18,25 +30,34 @@ var race = {
       }
     },
   },
+
   run: () => {
-    if (race.raceStatus == 1) {
+    if (race.raceStatus == "starting") {
       if (race.getTimeStamp() > race.startRaceTime) {
         if (mp.players.local.vehicle) {
           mp.players.local.vehicle.setHandbrake(false);
         }
+        if (race.data.mode) {
+          let now = new Date();
+          let endTime = now.setMinutes(now.getMinutes() + race.data.duration);
+          browser.call("react:GetCurrentRaceEndTime", endTime);
+        }
+
         mp.gui.chat.push("Race has started time " + race.startRaceTime);
-        race.raceStatus = 2;
+        race.raceStatus = "started";
       }
     }
   },
+
   getTimeStamp: () => {
     return mp.game.invoke("0x9CD27B0045628463");
   },
+
   onRaceStart: (time) => {
     race.startRaceTime = race.getTimeStamp() + time;
-    race.raceStatus = 1;
+    race.raceStatus = "starting";
     race.data.reset();
-    race.currentPoint = 0;
+    race.data.currentPoint = 0;
 
     mp.gui.chat.push("OnRaceStart triggered.");
 
@@ -44,39 +65,41 @@ var race = {
       mp.players.local.vehicle.setHandbrake(true);
     }
 
+    mp.events
+      .callRemoteProc("serverside:SetIsInStartedRace", true)
+      .then((state) => {
+        if (!state) return;
+
+        mp.events.call("clientside:GetNumberOfParticipants");
+
+        mp.events.call("clientside:SetCurrentLap", race.player.currentLap);
+        browser.call("react:SetIsInStartedRace", true);
+      });
+
     race.createNewCheckpoint();
   },
+
   createNewCheckpoint: () => {
     race.data.reset();
 
-    var isLastCheckpointInArray = race.data.currentPoint == race.data.track.length;
-
-    var isLastCheckpointInRace = race.player.currentLap == race.data.laps + 1;
-
-    mp.gui.chat.push("isLastCheckpointinArr" + isLastCheckpointInArray + "\n");
     mp.gui.chat.push(`${race.player.currentLap}/${race.data.laps}` + "\n");
 
-    if (isLastCheckpointInArray) {
-      race.data.currentPoint = 0;
-      race.player.currentLap++;
-    }
-    mp.gui.chat.push
-    mp.gui.chat.push("isLastCheckpointinRace" + isLastCheckpointInRace + "\n");
     race.data.currentCheckPoint = mp.checkpoints.new(
       race.player.currentLap == race.data.laps + 1 ? 10 : 18,
       new mp.Vector3(
         race.data.track[race.data.currentPoint].x,
         race.data.track[race.data.currentPoint].y,
-        race.data.track[race.data.currentPoint].z + 2
+        race.data.track[race.data.currentPoint].z + 5
       ),
       10,
       {
-        direction:race.data.currentPoint == race.data.track.length - 1
+        direction:
+          race.data.currentPoint == race.data.track.length - 1
             ? new mp.Vector3(0, 0, 0)
             : new mp.Vector3(
                 race.data.track[race.data.currentPoint + 1].x,
                 race.data.track[race.data.currentPoint + 1].y,
-                race.data.track[race.data.currentPoint + 1].z
+                race.data.track[race.data.currentPoint + 1].z + 5
               ),
         color: [84, 150, 255, 100],
         visible: true,
@@ -97,60 +120,137 @@ var race = {
         dimension: mp.players.local.dimension,
       }
     );
-    if (isLastCheckpointInRace) {
-      mp.gui.chat.push("ai ajuns la final.");
+  },
+
+  getNumberOfParticipants: () => {
+    mp.events
+      .callRemoteProc("serverside:SendNumberOfParticipants")
+      .then((numberOfParticipants) => {
+        if (!numberOfParticipants) return;
+        browser.call("react:GetNumberOfParticipants", numberOfParticipants);
+      });
+  },
+
+  setTimerState: (state) => {
+    race.data.timerStarted = state;
+  },
+
+  onJoinRace: (raceId) => {
+    mp.events
+      .callRemoteProc("serverside:onJoinRace", raceId)
+      .then((raceData) => {
+        if (raceData == null) return;
+        race.data.track = raceData.Checkpoints;
+        race.data.mode = raceData.Mode;
+        race.data.laps = raceData.Laps;
+        race.data.duration = raceData.Duration;
+        race.data.maxParticipants = raceData.MaxParticipants;
+
+        mp.console.logInfo(JSON.stringify(raceData));
+        browser.call(
+          "react:GetCurrentRaceInformation",
+          race.data.track.length,
+          race.data.mode,
+          race.data.laps,
+          race.data.maxParticipants
+        );
+        mp.events.call("clientside:SpawnPlayer");
+      });
+  },
+
+  playerEnterCheckpoint: (checkpoint) => {
+    if (checkpoint != race.data.currentCheckPoint) return;
+
+    race.data.currentPoint++;
+
+    browser.call("react:GetCurrentPoint", race.data.currentPoint);
+    mp.gui.chat.push("Entered point " + race.data.currentPoint);
+
+    race.data.isLastCheckpointInArray =
+      race.data.currentPoint == race.data.track.length;
+    race.data.isLastCheckpointInRace =
+      race.player.currentLap == race.data.laps + 1;
+
+    mp.gui.chat.push(
+      "isLastCheckpointinRace" + race.data.isLastCheckpointInRace + "\n"
+    );
+    mp.gui.chat.push(
+      "isLastCheckpointinArr" + race.data.isLastCheckpointInArray + "\n"
+    );
+
+    mp.events.callRemote(
+      "serverside:OnPlayerEnterCheckpoint",
+      race.data.currentPoint,
+      mp.players.local.position
+    );
+
+    mp.game.audio.playSoundFrontend(
+      -1,
+      race.data.isLastCheckpointInRace ? "FIRST_PLACE" : "CHECKPOINT_NORMAL",
+      "HUD_MINI_GAME_SOUNDSET",
+      true
+    );
+
+    if (race.data.isLastCheckpointInArray) {
+      //If race mode is time and player is first place increase the laps.
+      if (race.data.mode && mp.players.local.getVariable("racePosition") == 1 && race.data.timerStarted) {
+        race.data.laps++;
+      }
+
+      race.data.currentPoint = 0;
+      race.player.currentLap++;
+      mp.events.call("clientside:SetCurrentLap", race.player.currentLap);
+    }
+
+    if (race.data.isLastCheckpointInRace) {
       mp.events.callRemote("serverside:OnPlayerEnterFinishCheckpoint");
-      mp.game.audio.playSoundFrontend(-1, "FIRST_PLACE", "HUD_MINI_GAME_SOUNDSET", true);
+
+      mp.events
+        .callRemoteProc("serverside:SetIsInStartedRace", false)
+        .then((state) => {
+          if (!state) return;
+
+          browser.call("react:SetIsInStartedRace", false);
+        });
+
       race.data.currentPoint = 0;
       race.player.currentLap = 1;
+      race.data.isLastCheckpointInRace = false;
+      race.data.isLastCheckpointInArray = false;
       race.data.track = undefined;
       race.data.reset();
       return;
     }
-  },
-  onJoinRace: (raceId) => {
-    mp.events.callRemoteProc("serverside:onJoinRace", raceId).then((raceData) => {
-      if (raceData == null) return;
-      race.data.track = raceData.Checkpoints;
-      race.data.mode = raceData.Mode;
-      race.data.laps = raceData.Laps;
 
-      mp.console.logInfo(JSON.stringify(raceData));
-      mp.events.call("clientside:SpawnPlayer");
-    });
+    race.createNewCheckpoint();
   },
-  startRaceTime: 0,
-  raceStatus: 0,
+
+  setRacePosition: (entity, value, oldValue) => {
+    if (mp.players.local.getVariable("raceId") == -1) return;
+    browser.call("react:GetRacePosition", value);
+    mp.gui.chat.push(`raceposition ${value}`);
+  },
+
+  setCurrentLap: (lap) => {
+    if (mp.players.local.getVariable("raceId") == -1) return;
+    mp.events.callRemote("serverside:SetCurrentLap", lap);
+    browser.call("react:SetCurrentLap", lap);
+  },
+
   init: () => {
     mp.events.add({
       "clientside:onRaceStart": race.onRaceStart,
       "clientside:onJoinRace": race.onJoinRace,
+      "clientside:GetNumberOfParticipants": race.getNumberOfParticipants,
+      "clientside:SetCurrentLap": race.setCurrentLap,
+      "clientside:SetTimerState": race.setTimerState,
+      playerEnterCheckpoint: race.playerEnterCheckpoint,
       render: race.run,
+    });
+    mp.events.addDataHandler({
+      racePosition: race.setRacePosition,
     });
   },
 };
 
 race.init();
-
-mp.events.add("playerEnterCheckpoint", (checkpoint) => {
-  mp.gui.chat.push("entered checkpoint");
-  if (checkpoint == race.data.currentCheckPoint) {
-    mp.gui.chat.push("ai intrat in punctul " + race.currentPoint);
-
-    mp.events.callRemote(
-      "serverside:OnPlayerEnterCheckpoint",
-      race.currentPoint,
-      mp.players.local.position
-    );
-
-    mp.game.audio.playSoundFrontend(-1, "CHECKPOINT_NORMAL", "HUD_MINI_GAME_SOUNDSET", true);
-
-    if (race.data.currentPoint == race.data.track.length) {
-      race.data.currentPoint = 0;
-      return;
-    }
-
-    race.data.currentPoint++;
-    race.createNewCheckpoint();
-  }
-});

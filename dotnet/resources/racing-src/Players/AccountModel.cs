@@ -35,7 +35,6 @@ namespace racing_src
                 var reader = await db.ExecuteReaderAsync(selectUserDataSQL, userParams);
                 while (reader.Read())
                 {
-                    int index = 0;
                     AccountModel accountModel = new(player)
                     {
                         Username = (string)reader["username"],

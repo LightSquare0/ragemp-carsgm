@@ -1,47 +1,58 @@
-import { useEffect, useRef } from "react";
-import Icon from "../../../Utils/Icon";
+import { useContext, useEffect, useRef } from "react";
+import { UserContext } from "../../../Globals/UserContext";
+import { UserData } from "./RaceEvents";
 import {
-  RaceHudContainer,
+  Bar,
+  CurrentPosition,
+  Participants,
+  ParticipantsNo,
   Position,
-  TimeLeft,
-  CurrentStatsContainer,
-  CurrentLapTimer,
-  CurrentRelativePosition,
-  BestLap,
-  LastLap,
-  Laps,
-  StatsContainer,
+  RaceHudContainer,
+  RacePosition,
+  RaceStat,
+  StatName,
+  StatProp,
 } from "./RaceHudStyles";
+import RaceTimer from "./RaceTimer";
 
 const RaceHud: React.FC = () => {
-  const ref = useRef(null);
-  useEffect(() => {
+  const { userData, setUserData } =
+    useContext<{ userData: UserData; setUserData: React.Dispatch<React.SetStateAction<UserData>> }>(
+      UserContext
+    );
 
-  console.log(ref.current.offsetHeight);
-  }, [])
   return (
-    <RaceHudContainer ref = {ref}>
-      <StatsContainer>
-        <Position>1/17</Position>
-        <TimeLeft>05:48:30</TimeLeft>
-        <Laps>1</Laps>
-      </StatsContainer>
-      <CurrentStatsContainer>
-        <CurrentLapTimer>02:54:24</CurrentLapTimer>
-        <CurrentRelativePosition>
-          <span>
-            <Icon icon="caret-up-solid" size="1.6rem" color="white" />Laity
-          </span>
-          <span>
-            <Icon icon="caret-down-solid" size="1.6rem" color="white" />
-            Critos
-          </span>
-        </CurrentRelativePosition>
-      </CurrentStatsContainer>
-      <StatsContainer>
-        <BestLap>03:13:21</BestLap>
-        <LastLap>03:28:03</LastLap>
-      </StatsContainer>
+    <RaceHudContainer>
+      <RacePosition>
+        <CurrentPosition>{userData.CurrentRace.Player.RacePosition}</CurrentPosition>
+        <Bar />
+        <Participants>
+          <ParticipantsNo>{userData.CurrentRace.NumberOfParticipants}</ParticipantsNo>
+          <Position>POS</Position>
+        </Participants>
+      </RacePosition>
+      {userData.CurrentRace.Mode ? (
+        <RaceStat>
+          <StatName>TIME</StatName>
+          <StatProp>
+            <RaceTimer EndTime={userData.CurrentRace.EndTime} />
+          </StatProp>
+        </RaceStat>
+      ) : (
+        <RaceStat>
+          <StatName>LAPS</StatName>
+          <StatProp>
+            {userData.CurrentRace.Player.CurrentLap}/{userData.CurrentRace.Laps}
+          </StatProp>
+        </RaceStat>
+      )}
+
+      <RaceStat>
+        <StatName>CHECKPOINTS</StatName>
+        <StatProp>
+          {userData.CurrentRace.Player.CurrentPoint}/{userData.CurrentRace.TotalPoints}
+        </StatProp>
+      </RaceStat>
     </RaceHudContainer>
   );
 };

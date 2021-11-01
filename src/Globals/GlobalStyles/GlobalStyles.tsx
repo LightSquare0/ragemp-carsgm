@@ -47,7 +47,8 @@ html, body{
 
 :root{
     /*  Gray/White variations of colors  */
-    --background-gray: #242424F2; 
+    --background-gray: #242424F2;
+    --background-hud-gray: #242424CC; 
     --badge-gray: #2F2F2F;
     --stroke-gray: #3D3D3B;
     --stroke2-gray: #454545CC;

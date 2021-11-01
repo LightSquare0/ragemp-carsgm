@@ -184,7 +184,7 @@ const Steps: React.FC<{ selectedTrackName: string }> = ({ selectedTrackName }) =
             {raceSettings.Mode ? (
               <>
                 <Slider
-                  min={4}
+                  min={1}
                   max={30}
                   currentValue={raceSettings.Duration}
                   onChange={(value: number | readonly number[], index: number) =>

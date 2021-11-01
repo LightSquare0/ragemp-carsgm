@@ -85,6 +85,12 @@ namespace racing_src.Admin
             player.SendChatMessage($"Teleported to the following coords: {posx}, {posy}, {posz}");
         }
 
+        [Command("weapon")]
+        public void WeaponCommand(Player sender, WeaponHash hash)
+        {
+            NAPI.Player.GivePlayerWeapon(sender, hash, 500);
+        }
+
         [Command("kill")]
         public void KillAdmin(Player player)
         {

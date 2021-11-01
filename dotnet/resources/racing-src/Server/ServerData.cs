@@ -11,20 +11,14 @@ namespace racing_src.Server
     public class ServerData : Script
     {
         public static int PlayerCount = 0;
-        public static void IncreasePlayerCount()
-        {
-            PlayerCount++;
-        }
+        public static void IncreasePlayerCount() => PlayerCount++;
 
-        public static void DecreasePlayerCount()
-        {
-            PlayerCount--;
-        }
+        public static void DecreasePlayerCount() => PlayerCount--;
 
         [RemoteProc("serverside:SendServerData")]
         public object SendServerData(Player player)
         {
-            return new { Player = new { Name = player.Name, Id = player.Id }, Races = RaceData.CurrentRaces.Count, Online = PlayerCount };
+            return new { Races = RaceData.CurrentRaces.Count, Online = PlayerCount };
         }
     }
 }

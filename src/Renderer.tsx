@@ -12,26 +12,18 @@ import GamemodeSelector from "./Interfaces/GamemodeSelector/GamemodeSelector";
 import { RacesList } from "./Interfaces/RacesList/RacesList";
 import { UserContext } from "./Globals/UserContext";
 import { Routes } from "./Utils/RoutesEnum";
-
-export interface ServerData {
-  Player: {
-    Name: string;
-    Id: number;
-  };
-  Races: number;
-  Online: number;
-}
+import { UserDataProvider } from "./Hud/RaceUi/RaceHud/RaceEvents";
 
 const Renderer: React.FC = () => {
-  const [ServerData, setServerData] = useState<ServerData>({
-    Player: { Name: "not logged", Id: -1 },
-    Races: 0,
-    Online: 0,
-  });
+
+
   const [notifications, setNotifications] = useState([]);
 
   const Notify = (title: string, text: string, type: string) => {
-    setNotifications([...notifications, { title: title, text: text, type: type }]);
+    setNotifications([
+      ...notifications,
+      { title: title, text: text, type: type },
+    ]);
   };
 
   useEffect(() => {
@@ -51,7 +43,7 @@ const Renderer: React.FC = () => {
   });
 
   return (
-    <UserContext.Provider value={{ ServerData, setServerData }}>
+    <UserDataProvider>
       <NotificationsContext.Provider value={{ notifications, Notify }}>
         <GlobalStyles />
         <HashRouter>
@@ -71,7 +63,7 @@ const Renderer: React.FC = () => {
         </HashRouter>
         <Notifications />
       </NotificationsContext.Provider>
-    </UserContext.Provider>
+    </UserDataProvider>
   );
 };
 

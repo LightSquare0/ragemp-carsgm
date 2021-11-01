@@ -51,7 +51,7 @@ namespace racing_src.Race
         public int Checkpoints
         {
             get { return Participant.GetData<int>("Checkpoints"); }
-            set {  Participant.SetData("Checkpoints", value); }
+            set { Participant.SetData("Checkpoints", value); }
         }
 
         public bool HasFinished { get; set; }
@@ -118,7 +118,7 @@ namespace racing_src.Race
         public string state { get; set; }
     }
 
-    public class Race 
+    public class Race
     {
         public Guid Guid { get; set; }
         public uint Dimension { get; set; }
@@ -140,7 +140,7 @@ namespace racing_src.Race
         [JsonIgnore]
         public bool[] ParksStatus { get; set; }
         public RaceTemplate Template { get; set; }
-        public Dictionary<uint, Racer> Racers { get; set; }
+        public List<Racer> Racers { get; set; }
 
         public Race(ref RaceTemplate template, Player hoster, bool mode, int laps,
             int max_duration, int max_participants, string type, string[] selected_vehicles)
@@ -149,7 +149,7 @@ namespace racing_src.Race
             Dimension = RaceData.DimensionIncrementator++;
             Guid = Guid.NewGuid();
             Hoster = hoster;
-            Racers = new Dictionary<uint, Racer>();
+            Racers = new List<Racer>();
             Mode = mode;
             Laps = laps;
             HasStarted = false;
@@ -167,51 +167,53 @@ namespace racing_src.Race
         public void StartTimer()
         {
             if (!Mode) return;
-            
-           
+
+
             EndTimer.Interval = (DateTime.Now.AddMinutes(MaxDuration) - DateTime.Now).TotalMilliseconds; /*10000*/;
             EndTimer.AutoReset = false;
             EndTimer.Elapsed += RunTimer;
-            EndTimer.Enabled = true;
+            EndTimer.Start();
+            NAPI.Task.Run(() =>
+            {
+                foreach (var racer in Racers)
+                {
+                    racer.Participant.TriggerEvent("clientside:SetTimerState", true);
+                    racer.Participant.SendChatMessage("RACE TIMER STARTED!");
+                }
+
+            });
+
         }
 
         public void RunTimer(object sender, ElapsedEventArgs e)
         {
-
-            if (Racers.Select(racer => racer.Value.HasWon == false).Any())
+            EndTimer.Stop();
+            NAPI.Task.Run(() =>
             {
-                Console.WriteLine("sa scurs clepsidra da na castigat nimeni.");
-                EndTimer.Enabled = false;
-            }
-            else
-            {
-                Console.WriteLine("sa scurs clepsidra da nu sa terminat cursa");
-                EndTimer.Interval = 1000;
-                EndTimer.AutoReset = true;
-                if (Racers.All(racer => racer.Value.HasFinished))
+                foreach (var racer in Racers)
                 {
-                    EndTimer.Enabled = false;
-                    Console.WriteLine("sa terminat mogosule.");
+                    racer.Participant.TriggerEvent("clientside:SetTimerState", false);
+                    racer.Participant.SendChatMessage("RACE TIMER ENDED!");
                 }
-            }
 
+            });
         }
-        
-        public Racer AddRacer( Player player)
+
+        public Racer AddRacer(Player player)
         {
             var racer = new Racer(player);
-            Racers.Add(player.Id, racer);
+            Racers.Add(racer);
             return racer;
         }
         public void RemoveRacer(Player participant)
         {
-            var racer = Racers[participant.Id]; 
+            var racer = Racers.Find(racer => racer.Participant.Id == participant.Id);
             if (racer is null)
             {
                 Console.WriteLine("RemoveRacer: ERROR! Tried to update non existent racer id.");
                 return;
             }
-            Racers.Remove(participant.Id);
+            Racers.Remove(racer);
         }
 
         public Spawnpoint FindEmptySpawnPoint()
@@ -242,14 +244,14 @@ namespace racing_src.Race
 
             return null;
         }
-        
+
         public void SendRaceToList()
         {
             foreach (var player in NAPI.Pools.GetAllPlayers())
             {
                 if (player.HasData("inRaceList") && player.GetData<bool>("inRaceList"))
                 {
-                    player.TriggerEvent("clientside:SendRaceToList",  this);
+                    player.TriggerEvent("clientside:SendRaceToList", this);
                 }
             }
         }

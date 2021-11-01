@@ -1,7 +1,14 @@
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../Globals/UserContext";
-import { ServerData } from "../../Renderer";
-import { GraySpan, HeadlineContainer, Logo, Stat, StatData, StatName } from "./HeadlineStyles";
+import { ServerData } from "../RaceUi/RaceHud/RaceEvents";
+import {
+  GraySpan,
+  HeadlineContainer,
+  Logo,
+  Stat,
+  StatData,
+  StatName,
+} from "./HeadlineStyles";
 
 interface Clock {
   Year: number;
@@ -11,11 +18,17 @@ interface Clock {
   Minute: number;
 }
 
+export const useClock = () => {
+  fetch("http://worldtimeapi.org/api/timezone/Europe/Amsterdam")
+    .then((data) => data.json())
+    .then((clockData) => {
+      return clockData.unixtime;
+    });
+};
+
 const Headline: React.FC = () => {
   const FetchClock = () => {
-    fetch(
-      "http://worldtimeapi.org/api/timezone/Europe/Amsterdam"
-    )
+    fetch("http://worldtimeapi.org/api/timezone/Europe/Amsterdam")
       .then((data) => data.json())
       .then((clockData) => {
         let [date, time] = clockData.datetime.split("T");
@@ -37,10 +50,28 @@ const Headline: React.FC = () => {
     setServerData: React.Dispatch<React.SetStateAction<ServerData>>;
   }>(UserContext);
 
-  const [clock, setClock] = useState<Clock>({ Year: 0, Month: 0, Day: 0, Hour: 0, Minute: 0 });
+  const [clock, setClock] = useState<Clock>({
+    Year: 0,
+    Month: 0,
+    Day: 0,
+    Hour: 0,
+    Minute: 0,
+  });
 
-  mp.events.add("react:GetServerData", (ServerData) => {
-    setServerData(JSON.parse(ServerData));
+  // mp.events.add("react:GetPlayerNameId", (data) => {
+  //   data = JSON.parse(data);
+  //   console.log(data);
+  //   setServerData({
+  //     Player: { Name: data.PlayerName, Id: data.Id },
+  //     ...ServerData,
+  //   });
+  //   console.log(ServerData);
+  // });
+
+  mp.events.add("react:GetServerData", (playerName, playerId, _ServerData) => {
+    let data = JSON.parse(_ServerData);
+    setServerData({ Player: { Name: playerName, Id: playerId}, Online: data.Online, Races: data.Races});
+    console.log(ServerData)
   });
 
   useEffect(() => {

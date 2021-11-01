@@ -93,7 +93,7 @@ namespace racing_src.Race
                 Console.WriteLine("Race timer started.");
             }
         }
-        
+
 
         public void UpdateRacerPositions(object sender, ElapsedEventArgs e)
         {
@@ -104,7 +104,7 @@ namespace racing_src.Race
 
                 startedRaces.ForEach(race =>
                 {
-                    race.Racers.Values.ToList().Sort(delegate(Racer a, Racer b)
+                    race.Racers.Sort(delegate (Racer a, Racer b)
                     {
                         if (a.CurrentCheckpoint == b.CurrentCheckpoint)
                         {
@@ -137,7 +137,9 @@ namespace racing_src.Race
 
                         return 0;
                     });
-                    // race.Racers.Values.ToList().ForEach(x => Console.WriteLine(x.Participant.Name));
+                    Console.WriteLine("[");
+                    race.Racers.ToList().ForEach(x => Console.WriteLine($"{x.Participant.Name} - {x.RacePosition}"));
+                    Console.WriteLine("]");
                 });
 
             });
@@ -167,8 +169,8 @@ namespace racing_src.Race
                     };
                     TrackImage trackImage = new()
                     {
-                        name = (string) reader["name"],
-                        image = (string) reader["image"],
+                        name = (string)reader["name"],
+                        image = (string)reader["image"],
                         state = ""
                     };
                     TrackImages.Add(trackImage);

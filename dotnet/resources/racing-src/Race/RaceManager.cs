@@ -67,7 +67,7 @@ namespace racing_src.Race
         public object JoinRace(Player player, int raceId)
         {
 
-            if (RaceData.CurrentRaces[raceId] is null)
+            if (RaceData.CurrentRaces.ElementAtOrDefault(raceId) is null)
             {
                 player.Notify(Notifications.Type.Error, "Error", "The race with that id doesn't exist");
                 return null;
@@ -107,31 +107,34 @@ namespace racing_src.Race
 
             var playerRace = RaceData.CurrentRaces[raceId];
 
-            return new { Checkpoints = playerRace.Template.Checkpoints, Mode = playerRace.Mode, Laps = playerRace.Laps };
+            return new { Checkpoints = playerRace.Template.Checkpoints, Mode = playerRace.Mode, Laps = playerRace.Laps, Duration = playerRace.MaxDuration, MaxParticipants = playerRace.MaxParticipants };
         }
 
         //Event only for hoster
         [Command("preparerace")]
         public void PrepareRace(Player player)
         {
-            if (!player.HasSharedData("raceId")) return;
+            if (player.GetSharedData<int>("raceId") < 0) return;
+
             var raceId = player.GetSharedData<int>("raceId");
 
+            int posToBeAssigned = 1;
             foreach (var racer in RaceData.CurrentRaces[raceId].Racers)
             {
-                racer.Value.Vehicle.Delete();
+                racer.RacePosition = posToBeAssigned++;
+                racer.Vehicle.Delete();
                 var spawnPoint = RaceData.CurrentRaces[raceId].FindEmptySpawnPoint();
-                racer.Value.Participant.Position = spawnPoint.Position;
-                racer.Value.Participant.Transparency = 0;
+                racer.Participant.Position = spawnPoint.Position;
+                racer.Participant.Transparency = 0;
 
                 var vehicle = NAPI.Vehicle.CreateVehicle(NAPI.Util.GetHashKey("seven70"), spawnPoint.Position,
                     spawnPoint.Heading, 0, 0, "ATH", 255, false, true, RaceData.CurrentRaces[raceId].Dimension);
 
                 NAPI.Task.Run(() =>
                 {
-                    racer.Value.Participant.Transparency = 255;
-                    racer.Value.SetVehicle(vehicle);
-                    racer.Value.SpawnInVehicle();
+                    racer.Participant.Transparency = 255;
+                    racer.SetVehicle(vehicle);
+                    racer.SpawnInVehicle();
                 }, 800);
             }
 
@@ -142,17 +145,25 @@ namespace racing_src.Race
         [Command("startrace")]
         public void StartRace(Player player)
         {
+            if (player.GetSharedData<int>("raceId") < 0) return;
+
             var raceId = player.GetSharedData<int>("raceId");
             int startTime = 6000;
 
             foreach (var racer in RaceData.CurrentRaces[raceId].Racers)
             {
-                if (racer.Value.Participant is not null)
+                if (racer.Participant is not null)
                 {
-                    racer.Value.Participant.TriggerEvent("clientside:onRaceStart", startTime - racer.Value.Participant.Ping);
+                    racer.Participant.TriggerEvent("clientside:onRaceStart", startTime - racer.Participant.Ping);
                 }
             }
-            RaceData.CurrentRaces[raceId].StartTimer();
+
+            NAPI.Task.Run(() =>
+            {
+                if (RaceData.CurrentRaces[raceId].Mode)
+                    RaceData.CurrentRaces[raceId].StartTimer();
+            }, startTime);
+
             RaceData.CurrentRaces[raceId].HasStarted = true;
         }
 
@@ -160,8 +171,20 @@ namespace racing_src.Race
         public bool SetIsInRaceManager(Player player, bool state)
         {
             player.SetData("inRaceList", state);
-            Console.WriteLine(player.GetData<bool>("inRaceList"));
             return player.GetData<bool>("inRaceList");
+        }
+
+        [RemoteProc("serverside:SetIsInStartedRace")]
+        public object SetIsInStartedRace(Player player, bool state)
+        {
+            player.SetSharedData("IsInStartedRace", state);
+            return new { IsInStartedRace = player.GetSharedData<bool>("IsInStartedRace") };
+        }
+
+        [RemoteProc("serverside:SendNumberOfParticipants")]
+        public static int? SendNumberOfParticipants(Player player)
+        {
+            return RaceData.CurrentRaces[player.GetSharedData<int>("raceId")]?.Racers.Count;
         }
 
         [RemoteProc("serverside:SendInitialRaces")]
@@ -170,6 +193,14 @@ namespace racing_src.Race
             return RaceData.CurrentRaces;
         }
 
+        [RemoteEvent("serverside:SetCurrentLap")]
+        public void SetCurrentLap(Player player, int lap)
+        {
+            var playerRace = RaceData.CurrentRaces.ElementAt(player.GetSharedData<int>("raceId"));
+            if (playerRace is null) return;
+
+            playerRace.Racers.Find(racer => racer?.Participant.Id == player.Id).Lap = lap;
+        }
 
         [Command("getvehrot")]
         public void GetRot(Player player)
@@ -204,21 +235,42 @@ namespace racing_src.Race
         [RemoteEvent("serverside:OnPlayerEnterCheckpoint")]
         public void PlayerGetCheckpoint(Player player, int checkpointIndex)
         {
+            if (player.GetSharedData<int>("raceId") < 0) return;
+            if (player.GetSharedData<int>("raceId") > RaceData.CurrentRaces.Count) return;
+
+            var playerRace = RaceData.CurrentRaces[player.GetSharedData<int>("raceId")];
+
             player.SendChatMessage($"{player.Name} entered checkpoint {checkpointIndex}.");
             player.SetData("currentCheckpoint", checkpointIndex);
             player.SetData("Checkpoints", player.GetData<int>("Checkpoints") + 1);
+
+
+            if (playerRace.Mode)
+            {
+                var racer = playerRace.Racers.Find(racer => racer.Participant.Id == player.Id);
+
+                if (racer.CurrentCheckpoint == playerRace.Template.Checkpoints.Count && racer.RacePosition == 1 && playerRace.EndTimer.Enabled)
+                {
+                    playerRace.Laps++;
+                    Console.WriteLine($"Updated lap to {playerRace.Laps}");
+                }
+
+            }
+
         }
 
         [RemoteEvent("serverside:OnPlayerEnterFinishCheckpoint")]
         public void PlayerGetFinishCheckpoint(Player player)
         {
+            if (player.GetSharedData<int>("raceId") > RaceData.CurrentRaces.Count) return;
+
             var playerRace = RaceData.CurrentRaces[player.GetSharedData<int>("raceId")];
 
-            playerRace.Racers[player.Id].HasFinished = true;
-            if (!playerRace.Racers.Select(racer => racer.Value.HasWon).Any())
+            playerRace.Racers.Find(racer => racer.Participant.Id == player.Id).HasFinished = true;
+            if (!playerRace.Racers.Select(racer => racer.HasWon).Any())
             {
                 playerRace.Racers[player.Id].HasWon = true;
-                foreach (var racer in playerRace.Racers.Values)
+                foreach (var racer in playerRace.Racers)
                 {
                     racer.Participant.Notify(Notifications.Type.Success, $"{player.Name} has won the race!", "");
                 }
@@ -226,34 +278,43 @@ namespace racing_src.Race
 
             foreach (var racer in playerRace.Racers)
             {
-                racer.Value.Participant.Notify(Notifications.Type.Success, $"{player.Name} has finished the race!", "");
+                racer.Participant.Notify(Notifications.Type.Success, $"{player.Name} has finished the race!", "");
             }
 
-            if (playerRace.Racers.Values.ToList().TrueForAll(racer => racer.HasFinished == true))
+            if (playerRace.Racers.ToList().TrueForAll(racer => racer.HasFinished == true))
             {
 
                 NAPI.Task.Run(() =>
                 {
                     foreach (var racer in RaceData.CurrentRaces[player.GetSharedData<int>("raceId")].Racers)
                     {
-                        racer.Value.Participant.SetSharedData("raceId", -1);
-                        racer.Value.Vehicle.Delete();
-                        racer.Value.Participant.TriggerEvent("clientside:GamemodeRacingSelected");
+                        racer.Participant.SetSharedData("raceId", -1);
+                        racer.Vehicle.Delete();
+                        racer.Participant.TriggerEvent("clientside:GamemodeRacingSelected");
                     }
-
                     RaceData.CurrentRaces.Remove(playerRace);
                 }, 10000);
             }
-
         }
+
 
         [ServerEvent(Event.PlayerDisconnected)]
         public void PlayerDisconnectedWhileInRace(Player player, DisconnectionType type, string reason)
         {
+            if (!player.HasSharedData("raceId")) return;
+
             if (player.GetSharedData<int>("raceId") == -1)
                 return;
 
             var playerRace = RaceData.CurrentRaces[player.GetSharedData<int>("raceId")];
+
+            if (playerRace.HasStarted)
+            {
+                foreach (var racer in playerRace.Racers)
+                {
+                    racer.Participant.TriggerEvent("clientside:GetNumberOfParticipants");
+                }
+            }
 
             if (playerRace.Hoster == player)
             {
@@ -261,7 +322,10 @@ namespace racing_src.Race
                 ConsoleInfo.WriteSuccess($"Hoster {player.Name} disconnected and his hosted race was removed.");
             }
 
-            player.Vehicle.Delete();
+            if (player.IsInVehicle)
+            {
+                player.Vehicle.Delete();
+            }
             playerRace.RemoveRacer(player);
             playerRace.ParksStatus[player.GetSharedData<int>("raceId")] = false;
             Console.WriteLine($"Removed player {player.Name} from race.");
@@ -280,7 +344,7 @@ namespace racing_src.Race
                 {
                     NAPI.Task.Run(() =>
                     {
-                        Console.WriteLine($"\n Name: {racer.Value.Participant.Name} Position: {racer.Value.RacePosition}");
+                        Console.WriteLine($"\n Name: {racer.Participant.Name} Position: {racer.RacePosition}");
                     });
 
                 }

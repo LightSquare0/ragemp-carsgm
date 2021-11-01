@@ -1,119 +1,66 @@
 import styled, { keyframes } from "styled-components";
 
-const RaceHudExpand = keyframes`
-
-0% {
-  height: 0.01rem;
-  color: rgba(255, 255, 255, 0);
-}
-
-70% {
-  color: rgba(255, 255, 255, 0.4);
-}
-
-85% { 
-  color: rgba(255, 255, 255, 0.85);
-}
-
-100% {
-  height: 12.875rem;
-  color: rgba(255, 255, 255, 1);
-}
-
-`;
-
 export const RaceHudContainer = styled.div`
-  display: none; //temporary
+  display: flex;
   position: absolute;
-  flex-direction: column;
-  top: 2.5rem;
-  left: 2.5rem;
+  align-items: center;
+  top: 1.875rem;
+  left: 1.875rem;
+  border-radius: 0.4375rem;
+  background-color: var(--background-hud-gray);
   color: white;
-  text-shadow: 0.1rem 0.1rem rgba(0, 0, 0, 0.2);
-  background-color: rgba(175, 175, 175, 0.6);
-  padding: 1.2rem;
-  border-radius: 0.6rem;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  animation: ${RaceHudExpand} 0.8s ease;
-  transition: opacity 1s;
-`;
-
-export const StatsContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  & > div {
-    margin-right: 0.9rem;
+  padding-left: 0.625rem;
+  padding-right: 0.625rem;
+  & > div:not(:last-child) {
+    margin-right: 1.25rem;
   }
 `;
 
-export const Position = styled.div`
-  &:before {
-    content: "POS";
-    display: block;
-    font-size: 1rem;
-  }
-
-  font-size: 1.9rem;
-`;
-export const TimeLeft = styled.div`
-  &:before {
-    content: "TIME LEFT";
-    display: block;
-    font-size: 0.9rem;
-  }
-
-  font-size: 1.9rem;
-`;
-export const Laps = styled.div`
-  &:before {
-    content: "LAPS";
-    display: block;
-    font-size: 0.9rem;
-  }
-
-  font-size: 1.9rem;
-`;
-
-export const CurrentStatsContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  & > div {
-    margin-right: 0.9rem;
-  }
-  margin-top: 0.6rem;
-  margin-bottom: 0.6rem;
-  border-radius: 3rem 0.5rem 3rem 0.5rem;
-`;
-
-export const CurrentLapTimer = styled.div`
-  font-size: 2.4rem;
+export const RacePosition = styled.div`
+  font-family: "HemiHead";
   display: flex;
   align-items: center;
 `;
 
-export const CurrentRelativePosition = styled.div`
+export const CurrentPosition = styled.div`
+  font-size: 4.5rem;
+`;
+
+export const Bar = styled.div`
+  width: 0.5rem;
+  background-color: white;
+  height: 3.1rem;
+  transform: skew(-10deg);
+  margin-left: 0.6125rem;
+  margin-right: 0.3125rem;
+`;
+
+export const Participants = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
 `;
 
-export const BestLap = styled.div`
-  &:before {
-    content: "BEST";
-    display: block;
-    font-size: 0.9rem;
-  }
-
-  font-size: 1.9rem;
+export const ParticipantsNo = styled.div`
+  font-size: 2.25rem;
+  margin-top: -0.5rem;
 `;
 
-export const LastLap = styled.div`
-  &:before {
-    content: "LAST";
-    display: block;
-    font-size: 0.9rem;
-  }
+export const Position = styled.div`
+  font-size: 0.875rem;
+`;
 
-  font-size: 1.9rem;
+export const RaceStat = styled.div`
+  display: flex;
+  flex-direction: column;
+  font-family: "MaisonNeueBook";
+`;
+
+export const StatName = styled.div`
+  font-size: 1.5rem;
+  margin-bottom: 0.1875rem;
+`;
+
+export const StatProp = styled.div`
+  font-size: 1.5rem;
 `;
