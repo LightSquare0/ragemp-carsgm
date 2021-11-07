@@ -122,7 +122,7 @@ namespace racing_src.Race
                         }
                         else
                         {
-                            if (a.Checkpoints < b.Checkpoints)
+                            if (a.CurrentCheckpoint < b.CurrentCheckpoint)
                             {
                                 b.Participant.SendChatMessage("L-ai devansat pe " + a.Participant.Name);
                                 a.Participant.SendChatMessage("Ai fost devansat de " + b.Participant.Name);

@@ -9,6 +9,7 @@ require("./MoveSkyCamera/index");
 require("./race/RaceCreator");
 require("./server/ServerData")
 
+mp.game.ui.setRadarZoom(900);
 mp.gui.chat.show(false);
 
 export const chatbox = mp.browsers.new("package://chat/chat.html");

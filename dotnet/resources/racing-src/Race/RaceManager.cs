@@ -124,18 +124,18 @@ namespace racing_src.Race
                 racer.RacePosition = posToBeAssigned++;
                 racer.Vehicle.Delete();
                 var spawnPoint = RaceData.CurrentRaces[raceId].FindEmptySpawnPoint();
-                racer.Participant.Position = spawnPoint.Position;
                 racer.Participant.Transparency = 0;
 
-                var vehicle = NAPI.Vehicle.CreateVehicle(NAPI.Util.GetHashKey("seven70"), spawnPoint.Position,
+                var vehicle = NAPI.Vehicle.CreateVehicle(NAPI.Util.GetHashKey("cliors"), spawnPoint.Position,
                     spawnPoint.Heading, 0, 0, "ATH", 255, false, true, RaceData.CurrentRaces[raceId].Dimension);
 
+                racer.SetVehicle(vehicle);
+                vehicle.SetSharedData("assignedPlayer", racer.Participant.Id);
                 NAPI.Task.Run(() =>
                 {
                     racer.Participant.Transparency = 255;
-                    racer.SetVehicle(vehicle);
-                    racer.SpawnInVehicle();
-                }, 800);
+                    racer.Participant.Position = spawnPoint.Position;
+                }, 100);
             }
 
             RaceData.CurrentRaces[raceId].InPreparation = true;
@@ -243,6 +243,9 @@ namespace racing_src.Race
             player.SendChatMessage($"{player.Name} entered checkpoint {checkpointIndex}.");
             player.SetData("currentCheckpoint", checkpointIndex);
             player.SetData("Checkpoints", player.GetData<int>("Checkpoints") + 1);
+            if (player.GetData<int>("Checkpoints") > playerRace.Template.Checkpoints.Count - 1)
+                player.SetData("Checkpoints", 0);
+
 
 
             if (playerRace.Mode)

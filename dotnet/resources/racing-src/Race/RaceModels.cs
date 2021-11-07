@@ -45,14 +45,14 @@ namespace racing_src.Race
         public Vehicle Vehicle { get; set; }
         public int CurrentCheckpoint
         {
-            get { return Participant.GetData<int>("currentCheckpoint"); }
-            set { Participant.SetData("currentCheckpoint", value); }
-        }
-        public int Checkpoints
-        {
             get { return Participant.GetData<int>("Checkpoints"); }
             set { Participant.SetData("Checkpoints", value); }
         }
+       /* public int Checkpoints
+        {
+            get { return Participant.GetData<int>("Checkpoints"); }
+            set { Participant.SetData("Checkpoints", value); }
+        }*/
 
         public bool HasFinished { get; set; }
         public bool HasWon { get; set; }
@@ -169,7 +169,7 @@ namespace racing_src.Race
             if (!Mode) return;
 
 
-            EndTimer.Interval = (DateTime.Now.AddMinutes(MaxDuration) - DateTime.Now).TotalMilliseconds; /*10000*/;
+            EndTimer.Interval = (DateTime.Now.AddMinutes(MaxDuration) - DateTime.Now).TotalMilliseconds;
             EndTimer.AutoReset = false;
             EndTimer.Elapsed += RunTimer;
             EndTimer.Start();
@@ -178,7 +178,7 @@ namespace racing_src.Race
                 foreach (var racer in Racers)
                 {
                     racer.Participant.TriggerEvent("clientside:SetTimerState", true);
-                    racer.Participant.SendChatMessage("RACE TIMER STARTED!");
+                    Console.WriteLine("timer state set");
                 }
 
             });

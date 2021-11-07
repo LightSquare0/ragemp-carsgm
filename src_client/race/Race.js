@@ -8,6 +8,34 @@ var race = {
   player: {
     currentLap: 1,
   },
+  timer: {
+    endTime: 0,
+    timerInterval: undefined,
+    timerCallback: () => {
+      var now = new Date().getTime();
+      var distance = parseInt(race.timer.endTime) - now;
+
+      var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      var hours = Math.floor(
+        (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      );
+      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      browser.call("react:UpdateRaceTimer", hours, minutes, seconds);
+
+      mp.gui.chat.push(
+        `updated timer - hours: ${hours}, minutes: ${minutes}, seconds: ${seconds}`
+      );
+
+      mp.gui.chat.push(distance + "\n");
+
+      if (distance <= 0) {
+        clearInterval(race.timer.timerInterval);
+        mp.gui.chat.push("cleared");
+      }
+    },
+  },
   data: {
     track: undefined,
     mode: undefined,
@@ -37,14 +65,14 @@ var race = {
         if (mp.players.local.vehicle) {
           mp.players.local.vehicle.setHandbrake(false);
         }
-        if (race.data.mode) {
-          let now = new Date();
-          let endTime = now.setMinutes(now.getMinutes() + race.data.duration);
-          browser.call("react:GetCurrentRaceEndTime", endTime);
-        }
 
         mp.gui.chat.push("Race has started time " + race.startRaceTime);
         race.raceStatus = "started";
+
+        if (race.data.mode) {
+          race.timer.endTime =
+            new Date().getTime() + race.data.duration * 60000;
+        }
       }
     }
   },
@@ -133,6 +161,8 @@ var race = {
 
   setTimerState: (state) => {
     race.data.timerStarted = state;
+    if (state)
+      race.timer.timerInterval = setInterval(race.timer.timerCallback, 1000);
   },
 
   onJoinRace: (raceId) => {
@@ -193,7 +223,11 @@ var race = {
 
     if (race.data.isLastCheckpointInArray) {
       //If race mode is time and player is first place increase the laps.
-      if (race.data.mode && mp.players.local.getVariable("racePosition") == 1 && race.data.timerStarted) {
+      if (
+        race.data.mode &&
+        mp.players.local.getVariable("racePosition") == 1 &&
+        race.data.timerStarted
+      ) {
         race.data.laps++;
       }
 
@@ -254,3 +288,18 @@ var race = {
 };
 
 race.init();
+
+mp.events.add("entityStreamIn", (entity) => {
+  if (entity.type === "vehicle" && entity.hasVariable("assignedPlayer")) {
+    const player = entity.getVariable("assignedPlayer");
+    mp.gui.chat.push(
+      "entity stream in" + player + mp.players.local.remoteId
+    );
+    if (player == mp.players.local.remoteId)
+      mp.players.local.setIntoVehicle(entity.handle, -1);
+  }
+});
+
+mp.events.add("entityStreamIn", (entity) => {
+  mp.gui.chat.push("merge entityu " + "\n");
+})

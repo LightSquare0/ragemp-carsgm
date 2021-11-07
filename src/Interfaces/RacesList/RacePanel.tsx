@@ -31,7 +31,11 @@ interface RacePanel {
   openedRace: Race;
 }
 
-export const RacePanel: React.FC<RacePanel> = ({ openedRace, races, willHost }) => {
+export const RacePanel: React.FC<RacePanel> = ({
+  openedRace,
+  races,
+  willHost,
+}) => {
   const [selectedTrackName, setSelectedTrackName] = useState<string>();
 
   const [imageIndex, setImageIndex] = useState<number>(0);
@@ -45,6 +49,10 @@ export const RacePanel: React.FC<RacePanel> = ({ openedRace, races, willHost }) 
   useEffect(() => {
     //@ts-ignore
     mp.trigger("clientside:GetTrackImages");
+  }, []);
+
+  useEffect(() => {
+    resetImages();
   }, []);
 
   mp.events.add("react:GetTrackImages", (_images) => {
@@ -118,12 +126,16 @@ export const RacePanel: React.FC<RacePanel> = ({ openedRace, races, willHost }) 
   useEffect(() => {
     resetImages();
     let samp = defaultImages.filter((image: { name: string }) => {
-      return image.name.toLocaleLowerCase().includes(searchText.toLocaleLowerCase());
+      return image.name
+        .toLocaleLowerCase()
+        .includes(searchText.toLocaleLowerCase());
     });
     setImageIndex(0);
     setImages(samp);
     updateCarousel(samp, imageIndex);
   }, [searchText]);
+
+  console.log(images);
 
   return (
     <RacePanelContainer>
@@ -178,22 +190,26 @@ export const RacePanel: React.FC<RacePanel> = ({ openedRace, races, willHost }) 
 //   HasStarted: boolean;
 // }
 
-export const OpenedRace: React.FC<{races: Array<Race>, Race: Race }> = ({races, Race }) => {
+export const OpenedRace: React.FC<{ races: Array<Race>; Race: Race }> = ({
+  races,
+  Race,
+}) => {
   const getHoster = () => {
     let splitName = Race.Name.split("'");
     return splitName[0];
   };
 
-  const { ref, isComponentVisible, setIsComponentVisible } = useOutsideAlerter(false);
+  const { ref, isComponentVisible, setIsComponentVisible } =
+    useOutsideAlerter(false);
 
   const onJoinRace = () => {
     let raceId = races.indexOf(Race);
     //@ts-ignore
     mp.trigger("clientside:onJoinRace", raceId);
     console.log(raceId);
-  }
+  };
 
-  let Racers = Object.values(Race.Racers); 
+  let Racers = Object.values(Race.Racers);
 
   return (
     <>
@@ -239,7 +255,10 @@ export const OpenedRace: React.FC<{races: Array<Race>, Race: Race }> = ({races, 
         </OpenedBottomInfo>
         <OpenedInteract>
           <SecondaryOption>Spectate</SecondaryOption>
-          <SecondaryOption ref={ref} onClick={() => setIsComponentVisible(true)}>
+          <SecondaryOption
+            ref={ref}
+            onClick={() => setIsComponentVisible(true)}
+          >
             {isComponentVisible ? (
               <FloatingWindow>
                 {Racers.length == 0 ? (

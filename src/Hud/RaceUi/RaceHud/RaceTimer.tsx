@@ -1,8 +1,4 @@
-import { useEffect, useState } from "react";
-
-interface RaceTimerProps {
-  EndTime: number;
-}
+import React, { useEffect, useState } from "react";
 
 interface Timer {
   Hours: number;
@@ -10,32 +6,22 @@ interface Timer {
   Seconds: number;
 }
 
-const RaceTimer: React.FC<RaceTimerProps> = ({ EndTime }) => {
+const RaceTimer: React.FC = () => {
   const [timer, setTimer] = useState<Timer>({
     Hours: 0,
     Minutes: 0,
     Seconds: 0,
   });
 
-  useEffect(() => {
-    let interval = setInterval(() => {
-      let now = new Date().getTime();
-      let distance = EndTime - now;
-
-      let days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      let hours = Math.floor(
-        (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-      );
-      let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      let seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-      setTimer({ Hours: hours, Minutes: minutes, Seconds: seconds });
-    }, 1000);
-
-    return () => clearInterval(interval);
+  mp.events.add("react:UpdateRaceTimer", (Hours, Minutes, Seconds) => {
+    setTimer({
+      Hours: Hours,
+      Minutes: Minutes,
+      Seconds: Seconds,
+    });
   });
 
-  if (timer.Seconds == 0) return <>--:--:--</>;
+  if (timer.Seconds <= 0) return <>--:--:--</>;
   else
     return (
       <>
@@ -46,7 +32,7 @@ const RaceTimer: React.FC<RaceTimerProps> = ({ EndTime }) => {
     );
 };
 
-export default RaceTimer;
+export default React.memo(RaceTimer);
 
 /*
   var days = Math.floor(distance / (1000 * 60 * 60 * 24));

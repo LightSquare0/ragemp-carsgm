@@ -8,6 +8,13 @@ export interface ServerData {
   };
   Races: number;
   Online: number;
+  Clock: {
+    Year: string;
+    Month: string;
+    Day: string;
+    Hour: string;
+    Minute: string;
+  };
 }
 
 export interface UserData {
@@ -32,6 +39,13 @@ export const UserDataProvider: React.FC = (props) => {
     Player: { Name: "loading", Id: -1 },
     Races: 0,
     Online: 0,
+    Clock: {
+      Year: "",
+      Month: "",
+      Day: "",
+      Hour: "",
+      Minute: "",
+    },
   });
 
   const [userData, setUserData] = useState<UserData>({
@@ -92,12 +106,7 @@ export const UserDataProvider: React.FC = (props) => {
     });
   });
 
-  mp.events.add("react:GetCurrentRaceEndTime", (time) => {
-    setUserData({
-      ...userData,
-      CurrentRace: { ...userData.CurrentRace, EndTime: time },
-    });
-  });
+
 
   mp.events.add("react:GetCurrentPoint", (currentPoint) => {
     setUserData({

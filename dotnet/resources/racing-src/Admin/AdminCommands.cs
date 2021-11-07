@@ -88,6 +88,7 @@ namespace racing_src.Admin
         [Command("weapon")]
         public void WeaponCommand(Player sender, WeaponHash hash)
         {
+
             NAPI.Player.GivePlayerWeapon(sender, hash, 500);
         }
 
