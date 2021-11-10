@@ -28,7 +28,7 @@ interface UserObject {
 const Auth: React.FC = (props) => {
   const history = useHistory();
 
-  const [authType, SetAuthType] = useState<string>("login");
+  const [authType, SetAuthType] = useState<"login"| "register">("login");
   const [userdata, SetUserdata] = useState<UserObject>({
     username: "",
     password: "",
@@ -39,7 +39,7 @@ const Auth: React.FC = (props) => {
 
   const { Notify } = useContext(NotificationsContext);
 
-  const HandleChange = (event: any) => {
+  const HandleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     SetUserdata({
       ...userdata,
@@ -47,7 +47,7 @@ const Auth: React.FC = (props) => {
     });
   };
 
-  const HandleRemember = (event: any) => {
+  const HandleRemember = (event: React.ChangeEvent<HTMLInputElement>) => {
     SetRememberMe(event.target.checked);
   };
 
@@ -133,6 +133,7 @@ const Auth: React.FC = (props) => {
               >
                 <div>Login</div>
               </Button>
+              <Button onClick={() => Notify("Success", "Nice notification!", "success")}>Notify me</Button>
             </>
           )}
 

@@ -299,7 +299,3 @@ mp.events.add("entityStreamIn", (entity) => {
       mp.players.local.setIntoVehicle(entity.handle, -1);
   }
 });
-
-mp.events.add("entityStreamIn", (entity) => {
-  mp.gui.chat.push("merge entityu " + "\n");
-})

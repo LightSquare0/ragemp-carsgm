@@ -33,7 +33,7 @@ const Renderer: React.FC = () => {
       const _notifications = [...notifications];
       _notifications.splice(0, 1);
       setNotifications(_notifications);
-    }, 3500);
+    }, 4500);
     return () => clearInterval(interval);
   });
 
