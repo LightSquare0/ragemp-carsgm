@@ -1,6 +1,7 @@
+import { motion } from "framer-motion";
 import styled from "styled-components";
 
-export const RaceList = styled.div`
+export const RaceList = styled(motion.div)`
   display: flex;
   flex-direction: column;
   height: 100%;

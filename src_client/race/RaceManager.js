@@ -14,50 +14,56 @@ mp.events.add({
     isBackgroundLoaded = true;
   },
   "clientside:OpenGamemodeSelectorUI": () => {
-    mp.events.callRemoteProc("serverside:SetIsInRaceList", false).then((state) => {
-      if (state == true) return;
+    mp.events
+      .callRemoteProc("serverside:SetIsInRaceList", false)
+      .then((state) => {
+        if (state == true) return;
 
-      if (!isBackgroundLoaded) {
-        PrepareBackground();
-        isBackgroundLoaded = true;
-      }
+        if (!isBackgroundLoaded) {
+          PrepareBackground();
+          isBackgroundLoaded = true;
+        }
 
-      browser.call("react:OpenGamemodeSelectorUI");
-      mp.discord.update(
-        "race.invictum.mp | DEV BUILD",
-        `Selecting gamemode | as ${mp.players.local.name}`
-      );
-    });
+        browser.call("react:OpenGamemodeSelectorUI");
+        mp.discord.update(
+          "race.invictum.mp | DEV BUILD",
+          `Selecting gamemode | as ${mp.players.local.name}`
+        );
+      });
   },
 
   "clientside:GamemodeFreemodeSelected": () => {
-    mp.events.callRemoteProc("serverside:SetIsInRaceList", false).then((state) => {
-      if (state == true) return;
+    mp.events
+      .callRemoteProc("serverside:SetIsInRaceList", false)
+      .then((state) => {
+        if (state == true) return;
 
-      isBackgroundLoaded = false;
-      mp.events.callRemote("serverside:SpawnPlayer");
-      mp.discord.update(
-        "race.invictum.mp | DEV BUILD",
-        `Roaming around | as ${mp.players.local.name}`
-      );
-    });
+        isBackgroundLoaded = false;
+        mp.events.callRemote("serverside:SpawnPlayer");
+        mp.discord.update(
+          "race.invictum.mp | DEV BUILD",
+          `Roaming around | as ${mp.players.local.name}`
+        );
+      });
   },
 
   "clientside:GamemodeRacingSelected": () => {
-    mp.events.callRemoteProc("serverside:SetIsInRaceList", true).then((state) => {
-      if (state == false) return;
+    mp.events
+      .callRemoteProc("serverside:SetIsInRaceList", true)
+      .then((state) => {
+        if (state == false) return;
 
-      if (!isBackgroundLoaded) {
-        PrepareBackground();
-        isBackgroundLoaded = true;
-      }
+        if (!isBackgroundLoaded) {
+          PrepareBackground();
+          isBackgroundLoaded = true;
+        }
 
-      browser.call("react:OpenRaceListUI");
-      mp.discord.update(
-        "race.invictum.mp | DEV BUILD",
-        `Browsing races | as ${mp.players.local.name}`
-      );
-    });
+        browser.call("react:OpenRaceListUI");
+        mp.discord.update(
+          "race.invictum.mp | DEV BUILD",
+          `Browsing races | as ${mp.players.local.name}`
+        );
+      });
   },
 });
 

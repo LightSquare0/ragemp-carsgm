@@ -57,6 +57,11 @@ export const RacePanel: React.FC<RacePanel> = ({
 
   mp.events.add("react:GetTrackImages", (_images) => {
     let prevImages = JSON.parse(_images);
+    
+    prevImages.forEach((race: race) => {
+      race.state = state.hiddenLeft;
+    });
+
     let hiddenLeft: race = prevImages[imageIndex - 2];
     let prev: race = prevImages[imageIndex - 1];
     let selected: race = prevImages[imageIndex];
@@ -66,6 +71,7 @@ export const RacePanel: React.FC<RacePanel> = ({
     if (hiddenLeft != undefined) {
       hiddenLeft.state = state.hiddenLeft;
     }
+    
     if (prev != undefined) {
       prev.state = state.prev;
     }
@@ -75,11 +81,13 @@ export const RacePanel: React.FC<RacePanel> = ({
     }
 
     if (next != undefined) {
-      next.state = state.next;
+        next.state = state.next;
     }
+
     if (hiddenRight != undefined) {
       hiddenRight.state = state.hiddenRight;
-    }
+    }    
+
     setDefaultImages(prevImages);
     setImages(prevImages);
     setSelectedTrackName(selected.name);

@@ -7,7 +7,7 @@ mp.events.add("clientside:SpawnPlayer", () => {
 
 export const PrepareBackground = () => {
   mp.players.local.freezePosition(true);
-  mp.players.local.setAlpha(0);
+  mp.events.callRemote("serverside:SetPlayerTransparency", 0);
   mp.game.ui.displayRadar(false);
   let sceneryCamera = mp.cameras.new(
     "default",
@@ -29,7 +29,7 @@ export const PrepareBackground = () => {
 export const RemoveBackground = () => {
   mp.gui.chat.show(true);
   mp.game.cam.renderScriptCams(false, true, 2000, true, false);
-  mp.players.local.setAlpha(255);
+  mp.events.callRemote("serverside:SetPlayerTransparency", 255);
   mp.players.local.freezePosition(false);
   mp.game.graphics.transitionFromBlurred(500);
   mp.game.ui.displayRadar(true);

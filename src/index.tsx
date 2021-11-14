@@ -2,6 +2,7 @@ import * as ReactDOM from "react-dom";
 import Renderer from "./Renderer";
 import * as _ from "lodash";
 import React from "react";
+import { HashRouter } from "react-router-dom";
 
 //@ts-ignore
 // window.mp = {
@@ -12,4 +13,9 @@ import React from "react";
 //   },
 // };
 
-ReactDOM.render(<Renderer />, document.getElementById("app"));
+ReactDOM.render(
+  <HashRouter>
+    <Renderer />
+  </HashRouter>,
+  document.getElementById("app")
+);

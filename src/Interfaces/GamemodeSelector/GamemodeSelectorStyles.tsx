@@ -1,6 +1,7 @@
+import { motion } from "framer-motion";
 import styled from "styled-components";
 
-export const GamemodeContainer = styled.div`
+export const GamemodeContainer = styled(motion.div)`
   display: flex;
   height: 100%;
   width: 100%;
@@ -29,7 +30,7 @@ export const Gamemode = styled.div`
 export const GamemodeContent = styled.div`
   display: flex;
   flex-direction: column;
-
+  justify-content: center;
   height: 100%;
   width: 100%;
   color: white;

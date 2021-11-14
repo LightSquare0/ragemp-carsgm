@@ -1,7 +1,7 @@
 import { hot } from "react-hot-loader";
 
 import GlobalStyles from "./Globals/GlobalStyles/GlobalStyles";
-import { Route, HashRouter, useLocation } from "react-router-dom";
+import { Route, useLocation, Switch } from "react-router-dom";
 import Auth from "./Interfaces/Auth/Auth";
 import Hud from "./Hud/Hud";
 import Home from "./Interfaces/Home/Home";
@@ -10,14 +10,13 @@ import { useState, useEffect } from "react";
 import Notifications from "./General Components/Notifications/Notifications";
 import GamemodeSelector from "./Interfaces/GamemodeSelector/GamemodeSelector";
 import { RacesList } from "./Interfaces/RacesList/RacesList";
-import { UserContext } from "./Globals/UserContext";
-import { Routes } from "./Utils/RoutesEnum";
 import { UserDataProvider } from "./Hud/RaceUi/RaceHud/RaceEvents";
+import { AnimatePresence } from "framer-motion";
 
 const Renderer: React.FC = () => {
-
-
   const [notifications, setNotifications] = useState([]);
+
+  let location = useLocation();
 
   const Notify = (title: string, text: string, type: string) => {
     setNotifications([
@@ -33,7 +32,7 @@ const Renderer: React.FC = () => {
       const _notifications = [...notifications];
       _notifications.splice(0, 1);
       setNotifications(_notifications);
-    }, 4500);
+    }, 3500);
     return () => clearInterval(interval);
   });
 
@@ -45,21 +44,23 @@ const Renderer: React.FC = () => {
     <UserDataProvider>
       <NotificationsContext.Provider value={{ notifications, Notify }}>
         <GlobalStyles />
-        <HashRouter>
           <Hud />
-          <Route exact path="/">
-            <Home />
-          </Route>
-          <Route path="/auth">
-            <Auth />
-          </Route>
-          <Route path="/gmselector">
-            <GamemodeSelector />
-          </Route>
-          <Route path="/racelist">
-            <RacesList />
-          </Route>
-        </HashRouter>
+        <AnimatePresence exitBeforeEnter>
+          <Switch location={location} key={location.pathname}>
+            <Route exact path="/">
+              <Home />
+            </Route>
+            <Route path="/auth">
+              <Auth />
+            </Route>
+            <Route path="/gmselector">
+              <GamemodeSelector />
+            </Route>
+            <Route path="/racelist">
+              <RacesList />
+            </Route>
+          </Switch>
+        </AnimatePresence>
         <Notifications />
       </NotificationsContext.Provider>
     </UserDataProvider>

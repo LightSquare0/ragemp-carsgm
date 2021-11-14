@@ -13,7 +13,7 @@ namespace racing_src.Admin
     {
         public static bool IsAdmin(Player player)
         {
-            if(player.GetSharedData<int>("admin") <= 0)
+            if (player.GetSharedData<int>("admin") <= 0)
             {
                 player.SendChatMessage("You are not an admin");
                 return false;
@@ -32,7 +32,7 @@ namespace racing_src.Admin
         [Command("setadmin")]
         public void SetAdmin(Player player, Player target, int level)
         {
-            
+
         }
 
         [Command("sveh")]
@@ -43,7 +43,7 @@ namespace racing_src.Admin
 
             Vehicle veh = NAPI.Vehicle.CreateVehicle(NAPI.Util.GetHashKey(vehicle), player.Position, player.Heading, 200, 200, "Admin", 255, false, true, player.Dimension);
             player.SetIntoVehicle(veh, 0);
-        
+
         }
 
         [Command("arepair")]
@@ -137,10 +137,14 @@ namespace racing_src.Admin
             SendMessageToAdmins($"{player.Name} deleted {count} vehicles in an area of {area}.");
         }
 
-        [ServerEvent(Event.PlayerEnterColshape)]
-        public void OnPlayerEnterColshape(ColShape shape, Player player)
+        [Command("servertime", Alias = "stime")]
+        public void SetServerTime(Player player, int hours, int minutes, int seconds)
         {
-            player.SendChatMessage("asdas");
+            if (!IsAdmin(player))
+                return;
+
+            NAPI.World.SetTime(hours, minutes, seconds);
         }
+
     }
 }

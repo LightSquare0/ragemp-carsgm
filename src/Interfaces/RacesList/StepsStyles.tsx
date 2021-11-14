@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import styled, { css } from "styled-components";
 
 export const StepWrapper = styled.div`
@@ -14,10 +15,10 @@ export const StepHeader = styled.div`
 `;
 
 interface StepContainer {
-  size: "big" | "small";
+  size?: "big" | "small";
 }
 
-export const StepContainer = styled.div<StepContainer>`
+export const StepContainer = styled(motion.div)<{size: "big" | "small"}>`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -81,10 +82,11 @@ export const StepCheckbox = styled.div`
   width: 20%;
 `;
 
-export const ButtonContainer = styled.div<{rendered: boolean}>`
+export const ButtonContainer = styled.div<{ rendered: boolean }>`
   margin-top: auto;
   display: flex;
-  justify-content: ${({rendered}) => rendered ? "space-between" : "flex-end"};
+  justify-content: ${({ rendered }) =>
+    rendered ? "space-between" : "flex-end"};
   width: 100%;
 `;
 

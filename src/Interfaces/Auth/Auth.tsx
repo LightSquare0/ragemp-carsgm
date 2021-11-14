@@ -16,6 +16,7 @@ import { useHistory, withRouter } from "react-router-dom";
 import { Container } from "../../Utils/UtilsStyles";
 import { Skewify, DeSkewify } from "../../Globals/GlobalStyles/Skew";
 import { Routes } from "../../Utils/RoutesEnum";
+import { motion } from "framer-motion";
 
 interface UserObject {
   username: string;
@@ -28,7 +29,7 @@ interface UserObject {
 const Auth: React.FC = (props) => {
   const history = useHistory();
 
-  const [authType, SetAuthType] = useState<"login"| "register">("login");
+  const [authType, SetAuthType] = useState<"login" | "register">("login");
   const [userdata, SetUserdata] = useState<UserObject>({
     username: "",
     password: "",
@@ -89,7 +90,11 @@ const Auth: React.FC = (props) => {
 
   return (
     <Container>
-      <ControlsContainer>
+      <ControlsContainer
+        initial={{ x: 300, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        exit={{ x: -500, opacity: 0 }}
+      >
         <FormContainer>
           <LogoHead>
             Invictum <span>Racing</span>
@@ -120,7 +125,7 @@ const Auth: React.FC = (props) => {
                 }}
               >
                 <Checkbox
-                rounded={false}
+                  rounded={false}
                   checked={rememberMe}
                   onChange={HandleRemember}
                   text="Remember me"
@@ -130,10 +135,10 @@ const Auth: React.FC = (props) => {
               <Button
                 style={{ marginLeft: "auto", marginRight: "auto" }}
                 onClick={HandleAuth}
+                // onClick={() => history.push(Routes.GamemodeSelector)}
               >
                 <div>Login</div>
               </Button>
-              <Button onClick={() => Notify("Success", "Nice notification!", "success")}>Notify me</Button>
             </>
           )}
 

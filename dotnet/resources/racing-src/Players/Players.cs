@@ -16,5 +16,11 @@ namespace racing_src.Players
             player.Position = new Vector3(227.21216, 1172.314, 225.45993);
             player.Heading = -79;
         }
+
+        [RemoteEvent("serverside:SetPlayerTransparency")]
+        public static void SetPlayerTransparency(Player player, int transparency)
+        {
+            player.Transparency = transparency;
+        }
     }
 }

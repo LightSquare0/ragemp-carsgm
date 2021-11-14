@@ -7,7 +7,12 @@ require("./race/RaceManager.js");
 require("./notifications/Notifications.js");
 require("./MoveSkyCamera/index");
 require("./race/RaceCreator");
-require("./server/ServerData")
+require("./server/ServerData");
+
+let urls = {
+  compiled: "package://webview/index.html",
+  live: "http://naivoe.go.ro:8080"
+}
 
 mp.game.ui.setRadarZoom(900);
 mp.gui.chat.show(false);
@@ -15,7 +20,11 @@ mp.gui.chat.show(false);
 export const chatbox = mp.browsers.new("package://chat/chat.html");
 chatbox.markAsChat();
 
-export const browser = mp.browsers.new("http://naivoe.go.ro:8080");
+export let browser = undefined;
+mp.nametags.enabled = false;
+browser = mp.browsers.new(urls.compiled);
+mp.console.logInfo("sa dat call la playerReady" + browser.url);
+
 mp.game.gxt.set("PM_PAUSE_HDR", "Invictum Racing");
 // ` - trigger cursor
 mp.keys.bind(0xc0, true, () => {

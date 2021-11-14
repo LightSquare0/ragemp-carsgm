@@ -29,7 +29,11 @@ const GamemodeSelector: React.FC = (props) => {
   return (
     <>
       <GeneralInterface header="Select a gamemode">
-        <GamemodeContainer>
+        <GamemodeContainer
+          initial={{ x: 400, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          exit={{ x: -400, opacity: 0 }}
+        >
           <Gamemode onClick={() => SelectGamemode("freemode")}>
             <GamemodeWallpaper src={freeroam} />
             <GamemodeContent>
