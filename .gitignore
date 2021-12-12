@@ -10,3 +10,4 @@ ragemp-server.exe
 BugTrap-x64.dll
 client_packages/webview/
 client_packages/game_resources
+client_packages/index.js

@@ -16,12 +16,20 @@ import {
   StatName,
 } from "./HeadlineStyles";
 
-interface Headline {
+export interface HeadlineProps {
+  clock: {
+    Year: string;
+    Month: string;
+    Day: string;
+    Hour: string;
+    Minute: string;
+  };
   isHeadlineRendered: boolean;
   setIsHeadlineRendered: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Headline: React.FC<Headline> = ({
+const Headline: React.FC<HeadlineProps> = ({
+  clock,
   isHeadlineRendered,
   setIsHeadlineRendered,
 }) => {
@@ -29,23 +37,6 @@ const Headline: React.FC<Headline> = ({
     ServerData: ServerData;
     setServerData: React.Dispatch<React.SetStateAction<ServerData>>;
   }>(UserContext);
-
-  mp.events.add("react:GetServerData", (playerName, playerId, _ServerData) => {
-    let data = JSON.parse(_ServerData);
-    setServerData({
-      Player: { Name: playerName, Id: playerId },
-      Online: data.Online,
-      Races: data.Races,
-      Clock: {
-        Year: ServerData.Clock.Year,
-        Month: ServerData.Clock.Month,
-        Day: ServerData.Clock.Day,
-        Hour: ServerData.Clock.Hour,
-        Minute: ServerData.Clock.Minute,
-      },
-    });
-    console.log(ServerData);
-  });
 
   useEffect(() => {
     setIsHeadlineRendered(true);
@@ -56,11 +47,11 @@ const Headline: React.FC<Headline> = ({
     <HeadlineContainer>
       <Stat>
         <StatName>
-          {ServerData.Clock.Day}.{ServerData.Clock.Month}.
-          {ServerData.Clock.Year}
+          {clock.Day}.{clock.Month}.
+          {clock.Year}
         </StatName>
         <StatData>
-          {ServerData.Clock.Hour}:{ServerData.Clock.Minute}
+          {clock.Hour}:{clock.Minute}
         </StatData>
       </Stat>
       <Stat>

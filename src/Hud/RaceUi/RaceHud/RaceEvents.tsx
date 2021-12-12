@@ -48,6 +48,22 @@ export const UserDataProvider: React.FC = (props) => {
     },
   });
 
+  mp.events.add("react:GetServerData", (playerName, playerId, _ServerData) => {
+    let data = JSON.parse(_ServerData);
+    setServerData({
+      Player: { Name: playerName, Id: playerId },
+      Online: data.Online,
+      Races: data.Races,
+      Clock: {
+        Year: ServerData.Clock.Year,
+        Month: ServerData.Clock.Month,
+        Day: ServerData.Clock.Day,
+        Hour: ServerData.Clock.Hour,
+        Minute: ServerData.Clock.Minute,
+      },
+    });
+  });
+
   const [userData, setUserData] = useState<UserData>({
     IsInStartedRace: false,
     CurrentRace: {
@@ -69,7 +85,6 @@ export const UserDataProvider: React.FC = (props) => {
         Player: { ...userData.CurrentRace.Player, RacePosition: racePosition },
       },
     });
-    console.log(racePosition);
   });
 
   mp.events.add(
@@ -105,8 +120,6 @@ export const UserDataProvider: React.FC = (props) => {
       },
     });
   });
-
-
 
   mp.events.add("react:GetCurrentPoint", (currentPoint) => {
     setUserData({

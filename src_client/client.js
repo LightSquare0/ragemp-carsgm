@@ -22,8 +22,7 @@ chatbox.markAsChat();
 
 export let browser = undefined;
 mp.nametags.enabled = false;
-browser = mp.browsers.new(urls.compiled);
-mp.console.logInfo("sa dat call la playerReady" + browser.url);
+browser = mp.browsers.new(urls.live);
 
 mp.game.gxt.set("PM_PAUSE_HDR", "Invictum Racing");
 // ` - trigger cursor
@@ -45,4 +44,13 @@ mp.events.add("playerDeath", (player, reason, killer) => {
   setTimeout(() => {
     mp.game.cam.doScreenFadeIn(300);
   }, 3000);
+});
+
+
+mp.keys.bind(0x72, false, () => { // F3
+  if (!mp.game.recorder.isRecording()) {
+    mp.game.recorder.start(1);
+  } else {
+    mp.game.recorder.stop();
+  }
 });

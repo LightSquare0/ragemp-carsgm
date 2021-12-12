@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Icon from "../../Utils/Icon";
 
 export const TopBar = styled.div`
   position: absolute;
@@ -29,7 +30,7 @@ export const User = styled.div`
   font-size: 1.875rem;
 `;
 
-export const DropdownArrow = styled.img`
+export const DropdownArrow = styled(Icon)`
   margin: 0;
 `;
 

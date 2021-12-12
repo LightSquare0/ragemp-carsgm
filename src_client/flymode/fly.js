@@ -70,7 +70,7 @@ mp.events.add('render', () => {
         const position = mp.players.local.position;
 
         if (controls.isControlPressed(0, controlsIds.W)) {
-            if (fly.f < 8.0) { fly.f *= 1.025; }
+            fly.f = 0.5;
 
             position.x += direction.x * fly.f;
             position.y += direction.y * fly.f;

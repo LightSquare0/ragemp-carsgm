@@ -1,10 +1,10 @@
 import RaceHud from "./RaceUi/RaceHud/RaceHud";
 import { HudContainer } from "./HudGeneralStyles";
 import Speedometer from "./Speedometer/Speedometer";
-import Headline from "./Headline/Headline";
+import Headline, { HeadlineProps } from "./Headline/Headline";
 import { useLocation } from "react-router";
 import { Routes } from "../Utils/RoutesEnum";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { UserContext } from "../Globals/UserContext";
 import { ServerData, UserData } from "./RaceUi/RaceHud/RaceEvents";
 
@@ -20,30 +20,36 @@ const Hud: React.FC = () => {
 
   const [isHeadlineRendered, setIsHeadlineRendered] = useState<boolean>(false);
 
-  const FetchClock = () => {
+  const [clock, setClock] = useState<HeadlineProps["clock"]>({
+    Year: "",
+    Month: "",
+    Day: "",
+    Hour: "",
+    Minute: "",
+  });
+
+  async function FetchClock(): Promise<void> {
     if (isHeadlineRendered) {
-      fetch("http://worldtimeapi.org/api/timezone/Europe/Amsterdam")
-        .then((data) => data.json())
-        .then((clockData) => {
-          let [date, time] = clockData.datetime.split("T");
-          time = time.split(".")[0];
-          let [year, month, day] = date.split("-");
-          let [hour, minute] = time.split(":");
-          setServerData({
-            Player: ServerData.Player,
-            Races: ServerData.Races,
-            Online: ServerData.Online,
-            Clock: {
-              Year: year,
-              Month: month,
-              Day: day,
-              Hour: hour,
-              Minute: minute,
-            },
-          });
-        });
+      let response = await fetch(
+        "http://worldtimeapi.org/api/timezone/Europe/Amsterdam"
+      );
+
+      let clockData = await response.json();
+
+      let [date, time] = clockData.datetime.split("T");
+      time = time.split(".")[0];
+      let [year, month, day] = date.split("-");
+      let [hour, minute] = time.split(":");
+
+      setClock({
+        Year: year,
+        Month: month,
+        Day: day,
+        Hour: hour,
+        Minute: minute,
+      });
     }
-  };
+  }
 
   useEffect(() => {
     FetchClock();
@@ -64,6 +70,7 @@ const Hud: React.FC = () => {
   return (
     <HudContainer>
       <Headline
+        clock={clock}
         isHeadlineRendered={isHeadlineRendered}
         setIsHeadlineRendered={setIsHeadlineRendered}
       />

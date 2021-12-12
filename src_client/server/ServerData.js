@@ -5,7 +5,7 @@ mp.events.add("clientside:SendServerData", () => {
     browser.call(
       "react:GetServerData",
       mp.players.local.name,
-      mp.players.local.id,
+      mp.players.local.remoteId,
       data
     );
   });
