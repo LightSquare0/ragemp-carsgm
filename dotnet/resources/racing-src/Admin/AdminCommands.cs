@@ -40,7 +40,7 @@ namespace racing_src.Admin
         {
             if (!IsAdmin(player))
                 return;
-
+            
             Vehicle veh = NAPI.Vehicle.CreateVehicle(NAPI.Util.GetHashKey(vehicle), player.Position, player.Heading, 200, 200, "Admin", 255, false, true, player.Dimension);
             player.SetIntoVehicle(veh, 0);
 
