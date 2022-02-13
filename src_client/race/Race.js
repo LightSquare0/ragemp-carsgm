@@ -37,6 +37,7 @@ var race = {
     },
   },
   data: {
+    hosterName: "",
     track: undefined,
     mode: undefined,
     laps: undefined,
@@ -175,6 +176,7 @@ var race = {
         race.data.laps = raceData.Laps;
         race.data.duration = raceData.Duration;
         race.data.maxParticipants = raceData.MaxParticipants;
+        race.data.hosterName = raceData.HosterName;
 
         mp.console.logInfo(JSON.stringify(raceData));
         browser.call(
@@ -182,7 +184,8 @@ var race = {
           race.data.track.length,
           race.data.mode,
           race.data.laps,
-          race.data.maxParticipants
+          race.data.maxParticipants,
+          race.data.hosterName
         );
         mp.events.call("clientside:SpawnPlayer");
       });
@@ -271,6 +274,10 @@ var race = {
     browser.call("react:SetCurrentLap", lap);
   },
 
+  setIsInPreparedRace: (entity, value, oldValue) => {
+    browser.call("react:GetIsInPreparedRace", value);
+  },
+
   init: () => {
     mp.events.add({
       "clientside:onRaceStart": race.onRaceStart,
@@ -283,6 +290,7 @@ var race = {
     });
     mp.events.addDataHandler({
       racePosition: race.setRacePosition,
+      IsInPreparedRace: race.setIsInPreparedRace,
     });
   },
 };
@@ -292,9 +300,7 @@ race.init();
 mp.events.add("entityStreamIn", (entity) => {
   if (entity.type === "vehicle" && entity.hasVariable("assignedPlayer")) {
     const player = entity.getVariable("assignedPlayer");
-    mp.gui.chat.push(
-      "entity stream in" + player + mp.players.local.remoteId
-    );
+    mp.gui.chat.push("entity stream in" + player + mp.players.local.remoteId);
     if (player == mp.players.local.remoteId)
       mp.players.local.setIntoVehicle(entity.handle, -1);
   }

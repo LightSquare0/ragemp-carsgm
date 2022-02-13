@@ -1,5 +1,5 @@
 import RaceHud from "./RaceUi/RaceHud/RaceHud";
-import { HudContainer } from "./HudGeneralStyles";
+import { HudContainer, KeybindsContainer } from "./HudGeneralStyles";
 import Speedometer from "./Speedometer/Speedometer";
 import Headline, { HeadlineProps } from "./Headline/Headline";
 import { useLocation } from "react-router";
@@ -7,15 +7,17 @@ import { Routes } from "../Utils/RoutesEnum";
 import { useContext, useEffect, useRef, useState } from "react";
 import { UserContext } from "../Globals/UserContext";
 import { ServerData, UserData } from "./RaceUi/RaceHud/RaceEvents";
+import { Button } from "../Globals/GlobalStyles/ButtonStyles";
 
 const Hud: React.FC = () => {
   let location = useLocation();
 
   if (location.pathname != Routes.Root) return <></>;
 
-  const { ServerData, setServerData } = useContext<{
+  const { ServerData, setServerData, userData } = useContext<{
     ServerData: ServerData;
     setServerData: React.Dispatch<React.SetStateAction<ServerData>>;
+    userData: UserData;
   }>(UserContext);
 
   const [isHeadlineRendered, setIsHeadlineRendered] = useState<boolean>(false);
@@ -67,6 +69,17 @@ const Hud: React.FC = () => {
     return () => clearInterval(tick);
   });
 
+  const PrepareRace = () => {
+    mp.events.call("clientside:PrepareRace");
+  };
+
+  const StartRace = () => {
+    mp.events.call("clientside:StartRace");
+  };
+
+  console.log("IsInPreparedRace " + userData.IsInPreparedRace);
+  console.log("HasEnded " + userData.CurrentRace.HasEnded);
+
   return (
     <HudContainer>
       <Headline
@@ -75,6 +88,22 @@ const Hud: React.FC = () => {
         setIsHeadlineRendered={setIsHeadlineRendered}
       />
       <RaceHud />
+      <KeybindsContainer>
+        {userData.CurrentRace.HosterName == ServerData.Player.Name &&
+          !userData.IsInPreparedRace && (
+            <Button host onClick={PrepareRace}>
+              PREPARE RACE
+            </Button>
+          )}
+        {userData.CurrentRace.HosterName == ServerData.Player.Name &&
+          userData.IsInPreparedRace &&
+          !userData.IsInStartedRace &&
+          !userData.CurrentRace.HasEnded && (
+            <Button host onClick={StartRace}>
+              START RACE
+            </Button>
+          )}
+      </KeybindsContainer>
       <Speedometer />
     </HudContainer>
   );

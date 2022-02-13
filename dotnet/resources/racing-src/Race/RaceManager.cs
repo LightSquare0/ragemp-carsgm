@@ -107,16 +107,17 @@ namespace racing_src.Race
 
             var playerRace = RaceData.CurrentRaces[raceId];
 
-            return new { Checkpoints = playerRace.Template.Checkpoints, Mode = playerRace.Mode, Laps = playerRace.Laps, Duration = playerRace.MaxDuration, MaxParticipants = playerRace.MaxParticipants };
+            return new { Checkpoints = playerRace.Template.Checkpoints, Mode = playerRace.Mode, Laps = playerRace.Laps, Duration = playerRace.MaxDuration, MaxParticipants = playerRace.MaxParticipants, HosterName = playerRace.Hoster.Name };
         }
 
         //Event only for hoster
-        [Command("preparerace")]
+        [RemoteEvent("serverside:PrepareRace")]
         public void PrepareRace(Player player)
         {
             if (player.GetSharedData<int>("raceId") < 0) return;
 
             var raceId = player.GetSharedData<int>("raceId");
+            if (RaceData.CurrentRaces[raceId].Hoster != player) return;
 
             int posToBeAssigned = 1;
             foreach (var racer in RaceData.CurrentRaces[raceId].Racers)
@@ -130,6 +131,7 @@ namespace racing_src.Race
                     spawnPoint.Heading, 0, 0, "ATH", 255, false, true, RaceData.CurrentRaces[raceId].Dimension);
 
                 racer.SetVehicle(vehicle);
+                racer.Participant.SetSharedData("IsInPreparedRace", true);
                 vehicle.SetSharedData("assignedPlayer", racer.Participant.Id);
                 NAPI.Task.Run(() =>
                 {
@@ -142,7 +144,7 @@ namespace racing_src.Race
 
         }
 
-        [Command("startrace")]
+        [RemoteEvent("serverside:StartRace")]
         public void StartRace(Player player)
         {
             if (player.GetSharedData<int>("raceId") < 0) return;
@@ -179,6 +181,13 @@ namespace racing_src.Race
         {
             player.SetSharedData("IsInStartedRace", state);
             return new { IsInStartedRace = player.GetSharedData<bool>("IsInStartedRace") };
+        }
+
+        [RemoteProc("serverside:SetIsInPreparedRace")]
+        public object SetIsInPreparedRace(Player player, bool state)
+        {
+            player.SetSharedData("IsInPreparedRace", state);
+            return new { SetIsInPreparedRace = player.GetSharedData<bool>("IsInPreparedRace") };
         }
 
         [RemoteProc("serverside:SendNumberOfParticipants")]
@@ -287,6 +296,10 @@ namespace racing_src.Race
             if (playerRace.Racers.ToList().TrueForAll(racer => racer.HasFinished == true))
             {
 
+                foreach (var racer in RaceData.CurrentRaces[player.GetSharedData<int>("raceId")].Racers)
+                {
+                    racer.Participant.TriggerEvent("clientside:RaceHasEnded");
+                }
                 NAPI.Task.Run(() =>
                 {
                     foreach (var racer in RaceData.CurrentRaces[player.GetSharedData<int>("raceId")].Racers)

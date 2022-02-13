@@ -18,14 +18,17 @@ export interface ServerData {
 }
 
 export interface UserData {
+  IsInPreparedRace: boolean;
   IsInStartedRace: boolean;
   CurrentRace: {
+    HosterName: string;
     Laps: number;
     Mode: boolean;
     TotalPoints: number;
     EndTime: number;
     MaxParticipants: number;
     NumberOfParticipants: number;
+    HasEnded: boolean;
     Player: {
       CurrentLap: number;
       RacePosition: number;
@@ -65,16 +68,26 @@ export const UserDataProvider: React.FC = (props) => {
   });
 
   const [userData, setUserData] = useState<UserData>({
+    IsInPreparedRace: false,
     IsInStartedRace: false,
     CurrentRace: {
+      HosterName: "",
       Laps: 0,
       Mode: false,
       TotalPoints: 0,
       EndTime: 0,
       MaxParticipants: 0,
       NumberOfParticipants: 0,
+      HasEnded: false,
       Player: { CurrentLap: 0, RacePosition: 0, CurrentPoint: 0 },
     },
+  });
+
+  mp.events.add("react:GetIsInPreparedRace", (isInPreparedRace) => {
+    setUserData({
+      ...userData,
+      IsInPreparedRace: isInPreparedRace,
+    });
   });
 
   mp.events.add("react:GetRacePosition", (racePosition) => {
@@ -89,11 +102,12 @@ export const UserDataProvider: React.FC = (props) => {
 
   mp.events.add(
     "react:GetCurrentRaceInformation",
-    (totalPoints, mode, laps, maxParticipants) => {
+    (totalPoints, mode, laps, maxParticipants, hosterName) => {
       setUserData({
         ...userData,
         CurrentRace: {
           ...userData.CurrentRace,
+          HosterName: hosterName,
           Mode: mode,
           Laps: laps,
           TotalPoints: totalPoints,
@@ -108,6 +122,16 @@ export const UserDataProvider: React.FC = (props) => {
     setUserData({
       ...userData,
       IsInStartedRace: state,
+    });
+  });
+
+  mp.events.add("react:RaceHasEnded", () => {
+    setUserData({
+      ...userData,
+      CurrentRace: {
+        ...userData.CurrentRace,
+        HasEnded: true,
+      },
     });
   });
 

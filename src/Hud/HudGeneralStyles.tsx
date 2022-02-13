@@ -6,7 +6,15 @@ export const HudContainer = styled.div`
     rgba(237, 196, 67, 0.2) 0%,
     rgba(0, 0, 0, 0) 92.71%
   );
-  
+
   /* width: 100%;
   height: 100%; */
+`;
+
+export const KeybindsContainer = styled.div`
+  position: absolute;
+  bottom: 17rem;
+  right: 0;
+  padding: 2rem;
+
 `;

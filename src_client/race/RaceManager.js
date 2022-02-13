@@ -93,6 +93,18 @@ mp.events.add({
 
   "clientside:CancelHost": () => {},
 
+  "clientside:PrepareRace": () => {
+    mp.events.callRemote("serverside:PrepareRace");
+  },
+
+  "clientside:StartRace": () => {
+    mp.events.callRemote("serverside:StartRace");
+  },
+
+  "clientside:RaceHasEnded": () => {
+    browser.call("react:RaceHasEnded");
+  },
+
   "clientside:GetTrackImages": () => {
     mp.events
       .callRemoteProc("serverside:SendTrackImages")
